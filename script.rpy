@@ -2,19 +2,49 @@
 define s = Character('Саша', color="#3cef6c")
 define d = Character('Денис', color="#e41010")
 define k = Character('Кирилл', color="#105ae4")
+define b = Character('Бог Юй', color="#e4a810")
+
+default persistent.endings = []
 
 init python:
+    # info
+    count_endings = 2
+    end_message = f"Вы прошли {len(persistent.endings)} концовку из {count_endings}!"
+
+    # in game
     kHelp = False
     FigthPoints = 0 
+
+    # functions
+    def ending(name):
+        if name not in persistent.endings:
+            renpy.notify(f'Новая концовка {name}')
+            persistent.endings.append(name)
+    
+
+'''
+Пример концовки
+
+scene denis
+with fade
+pause 1.5
+$ endig("Умереть от Дениса")
+"Вы слишком слабенькие что бы убежать от Дениса.."
+"[end_message]"
+'''
     
 label start:
+    
     play music back
     scene bg shcool with dissolve
-
-    show s smile at left
+    show s smile at left 
+    with dissolve
+    $ renpy.notify(persistent.endings)
+    $ print('dasdadasdasd')
     s "Здарова"
     s "Как думаешь сегодня Денис прийдёт в школу?"
     show m at right
+    with dissolve
     m "Конечно{w}, нет"
     m "Он за всё время появился всего 3 раза"
     m "И за эти 3 раза пропал весь 3-А класс"
@@ -41,19 +71,30 @@ label uyti:
     scene bg d
     "Они ушли домой"
     "Но"
+    with dissolve
     show d run
     "По пути на них напал Денис"
     play sound cum
     d " أو مناقشته باللغ"
+    scene denis
+    with fade
+    pause 1.5
+    $ ending("Умереть от Дениса")
+    "Вы слишком слабенькие что бы убежать от Дениса.."
+    "[end_message]"
+    ''
     return
 
 label ostatsa:
     s "Давай просто пойдём на уроки{w}, мы всё равно пропустили 5 уроков"
     m "Ладно{w}, идём"
     scene bg shcool2
+    pause(1)
     show m talk at right
+    with dissolve
     m "Может он умер{w}, и мы про это не знаем?"
     show s uwu at left
+    with dissolve
     s "Надесь"
     scene black
     "Так они пришли в класс Дениса, что бы проверить пришёл ли он"
@@ -62,9 +103,11 @@ label ostatsa:
     scene bg clas
     "Вы пришли в класс"
     show m smile at left
+    with dissolve
     m "Здесь не кого нету"
     m "Хотя урок только начался"
     show s uwu at right
+    with dissolve
     s "Может ещё не кто не пришёл?"
     s "Давай посидим подождём"
     scene black
@@ -75,16 +118,22 @@ label ostatsa:
     " .  . . .  ."
     s "слышешь топот?"
     show s ogo
+    with dissolve
     s "Кто-то идёт сюда"
     hide s
     show s ogo at left
+    with move
     ""
     show d see at right
+    with dissolve
     s "Ух Ебать"
     m "Ух Ебать"
     "Кто-то под партой Ух Ебать"
     m "Ты что тут забыл?"
+    hide d
     "Денис молча посмотрел и ушёл"
+    show m talk at right
+    with dissolve
     s "Что это было?"
     m "Хуй его знает{w}, я сам вахуи"
     "Максим посмотрел в телефон"
@@ -112,7 +161,9 @@ label bunker:
             "Вы пришли в бункер"
             scene bg bonker
             show m sit at right 
+            with dissolve
             show s sit at left
+            with dissolve
             m "Почему в бункере не кого нету?"
             s "Хуй его знает"
             s "Го секс"
@@ -122,17 +173,22 @@ label bunker:
             play sound cum
             "اقاقشته بشته باقشته بااقشته بقشته باقشاقشته بته ب"
             scene bg bonker
-            show m sit at right 
+            show m sit at right
+            with dissolve
             show s sit at left
+            with dissolve
             s "Что будем делать?"
             m "Можем уходить"
             show d screem at center
             play sound cum
-
             d "قاقشته بشته باقشته بااقشته بقشته باقشاقشته بته ب"
-            scene black
-            "Концовка Денис выебал Сашу и Макса в подвале"
-            "Плохая концовка"
+            scene denis
+            with fade
+            pause 1.5
+            $ ending("Умереть от Дениса")
+            "Вы слишком слабенькие что бы убежать от Дениса.."
+            "[end_message]"
+
     return
 
 label pobeg:
@@ -147,6 +203,7 @@ label pobeg:
     "Вы ускорились"
     "На мнгновения Саша развернулся и увидел его.."
     show d screem at center
+    with vpunch
     "От страха вы начали бежать ещё быстрее"
     "Вокруг не было не одного человека"
     "Хоть сейчас и был день"
@@ -166,6 +223,7 @@ label pobeg:
             scene bg zd
             m "Он вроде от нас отстал"
             show m talk
+            with dissolve
             m "Почему за мной закрылась дверь"
             "Макс решил осмотреться и найти выход"
             "? ? ?" "Стой"
@@ -174,9 +232,12 @@ label pobeg:
             "Макс продолжил ходить"
             "Как вдруг его кто-то схватил за плечё"
             show k 
+            with dissolve
             k "Ты еблан?"
             show k at left
+            with move
             show m at right
+            with dissolve
             m "Да"
             k "Далбоёб ты как с Украины в Польшу прибижал"
             k "Ты один?"
@@ -193,15 +254,14 @@ label pobeg:
             m "Кто это"
             k "Та хуй его знает, доставка наверное"
             m "Так ебать{w}, идём откроем"
-            hide m
-            hide k
             scene bg door
             "Вы пошли к двери"
             m "Какого хуя у тебя дверь из золота{w}, а сам дом разьёбаный?"
             k "Тебя ебать не должно"
             "{i}Кто-открыл дверь{/i}"
             show d run
-            k "ЗА МНОЙ В ПОДВАЛ"
+            with dissolve
+            k "ЗА МНОЙ"
             "{i}Вы начали убегать{/i}"
             scene black
             with vpunch
@@ -211,11 +271,13 @@ label pobeg:
                 "Помочь":
                     $ kHelp = True
                     "{i}Вы помогли Кириллу{/i}"
+                    $ renpy.notify("Кирилл это запомнит")
                     pass
                 "Оставить хохла":
                     "{i}Вы не помогли Кириллу{/i}"
                     "{i}Вы посчиитали что ваша девственность важнее{/i}"
                     "{i}Кирилл побежал дальше{/i}"
+                    $ renpy.notify("Кирилл это запомнит")
                     pass
             "{i}Вы добежали до подвала и закрыли дверь{/i}"
             scene bg podval
@@ -325,7 +387,9 @@ label pobeg:
             s "Хто ты нахуй?"
             "Саша развернулся и увидел его"
             show s smile at left
+            with move
             show k at right
+            with dissolve
             k "Ты шо тут забыл"
             s "Там педофил за мной и Максом бежал"
             k "И где Макс?"
@@ -346,20 +410,25 @@ label pobeg:
                     $ kHelp = True
                     "{i}Вы помогли Кириллу{/i}"
                     "{i}Но могли бы не помогать{/i}"
+                    $ renpy.notify("Кирилл это запомнит")
                     pass
                 "Оставить хохла":
                     "{i}Вы не помогли Кириллу{/i}"
                     "{i}Вы посчиитали что ваша девственность важнее{/i}"
                     "{i}У Кирилла встал{/i}"
+                    $ renpy.notify("Кирилл это запомнит")
                     pass
             "{i}Вы поднялись на чердак{/i}"
             scene bg cherdak
             with fade
             show s uwu
+            with dissolve
             s "Ебать"
             s "Какого хуя у тебя разьёбаный дом"
             show s ogo at left
+            with move
             show k at right
+            with move
             k "Нормальный{w}, ты даун просто"
             "{i}В углу комнаты, вы услышали шорох{/i}"
             "{i}Вы подошли посмотреть..{/i}"
@@ -399,8 +468,12 @@ label pobeg:
                     show d scream2
                     play audio cum
                     m "ا بك في عالم اللغة العر"
-                    scene black
-                    "Плохая концовка"
+                    scene denis
+                    with fade
+                    pause 1.5
+                    $ ending("Умереть от Дениса")
+                    "Вы слишком слабенькие что бы убежать от Дениса.."
+                    "[end_message]"
                     return
             "Round 2"
             menu dasd:
@@ -434,6 +507,13 @@ label pobeg:
                                     hide k
                                     play audio cum
                                     d "مرحبًا بك في عالم اللغة العربية!"
+                                    scene denis
+                                    with fade
+                                    pause 1.5
+                                    $ ending("Умереть от Дениса")
+                                    "Вы слишком слабенькие что бы убежать от Дениса.."
+                                    "[end_message]"
+
                                     return
                                 "19 Февраля 2007г":
                                     m "Это информация была в боте"
@@ -466,6 +546,12 @@ label pobeg:
                                             "{i}Макс призвал дениса{/i}"
                                             play audio cum
                                             d "مرحبًا بك في عالم اللغة العربية!"
+                                            scene denis
+                                            with fade
+                                            pause 1.5
+                                            $ ending("Умереть от Дениса")
+                                            "Вы слишком слабенькие что бы убежать от Дениса.."
+                                            "[end_message]"
                                             return
                             pass
                         "19 Марта":
@@ -524,6 +610,12 @@ label pobeg:
                 hide k
                 play audio cum
                 d "مرحبًا بك في عالم اللغة العربية!"
+                scene denis
+                with fade
+                pause 1.5
+                $ ending("Умереть от Дениса")
+                "Вы слишком слабенькие что бы убежать от Дениса.."
+                "[end_message]"
                 return
             pass
     jump morg
@@ -542,10 +634,13 @@ label morg:
     play music "music/Venus.wav"
     pause(3.5)
     show m talk
+    with dissolve
     m "Он должен быть где-то здесь"
     hide m
     show m talk at right
+    with move
     show s at left
+    with move
     s "Предлагаю поискать"
     s "Я осмотрюсь здесь ты иди дальше"
     m "Ладно пойду до того не разу не подозрительного склеба"
@@ -715,9 +810,113 @@ label morg:
     s "Блять беги!"
     with vpunch
     scene black
-    "Продолжени следует.."
+    stop music
+    "{fi}Пролог пройден{/fi}"
     jump deadw
     return
 
+image lolidance:
+    "u dab"
+    pause(0.15)
+    "u muha"
+    pause(0.15)
+    "u nag"
+    pause(0.15)
+    "u"
+    pause (0.15)
+    "u zov"
+    pause (0.15)
+    "u hide"
+    repeat
+
 label deadw:
-    show asd at truecenter
+    scene black
+    play music "music/Do Not Run.mp3"
+    with Fade(1, 10, 0.2, color="#ffff")
+    scene bg sky
+    "? ? ?" "Где я"
+    "? ? ?" "Что прозошло"
+    "? ? ?" "Помню что на меня кто-то напал в спину.."
+    "? ? ?" "Как будто со мной кто-то был"
+    "? ? ?" "Почему я не чего не чуствую"
+    b "{bt=3}Иди за мной{/bt}"
+    "? ? ?" "Кто ты"
+    "? ? ?" "{i}{move}начали двигатся{/move}{/i}"
+    "? ? ?" "Что происходит"
+    show u
+    with dissolve
+    with vpunch
+    b "{bt=3}Я{w} великое{w} божество{/bt}"
+    b "{bt=3}Сейчас будет идти суд над вами всеми{/bt}"
+    show u zov
+    with vpunch
+    b "{bt=3}Так мы сможем понять куда вы попадёте{/bt}"
+    show u dab
+    with vpunch
+    b "{bt=3}Ад или рай{/bt}"
+    "Наступило молчание"
+    "Все ждали приговора"
+    "Как вдруг"
+    menu kanon:
+        "Пойти по канону или в соло"
+        "Канон":
+            menu adray:
+                "Кому дать слово?"
+                "?  ":
+                    "Вы дали слово Денису"
+                    "Возможно это было худьшее решение{w} за всю игру"
+                    d "{sc}Иди нахуй{/sc}"
+                    "Перед нами появился педофил"
+                    "Мы так и не могли двигатся"
+                    d "Я твою мать"
+                    b "{bt=3}Такое{w}, не приемлемо в небесах{/bt}"
+                " ? ":
+                    "Вы дали слово Кириллу"
+                "  ?":
+                    "Вы дали слово Саше"
+                ".":
+                    "Вы дали слово Максу"
+                    m "Я знаю всё про неё, так что на вопросы отвечу правильно!"
+                    show u muha
+                    with vpunch
+                    b "{bt=3}Чтоже{w}, через тебя будет проходить суд{/bt}"
+                    b "{bt=3}В зависимости от твоих ответов будет зависить судьба вас всех{/bt}"
+                    show u nag
+                    with vpunch
+                    b "{bt=3}И так{/bt}"
+                    b "{bt=3}Лоли или милфы?{/bt}"
+                    m "Канечно{w} милфы"
+                    hide u
+                    show lolidance
+                    pause(3)
+                    b "{bt=3}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
+                    b "{bt=3}Кто ты для меня Братикк{w}, или друг?{/bt}"
+                    m "Для тебя я буду старшим братиком"
+                    b "{bt=10}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
+                    b "{bt=20}Любишь меня?{/bt}"
+                    m "Как персонажа да"
+                    b "{bt=50}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
+                    b "{bt=50}Я считаю{w} что{w} вы все{w} можете{w} попасть{w} в{w} рай{/bt}"
+        "В соло":
+            return
+        
+    
+    b "{bt=3}Вы все отправляетесь в ад{/bt}"
+    b "{bt=3}Мучения и страдания будут преследовать всю всюду{/bt}"
+    scene black
+    with fade
+    "Всё потемнело"
+    "Мы начали падать"
+    "Куда-то глубоко в низ"
+    "Был слышен только ветер"
+    "И стоны Дениса"
+    pause(2)
+    k "Я чуствую себя!"
+    s "Перестань дрочить даун"
+    k "Динах"
+    m "Денис ты еблан?{w} Нахуй ты бога нахуй послал"
+    m "Ёбнутый даун"
+    pause(1.5)
+    "Не знаю сколько мы падали"
+    ''
+    
