@@ -354,26 +354,19 @@ screen main_menu():
     ## заменять этот.
     tag menu
 
-    add gui.main_menu_background
+    imagemap:
+        ground (persistent.main_menu)
+        idle "gui/menu_normal.png"
+        hover "gui/menu_hover.png"
 
-    ## Эта пустая рамка затеняет главное меню.
-    frame:
-        style "main_menu_frame"
+        hotspot(650, 50, 600, 120) action Start()
+        hotspot(220, 175, 600, 100) action ShowMenu("load")
+        hotspot(30, 250, 600, 120) action ShowMenu("stats")
+        hotspot(1100, 170, 600, 100) action ShowMenu("preferences")
+        hotspot(1700, 0, 400, 120) action Quit(confirm=True)
+        hotspot(1500, 250, 600, 120) action ShowMenu("about") 
 
-    ## Оператор use включает отображение другого экрана в данном. Актуальное
-    ## содержание главного меню находится на экране навигации.
-    use navigation
 
-    if gui.show_name:
-
-        vbox:
-            style "main_menu_vbox"
-
-            text "[config.name!t]":
-                style "main_menu_title"
-
-            text "[config.version]":
-                style "main_menu_version"
 
 
 style main_menu_frame is empty
@@ -386,7 +379,7 @@ style main_menu_frame:
     xsize 420
     yfill True
 
-    background "gui/overlay/main_menu.png"
+    # background "gui/overlay/main_menu.png"
 
 style main_menu_vbox:
     xalign 1.0
@@ -1543,7 +1536,7 @@ style nvl_window:
 
 style main_menu_frame:
     variant "small"
-    background "gui/phone/overlay/main_menu.png"
+    # background "gui/phone/overlay/main_menu.png"
 
 style game_menu_outer_frame:
     variant "small"
