@@ -1,10 +1,16 @@
 label start:
+    pause(2)
+    scene main_menu
+    with fade
+    pause(3)
+    $ renpy.notify(persistent.endings)
+    $ persistent.main_menu = "gui/main_menu.png"
+    $ config.main_menu_music = "music/disco.mp3"
+
     play music back
     scene bg shcool with dissolve
     show s smile at left 
     with dissolve
-    $ renpy.notify(persistent.endings)
-    $ persistent.main_menu = "gui/main_menu.png"
     s "Здарова"
     s "Как думаешь сегодня Денис прийдёт в школу?"
     show m at right
