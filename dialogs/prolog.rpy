@@ -712,7 +712,9 @@ label morg:
         "Носань на могилу":
             "Саша ссал на правила"
             "{i}Саша обсосал могилу{/i}"
+            $ mogila_borisa = True
             pass
+    $ renpy.notify("Это действие будет иметь последствия")
     scene bg morg
     with fade
     show s

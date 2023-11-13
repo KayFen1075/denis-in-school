@@ -33,7 +33,7 @@ screen map:
             xsize 561 ysize 333
             idle_background "images/map/not_hover.png"
             hover_foreground "images/map/les_hover.png"
-            action Hide("map"), Jump("les")
+            action Hide("map"), Jump("start_battle")
         button:
             xpos 520 ypos 0
             xsize 854 ysize 503

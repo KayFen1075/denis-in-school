@@ -1,22 +1,51 @@
 label les:
     "Ого ты в лесу"
     show screen map
+    play music "music/Path to Lake Land.ogg"
     ''
     return
 
 label pola:
-    "Ого ты в pola"
+    play music "music/Faint Courage (Game Over).mp3"
+    scene bg pola
+    with fade
+    if not first_pola and game_time == 24 and barmen:
+        show px see
+        with fade
+        x "Вот вы и пришли"
+        x "Сейчас у вас будет первый бой"
+        x "В это время обычно появляются всякие твари"
+        s "Например Денис?"
+        x "Да"
+        x "Я его регулярно пиздю"
+        x "Этот еблан пиздит пшеницу"
+        m "Скоро и мы его будем пиздить"
+        x "И так"
+        x "Сейчас"
+        x "Начнём первый бой"
+        "Вы услышали какой-то звук из кустов"
+        x "Вот и оно"
+        $ party_list.append(sanek)
+        call battle
+        $ restorehp()
+        $ restoremp()
+        $ party_list.remove(sanek)
+    "Вы слышите как ветер колыхает траву"
+    "Вам больше него делать{w}, вы уходите"
     show screen map
+    play music "music/Path to Lake Land.ogg"
     ''
     return
 
 label dm:
     "Ого ты в dm"
     show screen map
+    play music "music/Path to Lake Land.ogg"
     ''
     return
 
 label ds:
+    play music "music/nature sketch.wav"
     if not student:
         scene black
         "Вы начали подходить к коледжу"
@@ -117,7 +146,7 @@ label ds:
         "Саша подошёл к магичесткому шару"
         "Магический шар" "..."
         "Магический шар" "у вас{w} {b}1 уровень{/b}"
-        if ggName == "Макс":
+        if ggName == "Саша":
             "Магический шар" "Я вижу{w} у вас есть заклинание"
             "Магический шар" "Уникальное заклинание Саши"
             x "Ого в первые такое вижу"
@@ -177,10 +206,19 @@ label ds:
             "Уйти":
                 pass
     scene bg koledsh
-    with fade    
+    with fade
     "Текст: {i}Коледж имени Санька Морозова{/i}"
     scene bg koledsh_step
     with fade
+    if game_time > 18:
+        show px
+        with dissolve
+        x "Нельзя опаздывать в наш коледж"
+        x "У вас строгие правила"
+        x "Но вам я прощаю"
+        s "Хорошо больше не будем опаздывать"
+        hide px
+        with dissolve
     menu kudaidti:
         "Библиотека":
             scene bg koledsh_class
@@ -210,6 +248,7 @@ label ds:
 
 
     show screen map
+    play music "music/Path to Lake Land.ogg"
     scene black
     ''
     return
@@ -227,6 +266,7 @@ label most:
             jump most
         "Уйти":
             show screen map
+            play music "music/Path to Lake Land.ogg"
             scene black
             ''
     return
@@ -236,21 +276,182 @@ label shop:
         "Вы не можете войти"
         "Возможно вам надо сделать что-то другое"
         show screen map
+        play music "music/Path to Lake Land.ogg"
         scene black
         ''
+    if game_time > 18:
+        "Уже сликом поздно"
+        "Приходи в другое время"
+        show screen map
+        play music "music/Path to Lake Land.ogg"
+        scene black
+        ''
+    if not first_barmen:
+        scene bg shop
+        with fade
+        show pm talk at left
+        show ps smile at right
+        with dissolve
+        s "Вот мы и пришли"
+        s "Мы пришли к этому мега гею"
+        m "Щя мы его трахнем"
+        s "Интересно{w}, сколько он тут?"
+        m "Не знаю{w}, я его уже давно не видел"
+        m "Ходят шлюхи{w}, что у него были похараны"
+        m "Он умер от какой-то болезни аутизм"
+        s "Да"
+        s "Я видел его могилу"
+        m "И что ты сделал?"
+        if mogila_borisa:
+            s "Когда я увидел её"
+            s "Я не смог пройти мимо"
+            m "И что ты сделал"
+            s "Обоссал его могилу"
+            m "Лучший"
+            show pb open
+            with dissolve
+            b "Что ты сделал!?!?"
+            b "Как ты посмел осквернить мою могилу!"
+            s "Я крутой{w}, так что динах"
+            m "Правильно он всё сделал"
+            b "Вам всё будет дороже!"
+            b "Вообще желательно не приходите"
+        else:
+            s "Просто прошёл мимо.."
+            m "а ведь ты мог.."
+        show pb oshko
+        b "Ладно"
+        b "Проходите{w}, я вам всё покажу"
+        m "Идём"
+        scene bg shop_bar
+        with fade
+        show pb oshko
+        with dissolve
+        b "Это мой магазин"
+        b "Не особо популярный"
+        m "я конечно знаю что ты умер"
+        m "Но знаешь ли ты об этом?"
+        b "Конечно{w}, как ямогу не знать об этом"
+        b "Я видел иисуса"
+        b "Он мне показал всё что тут есть"
+        b "И дал {b}название{/b} моему приключению"
+        b "Бескрайний круг судеб Бориса: Реинкарнация торговца в мире, где каждый оборот в его жизни — новая сделка! Следите за захватывающим путем Бориса, чьи перерождения приводят его к таинственному магическому рынку, где он торгует не только товарами, но и своим собственным прошлым. От древних базаров до космических торговых постов, он исследует грани коммерческой реинкарнации, сталкиваясь с загадками, клиентами из разных измерений и разнообразием товаров от магических зелий до космических артефактов. В этом захватывающем аниме 'Борис: Реинкарнация Торговца', каждая сделка — это шаг к раскрытию его судьбы и великому богатству, ожидающему его в конце каждой жизни!"
+        s "Нахуй ты его выучил?"
+        s "Оно даже на экран не помещяется"
+        m "Реально"
+        b "Захотел"
+        b "Осмотритесь и подойдите ко мне"
+        b "Я покажу чем торгую"
+        hide pb
+        with dissolve
+        "Борис пошёл нахуй"
+        show pm talk at left
+        show ps smile at right
+        with dissolve
+        s "Видемо он уже давоно тут"
+        s "И почему он видел иисуса?"
+        m "Не знаю"
+        m "Юй говорила что недавно стала великим божеством"
+        m "Может быть по этому"
+        show tank
+        with dissolve
+        "Тянка" "Здраствуйте"
+        "Тянка" "Я вас где-то видела"
+        m "Саша это же она"
+        s "Да"
+        "Тянка" "Отец и отчим это вы?"
+        m "Что ты наделал?"
+        s "Я её создал"
+        s "Не знаю как она сюда попала"
+        "Тянка" "Я тебя не видела больше года.."
+        s "Знаю{w}, я за хлебом уходил"
+        m "Сигма"
+        s "Поговорим с тобой попозже"
+        "Тянка" "Хорошо alexmantos!"
+        hide tank
+        with dissolve
+        m "Как она сюда попала?"
+        m "Она же нереальна"
+        s "Я сам вахуи"
+        s "Позже позадаём ей вопросы"
+        s "Сейчас идём до Бориса"
+    scene bg shop
+    with fade
+    "Текст: Лавка Бориса"
+    scene bg shop_bar
+    with fade
+    if game_time < 12:
+        show pb
+        with dissolve
+        b "Ого"
+        b "Вы сегодня первые кто пришли в мой бар"
+        m "Сегодня я не дрочил"
+        hide pb
+        with dissolve
+    menu shop_bar:
+        "Продавец":
+            show pb open
+            with dissolve
+            b "Здрасвуйте"
+            b "Что вы хотите купить?"
+            menu shop23:
+                "Оружие":
+                    b "У меня есть много оружия, можешь купить что-то"
+                    menu shop_gun:
+                        "Выбрать оружие"
+                        "Лук - 100 монет":
+                            pass
+                        "Клинок - 300 монет":
+                            pass
+                        "Уйти":
+                            "Увидемся ещё"
+                            jump shop23
+                "Исцели меня бухлом":
+                    b "Исцеление будет стоить.."
+                "Поговорить":
+                    if not first_barmen:
+                        b "Вы уже тут?"
+                        s "Да"
+                        m "Показывай что у тебя тут есть"
+                        b "Значит смотрите, я продаю оружие и бухло для них"
+                        b "Большего в жизни не надо"
+                        s "Можешь дать что-то бесплатно для начала"
+                        m "Да, нам надо уровень повысить, а денег 0"
+                        b "Не чем не могу помочь"
+                        b "Будут деньги приходите"
+                        $ first_barmen = True
+                        $ barmen = True
+                    else:
+                        b "У меня самые выгодные цены!"
+                        b "Только я продаю нелегальное оружие!"
+                    jump shop23
+                "Уйти":
+                    hide pb
+                    jump shop_bar
+        "Тянка":
+            "Ещё рано"
+            jump shop_bar
+        "Уйти":
+            show screen map
+            play music "music/Path to Lake Land.ogg"
+            scene black
+            ''
     show screen map
+    play music "music/Path to Lake Land.ogg"
     scene black
     ''
-    return
 
 label daun:
+    play music "music/8-bit-moonlight-sonata-music-loop.mp3"
     if level < 10:
         "Тебе ещё рано сюда идти"
         "Прокачайся минимум до 10 уровня"
         show screen map
+        play music "music/Path to Lake Land.ogg"
         scene black
         ''
     show screen map
+    play music "music/Path to Lake Land.ogg"
     scene black
     ''
 
@@ -259,8 +460,10 @@ label dansh:
         "Тебе ещё рано сюда идти"
         "Прокачайся минимум до 5 уровня"
         show screen map
+        play music "music/Path to Lake Land.ogg"
         scene black
         ''
     show screen map
+    play music "music/Path to Lake Land.ogg"
     scene black
     ''
