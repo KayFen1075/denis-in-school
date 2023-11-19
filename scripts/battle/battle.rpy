@@ -27,17 +27,25 @@ label battle:
         scene bb3
     with pixellate
     if not first_pola:
+        show px
+        with dissolve
         x "Это место для боя{w}, выбери себе команду"
         x "С ней будет проще сражаться"
+        hide px
+        with dissolve
     call player_select
     show screen display_monsters with diss
     show screen battle_message
     show screen battle_overlay with diss
     if not first_pola:
+        show px
+        with dissolve
         x "Вот и они"
         x "У врагов нету жизней{w}, они состоят из маны"
         x "По этому атакуя ты понижаешь их жизненную энергию"
         x "Выбери кем будешь атаковать и способность"
+        hide px
+        with dissolve
     jump battling
 
 label player_select:

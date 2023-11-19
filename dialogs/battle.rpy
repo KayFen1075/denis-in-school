@@ -68,16 +68,13 @@ default weapons = {
 }
 
 label start_battle():
-    $ player_inv.money += 10
-    $ print(player_inv.money)
-    show screen crafting(player_inv)
+    show screen inventory_screen(player_inv)
     ''
+    show screen EquipmentScreen()
     ''
     ''
     hide screen world_time
     call battle
-    $ restorehp()
-    $ restoremp()
     "Вы пришли, как вдруг на вас напал"
     show screen world_time
     show screen map

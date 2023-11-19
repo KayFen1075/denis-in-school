@@ -86,13 +86,21 @@ init python:
             if self.type == "passive" and not self in char.p_skills:
                 char.p_skills.append(self)
 
-        def useSkill(self):
+        def useSkill(self, char=None):
             global damage
             global mp_lost
             global atk_sfx
             global s_trans
             global msg_skill
             damage = self.pwr
+            print(self.targ)
+            if self.targ != "self" or self.targ != "ally":
+                if char is not None:
+                    if char.equip['hand']:
+                        damage *= char.equip['hand'].damage
+                        print("Damage hand {0}".format(char.equip['hand'].damage))
+                    if char.equip['accs']:
+                        damage += char.equip['accs'].bonus.atk
             mp_lost = self.mp_cost
             atk_sfx = "audio/battle/skills/" + self.sfx + ".ogg"
             msg_skill = self.name

@@ -1,5 +1,6 @@
 label start:
     pause(2)
+    $ _dismiss_pause = False
     scene main_menu
     with fade
     pause(3)
@@ -713,6 +714,7 @@ label morg:
             "Саша ссал на правила"
             "{i}Саша обсосал могилу{/i}"
             $ mogila_borisa = True
+            $ cost_multiplate += 0.15
             pass
     $ renpy.notify("Это действие будет иметь последствия")
     scene bg morg

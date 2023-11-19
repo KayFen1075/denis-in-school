@@ -121,7 +121,7 @@ init python:
         message = "other_skill"
         misstext = renpy.random.choice(misstext_list)
         if isinstance(b_skill, Skill):
-            b_skill.useSkill()
+            b_skill.useSkill(currentplayer)
         elif isinstance(b_skill, Item):
             useItem(b_skill)
         if target == "all":
@@ -244,12 +244,12 @@ init python:
         renpy.retain_after_load()
     def stopEvent():
         global eventrunning
-        eventrunning = False
-        config.allow_skipping = False
-        config.rollback_enabled = False
-        renpy.block_rollback()
-        renpy.choice_for_skipping()
-        preferences.afm_enable = False
+        #eventrunning = False
+        #config.allow_skipping = False
+        #config.rollback_enabled = False
+        # renpy.block_rollback()
+        # renpy.choice_for_skipping()
+        #preferences.afm_enable = False
 
 default fixedset = None
 default tt_timer = False
@@ -278,8 +278,8 @@ default misstext_list = ["Промазал!", "Не попал!", "Лох пор
 default diss = Dissolve(.2)
 
 # ACTIVE SKILLS (name, pwr, mp_cost, sfx, targ, targs, type='active', trans=None, img=None, back_row=False)
-default doubleattack = ActiveSkill("Double Attack", 25, 5, "sword", "enemy", 2, back_row=True) # two enemy targets
-default attackall = ActiveSkill("Attack All", 75, 45, "rock", "all") # targets all enemies
+default doubleattack = ActiveSkill("Двойная атака", 1.1, 25, "sword", "enemy", 2, back_row=True, img="arrowhail") # two enemy targets
+default attackall = ActiveSkill("Attack All", 1.2, 75, "rock", "all") # targets all enemies
 default magicheal = ActiveSkill("Magic Heal", -50, 25, "heal", "self") # negative pwr to heal
 default defenseup = ActiveSkill("Defense Up", 0, 25, "defend", "self") # use is in skill_effects
 default magicswap = ActiveSkill("Magic Swap", 0, 15, "heal", "enemy", 2, back_row=True) # can target back row
@@ -294,12 +294,12 @@ default spikeshield = ActiveSkill("Spike Shield", 45, 70, "block", "all", img="s
 default circleofhealing = ActiveSkill("Circle of Healing", -30, 10, "heal", "ally", img="circleofhealing")
 default mindburn = ActiveSkill("Mindburn", 35, 15, "fire", img="mindburn")
 default mindblast = ActiveSkill("Mindblast", 20, 5, "thunder", img="mindblast")
-default souldrain = ActiveSkill("Soul Drain", 80, 60, "acid", img="souldrain")
+default souldrain = ActiveSkill("Soul Drain", 35, 60, "acid", img="souldrain")
 default lavaburst = ActiveSkill("Lava Burst", 20, 5, "fire", img="lavaburst")
 default deathmissile = ActiveSkill("Death Missile", 70, 45, "rock", img="deathmissile")
 default meteorshower = ActiveSkill("Meteor Shower", 80, 40, "rock", "all", img="meteorshower")
 default hellrage = ActiveSkill("Hell Rage", 120, 80, "fire", "all", img="hellrage")
-default lifedrain = ActiveSkill("Life Drain", 80, 15, "acid", img="lifedrain")
+default lifedrain = ActiveSkill("Life Drain", 35, 50, "acid", img="lifedrain")
 default devastationbeam = ActiveSkill("Devastation Beam", 30, 5, "fire", "all", img="devastationbeam")
 default energybeams = ActiveSkill("Energy Beams", 70, 40, "thunder", "all", img="energybeams")
 default giftofangels = ActiveSkill("Gift of Angels", -35, 10, "heal", "ally", 2, img="giftofangels")

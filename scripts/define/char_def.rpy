@@ -1,7 +1,7 @@
 init python:
     import copy
     class Char(object):
-        def __init__(self, name, img="player", atk=5, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None},
+        def __init__(self, name, img="player", atk=5, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
         condition={'burn': False, 'freeze': False, 'paral': False, 'poison': False, 'sleep': False, 'stun': False, 'confus': False, 'wound': False, 'rage': False}, turn=False, defending=False,
         dead=False, bonus_atk=0, bonus_dfn=0, img_pos=0, bar_pos=0, dmg_pos=0):
             self.name = name
@@ -42,16 +42,45 @@ init python:
             return self._mp
 
         def addEquip(self, slot, item):
-            if self.equip[slot] == None:
+            if self.equip[slot] is None:
+                print(self.equip[slot])
                 self.equip[slot] = item
-                renpy.say(None, "You equipped {0}.".format(self.equip[slot]))
-            else:
-                renpy.say(None, "Replacing {0} for {1}.".format(self.equip[slot],item))
-        def removeEquip(self, slot, item):
-            renpy.say(None, "Removed {0}.".format(self.equip[slot]))
-            self.equip[slot] = None
-        
 
+                player_inv.drop(item, 1)
+                if isinstance(item, Weapon):
+                    self.atk += item.damage
+                elif isinstance(item, Armor):
+                    self.dfn += item.defense
+                elif isinstance(item, Accessory):
+                    self.bonus_atk += item.bonus.get('atk', 0)
+                    self.bonus_dfn += item.bonus.get('def', 0)
+            else:
+                player_inv.take(self.equip[slot], 1)
+                player_inv.drop(item)
+                if isinstance(self.equip[slot], Weapon):
+                    self.atk += self.equip[slot].damage
+                elif isinstance(self.equip[slot], Armor):
+                    self.dfn -= self.equip[slot].defense
+                elif isinstance(self.equip[slot], Accessory):
+                    self.bonus_atk -= self.equip[slot].bonus.get('atk', 0)
+                    self.bonus_dfn -= self.equip[slot].bonus.get('def', 0)
+                self.equip[slot] = item
+                if isinstance(item, Accessory):
+                    self.bonus_atk += item.bonus.get('atk', 0)
+                    self.bonus_dfn += item.bonus.get('def', 0)
+                    self.equip[slot] = item
+
+        def removeEquip(self, slot, item):
+            if self.equip[slot] is not None:
+                player_inv.take(self.equip[slot], 1)
+                if isinstance(item, Weapon):
+                    self.atk -= item.damage
+                elif isinstance(item, Armor):
+                    self.dfn -= item.defense
+                elif isinstance(item, Accessory):
+                    self.bonus_atk -= item.bonus.get('atk', 0)
+                    self.bonus_dfn -= item.bonus.get('def', 0)
+                self.equip[slot] = None
 
 define character.p1 = Character("p1")
 default p1 = Char("p1")
@@ -59,16 +88,16 @@ define character.p2 = Character("p2")
 default p2 = Char("p2")
 
 define character.a = Character("[name]", image="[name]")
-default a = Char("[name]", img="[img_player]", skills=[], p_skills=[passive1], equip={'hand': "Bow", 'head': None, 'chest': None, 'accs': None})
+default a = Char("[name]", img="[img_player]", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.sasha = Character("Саша", image="maks")
-default sasha = Char("Саша", lvl=1, hpmax=110, img="maks", skills=[lifedrain], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sasha = Char("Саша", lvl=1, hpmax=30, img="maks", skills=[doubleattack], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.maks = Character("Макс", image="mq see")
-default maks = Char("Макс", lvl=1, hpmax=75, img="maks", skills=[circleofhealing, magicheal], p_skills=[passive2], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default maks = Char("Макс", lvl=1, hpmax=20, img="maks", skills=[circleofhealing, magicheal], p_skills=[passive2], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.k = Character("Кирилл", image="lox")
-default lox = Char("Кирилл", lvl=1, hpmax=90, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default lox = Char("Кирилл", lvl=1, hpmax=25, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.sanek = Character("Санёк", image="sanek")
-default sanek = Char("Санёк", lvl=46, hpmax=650, img="sanek", skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sanek = Char("Санёк", lvl=26, hpmax=40, img="sanek", skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})

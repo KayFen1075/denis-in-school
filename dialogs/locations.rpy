@@ -1,5 +1,36 @@
 label les:
-    "Ого ты в лесу"
+    nvl clear
+    menu les_chose():
+        "Куда вы хотите отправится?"
+        "Вход в лес (до 11ур)":
+            if a.lvl > 11:
+                "Здесь больше нету монстров"
+                jump les_chose
+            $ wild_monsters = [mon1,mon2,mon3]
+            "Стой!{w} Выбери снаряжение перед боем"
+            show screen EquipmentScreen
+            "Нажми что бы начать бой"
+            $ restorehp()
+            $ restoremp()
+            call battle
+
+        "Чащя леса (от 9ур до 17)":
+            if a.lvl < 9:
+                "Тебе ещё рано сюда идти"
+                jump les_chose
+            elif a.lvl > 17:
+                "Монстры тебя боятся{w}, ты не можешь пройти дальше"
+                jump les_chose
+        "Озеро среди леса (от 15 до 20)":
+            if a.lvl < 15:
+                "Ты еще не готов к этому путешествию, возвращайся назад"
+                jump les_chose
+            elif a.lvl > 20:
+                "Больше не кто не всплывёт"
+                jump les_chose
+        "Великое древо (от 25)":
+            pass
+        
     show screen map
     play music "music/Path to Lake Land.ogg"
     ''
@@ -26,6 +57,7 @@ label pola:
         "Вы услышали какой-то звук из кустов"
         x "Вот и оно"
         $ party_list.append(sanek)
+        $ fixedset = "set 1"
         call battle
         $ restorehp()
         $ restoremp()
@@ -253,6 +285,7 @@ label ds:
     ''
     return
 label most:
+    $ player_inv.money += 1000000
     scene bg most
     with fade
     "Вы пршли к мосту"
@@ -397,15 +430,9 @@ label shop:
             menu shop23:
                 "Оружие":
                     b "У меня есть много оружия, можешь купить что-то"
-                    menu shop_gun:
-                        "Выбрать оружие"
-                        "Лук - 100 монет":
-                            pass
-                        "Клинок - 300 монет":
-                            pass
-                        "Уйти":
-                            "Увидемся ещё"
-                            jump shop23
+                    show screen shop_menu
+                    'Нажми что бы продолжить'
+                    jump shop23
                 "Исцели меня бухлом":
                     b "Исцеление будет стоить.."
                 "Поговорить":
@@ -426,6 +453,7 @@ label shop:
                         b "Только я продаю нелегальное оружие!"
                     jump shop23
                 "Уйти":
+                    b "Увидемся ещё"
                     hide pb
                     jump shop_bar
         "Тянка":

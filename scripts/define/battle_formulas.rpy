@@ -59,7 +59,7 @@ init python:
         global message
         global msg_mons
         for t in picked_targs:
-            damage = currentplayer.atk
+            damage = currentplayer.atk + currentplayer.bonus_atk
             msg_mons = t.name
             message = "attack_skill"
             renpy.play("audio/battle/skills/sword.ogg")
@@ -95,26 +95,31 @@ init python:
     def dmgFormula(m):
         global damage
         pre_dmg = int(damage*1.1 - (damage * renpy.random.randint(1, 20) / 100))
-        m.finaldmg = int(pre_dmg*(100/(100+m.dfn)))
+        m.finaldmg = math.ceil(int(pre_dmg*(100/(100+m.dfn))))
         hit_t.append(m)
 
     def expFormula():
         global players
         global curr_exp
         global monsters_total
+        global curr_money
         curr_exp = 0
         playersCnt()
         for m in battle_monsters:
             if monsters_total > 0:
                 curr_exp += m.exp
                 monsters_total -= 1
-        curr_exp /= players
+        curr_exp = (curr_exp * a.lvl) / players
+        curr_money = math.ceil(curr_exp / 1.5)
+        player_inv.money += curr_money
+        renpy.say(None, "За этот бой вы заработали [curr_money] грывни")
         for p in battle_players:
             if p.hp > 0:
                 p.exp += curr_exp
                 renpy.play("audio/game/exp.ogg")
-                renpy.say(None, "%s earned %i experience points!" % (p.name, curr_exp))
+                renpy.say(None, "%s получил %i опыта!" % (p.name, curr_exp))
                 while p.exp >= (p.lvl+1)**3:
                     p.lvl += 1
+                    p.hpmax += math.ceil((5 / (p.lvl/2)))
                     renpy.play("audio/game/lvlup.ogg")
-                    renpy.say(None, "%s reached lvl %i!" % (p.name, p.lvl))
+                    renpy.say(None, "%s получил %i уровень!" % (p.name, p.lvl))

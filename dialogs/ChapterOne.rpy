@@ -384,10 +384,10 @@ label ray:
             $ name = "Саша"
             $ img_player = "sasha"
             $ a.name = name
+            $ a.skills = [doubleattack]
             call load_monsters
             call load_items
-            $ party_list = [maks]
-            $ fixedset = "set 1"
+            $ party_list = [maks, sanek, lox]
             $ wild_monsters = [mon1,mon2]
             $ restorehp()
             $ restoremp()

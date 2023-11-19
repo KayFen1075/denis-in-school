@@ -32,20 +32,6 @@ image d run = At('dq run', sprite_highlight('d'))
 image d aun = At('dq aun', sprite_highlight('d'))
 image d smile = At('dq smile', sprite_highlight('d'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 image maprev:
     "images/map/map.png"
     pause(1)

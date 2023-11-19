@@ -13,7 +13,10 @@ define bb = Character('Бог Юй', color="#e410c4", kind=nvl)
 default persistent.endings = []
 default persistent.main_menu = "gui/main_menu.png"
 default persistent.hight_level = 1
-
+image bronze_sworld:
+    xsize 50 ysize 50
+    "images/inv/bronze_sworld.png"
+    # size 50px
 # config
 define config.main_menu_music = "music/disco.mp3"
 
@@ -36,7 +39,7 @@ init python:
 
     # in game
     game_time = 12
-    maxHP = 100
+    cost_multiplate = 1
     xp = 0
     needXp = 50
     cash = 0

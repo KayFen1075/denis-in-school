@@ -5,18 +5,38 @@ label load_items:
     $ cookbook = list()
     $ player_inv = Inventory("[a.name]")
     # var = Item(name, desc, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="item", recipe=False, tags={})
-    $ hpotion = Item("Малое лечебное зелье", "Востанавливает 30 хп", "hpotion", 20, type="cons", tags={'pwr': -30,'sfx': "potion"})
-    $ bighpotion = Item("Большое лечебное зелье", "Востанавливает 100 хп", "hpotion", 20, type="cons", tags={'pwr': -100,'sfx': "potion"})
-    $ mpotion = Item("Манная каша", "Востанавливает 50 маны", "mpotion", 20, type="cons", tags={'mp': -50,'sfx': "potion"})
-    $ bigmpotion = Item("Большая манная каша", "Востанавливает 100 маны", "mpotion", 20, type="cons", tags={'mp': -100,'sfx': "potion"})
-    $ rpotion = Item("Второй шанц", "Воскрешает умершего", "revive", 300, type="cons", tags={'pwr': -200,'sfx': "potion",'targ': "ko"})
-    $ player_inv.take(hpotion,2)
-    $ player_inv.take(bighpotion, 1)
-    $ player_inv.take(mpotion,1)
-    $ player_inv.take(bigmpotion,1)
-    $ player_inv.take(rpotion,2)
-    # $ a.addEquip("hand", "Bow")
+    $ hpotion = Item("Малое лечебное зелье", "Востанавливает 30 хп", 50, "heal.png", 20, type="cons", tags={'pwr': -30,'sfx': "potion"})
+    $ bighpotion = Item("Большое лечебное зелье", "Востанавливает 100 хп", 150, "big_heal.png", 20 , type="cons", tags={'pwr': -100,'sfx': "potion"})
+    $ mpotion = Item("Манная каша", "Востанавливает 50 маны", 50, "mpotion.webp", 20, type="cons", tags={'mp': -50,'sfx': "potion"})
+    $ bigmpotion = Item("Большая манная каша", "Востанавливает 100 маны", 150, "mpotion.webp", 20, type="cons", tags={'mp': -100,'sfx': "potion"})
+    $ rpotion = Item("Второй шанц", "Воскрешает умершего", 450, "revive.webp", 300, type="cons", tags={'pwr': -200,'sfx': "potion",'targ': "ko"})
 
+    $ bow = Weapon(name="Ебейший лук", desc="A sharp sword", cost=100, damage=199, icon="bronze_sworld.png")
+    $ pizdezbow = Weapon(name="Ещё более Ебейший лук", desc="A sharp sword", cost=100, damage=1999)
+    $ shield = Armor(name="Shield", desc="A sturdy shield", defense=35, cost=100, icon="bronze_helmet.png")
+    $ shield2 = Armor(name="Золотой нагрудник", desc="Просто крутой", defense=35, cost=100, icon="bronze_helmet.png")
+    
+    # Sworlds
+    
+    $ bronze_sworld = Weapon(name="Бронзовый меч", desc="Слабое оружие", cost=100, damage=6, icon="bronze_sworld.png")
+    $ silver_sworld = Weapon(name="Серебряный меч", desc="Против вампиров", cost=250, damage=15, icon="silver_sworld.png")
+    $ gold_sworld = Weapon(name="Золотой меч", desc="Еврей ебаный 14 урона", cost=500, damage=24, icon="gold_sworld.png")
+    $ emerald_sworld = Weapon(name="Емеральдовый клинок", desc="Ебаный еврей версия житель", cost=1000, damage=37, icon="emerald_sworld.png")
+    $ obs_sworld = Weapon(name="Обсидиановый меч", desc="Собрав 12 таких можно вернутся в ад", damage=56, cost=2500, icon="obs_sworld.png")
+    
+    $ ring = Accessory(name="Ring", desc="A magical ring", cost=100, bonus={"atk": -10, "def": 50}, icon="bronze_sworld.png")
+
+    $ items = [
+        bronze_sworld, silver_sworld, gold_sworld, emerald_sworld, obs_sworld,
+        shield, shield2,
+        ring,
+        hpotion, bighpotion, mpotion, bigmpotion, rpotion
+    ]
+
+    $ player_inv.take(hpotion)
+    $ player_inv.take(bighpotion)
+
+    "Загруска предметов завершена"
     return
 
 init python:
@@ -99,7 +119,7 @@ screen inventory_battleview(inventory):
                 $ qty = str(item[1])
                 if item[0].type=="cons" and itemUsable(item[0]):
                     hbox:
-                        $ icon = "images/inv/" + item[0].icon + ".webp"
+                        $ icon = "images/inv/" + item[0].icon
                         $ hover_icon = im.Sepia(icon)
                         imagebutton:
                             idle LiveComposite((192,192), (0,0), icon, (0,0), Text(qty))

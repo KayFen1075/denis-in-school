@@ -1,15 +1,23 @@
 label load_monsters:
     # var = Monster(name, hpmax, atk, dfn, exp, lvl, img, sfx_atk, anim, skills)
     $ empty = Monster(None, None, None, None, None, None, None, None, dead=True)
-    $ mon1 = Monster("Lapras", 20, 15, 1.0, 50, 3, "1", "water", anim=slow_sway, skills=[arrowhail])
-    $ mon2 = Monster("Ditto", 50, 20, 6.0, 50, 4, "2", "pound", anim=squeeze, skills=[mindfreeze])
-    $ mon3 = Monster("Eevee", 30, 40, 3.0, 50, 5, "3", "tackle", anim=idle_shake, skills=[lifedrain])
-    $ mon4 = Monster("Vaporeon", 25, 10, 10.0, 50, 4, "4", "water", anim=idle_y, skills=[devastationbeam])
+    
+    # Данж 1
+    $ mon1 = Monster("Слайм", 6, 3, 1.0, 10, 3, "1", "water", anim=squeeze, skills=[magicheal])
+    $ mon2 = Monster("Слизень", 13, 5, 1.0, 35, 5, "2", "pound", anim=squeeze, skills=[mindfreeze])
+    $ mon3 = Monster("Воробей",9, 10, 3.0, 50, 7, "3", "tackle", anim=idle_shake, skills=[lifedrain])
+
+    # Данж 2
+    $ mon4 = Monster("Шкафчик", 25, 10, 10.0, 50, 4, "4", "water", anim=idle_y, skills=[devastationbeam])
     $ mon5 = Monster("Jolteon", 45, 35, 10.0, 50, 4, "5", "thunder", anim=idle_xy, skills=[asteroid])
     $ mon6 = Monster("Flareon", 70, 50, 9.0, 50, 8, "6", "fire", anim=idle_x, skills=[swordofdeath])
+    
+    # Данж 3
     $ mon7 = Monster("Espeon", 15, 50, 7.0, 50, 5, "7", "cut", anim=idle_shake, skills=[rockthrow])
     $ mon8 = Monster("Umbreon", 55, 25, 2.0, 50, 4, "8", "scratch", anim=idle_shake, skills=[mindburn])
     $ mon9 = Monster("Venasaur", 60, 40, 3.0, 50, 6, "9", "leaf", anim=idle_xy, skills=[lavaburst])
+    
+    # Данж 4
     $ mon10 = Monster("Charizard", 90, 95, 4.0, 50, 8, "10", "fire", anim=idle_shake, skills=[deathmissile])
     $ mon11 = Monster("Blastoise", 85, 85, 5.0, 50, 5, "11", "water", anim=idle_x, skills=[thunderbolt])
     return

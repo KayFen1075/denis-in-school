@@ -32,7 +32,7 @@ init python:
                     m.state = None
                     renpy.show_screen("player_dmg")
                     renpy.pause(0.2, hard=True)
-                    renpy.pause(1.0)
+                    renpy.pause(0.5)
                     renpy.hide_screen("player_dmg")
                     playersChk()
 
@@ -48,7 +48,7 @@ init python:
         picked_targs = []
         atk_sfx = "audio/battle/monsters/" + m.sfx_atk + ".ogg"
         if m.skills:
-            use_skill = renpy.random.choice([True, False])
+            use_skill = renpy.random.choice([True, False, False])
             if use_skill:
                 b_skill = renpy.random.choice(m.skills)
                 b_skill.useSkill()
@@ -70,7 +70,7 @@ init python:
         if accFormula(m, p):
             if skillChk(p):
                 hit_t.append(p)
-                p._hp -= m_damage
+                p._hp -= math.ceil(m_damage)
                 roll_shake = renpy.random.randint(1,2)
                 if roll_shake == 1:
                     renpy.with_statement(hpunch)
@@ -91,7 +91,7 @@ init python:
         if p.defending == True:
             turnbonus += 1*p.lvl
             renpy.play("audio/battle/skills/block.ogg")
-        m_damage = currdmg*currdmg/(currdmg+p.dfn+p.bonus_dfn+turnbonus)
+        m_damage = math.ceil(currdmg*currdmg/(currdmg+p.dfn+p.bonus_dfn+turnbonus))
 
     def monsterImg(m):
         if m.state == "attacking":

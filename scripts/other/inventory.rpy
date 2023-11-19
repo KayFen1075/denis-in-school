@@ -1,11 +1,13 @@
 init python:
     import renpy.store as store
-
+    import math
+    
     class Item(store.object):
-        def __init__(self, name, desc, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="item", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="item", recipe=False, tags={}):
             global cookbook
             self.name = name
             self.desc = desc
+            self.cost = cost
             self.icon = icon
             self.value = value
             self.act = act # screen action
@@ -30,6 +32,30 @@ init python:
             if recipe:
                 self.recipe = recipe
 
+    class Armor(Item):
+        def __init__(self, name, desc, cost, defense, icon=False, value=0, act=Show("inventory_popup", message='as'), type="chest", recipe=False, tags={}):
+            super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
+            self.cost = cost
+            self.defense = defense
+            self.act = Show("inventory_popup", message=self.type)
+            self.inventory_item = Item(name, desc, cost, icon, value, act, "chest", recipe, tags)
+
+    class Weapon(Item):
+        def __init__(self, name, desc, cost, damage, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="hand", recipe=False, tags={}):
+            super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
+            self.cost = cost
+            self.damage = damage
+            self.act = Show("inventory_popup", message=self.type)
+            self.inventory_item = Item(name, desc, cost, icon, value, act, type, recipe, tags)
+
+    class Accessory(Item):
+        def __init__(self, name, desc, cost, bonus, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="accs", recipe=False, tags={}):
+            super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
+            self.cost = cost
+            self.bonus = bonus
+            self.act = Show("inventory_popup", message=self.type)
+            self.inventory_item = Item(name, desc, cost, icon, value, act, "accs", recipe, tags)
+
 
     class Inventory(store.object):
         def __init__(self, name, money=0, barter=100):
@@ -41,9 +67,9 @@ init python:
             self.sort_order = True #ascending, descending
             self.grid_view = True
 
-        def buy(self, item, price):
-            self.deposit(price)
-            self.take(item[0])
+        def buy(self, item):
+            self.deposit(item.cost*cost_multiplate)
+            self.take(item)
             renpy.play("audio/game/buy.ogg")
 
         def check(self, item):
@@ -138,8 +164,144 @@ init python:
 
     transfer_amount = 0
 
+screen by_item(item, baff):
+    modal True
+    zorder 102
+    frame:
+        xalign 0.5 yalign 0.5
+        vbox:
+            style_group "invstyle"
+            label "{{image=images/inv/{0}}} Потвердить покупку?".format(item.icon)
+            vbox:
+                text "{b}[item.name]{/b} {size=25}[baff]{/size}"
+                text item.desc 
+                text "Цена: {0}₴".format(math.ceil(item.cost*cost_multiplate))
+            hbox:
+                textbutton "Купить":
+                    if player_inv.money >= item.cost*cost_multiplate:
+                        action Function(player_inv.buy, item)
+                textbutton "Отмена":
+                    action Hide("by_item")
+
+screen shop_menu():
+    modal True
+    zorder 101 
+    frame:
+        xalign 0.5 yalign 0.5
+        vbox:
+            style_group "invstyle"
+            xsize 1280 ysize 720
+            yalign 0
+            label "{size=30}Запретный магазин бориса{/size}"
+            label "[a.name] имеет {0}₴".format(math.ceil(player_inv.money))
+            vbox:
+                # Броня
+                xalign 0.5
+                vbox:
+                    xalign 0.5
+                    label "Броня"
+                    hbox:
+                        for item in items:
+                            if item.type == "chest":
+                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}защ".format(item.defense))
+                                text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
+                # Оружие
+                vbox:
+                    xalign 0.5
+                    label "Оружие"
+                    hbox:
+                        for item in items:
+                            if item.type == "hand":
+                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}атк".format(item.damage))
+                                text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
+                # Артефакты
+                vbox:
+                    xalign 0.5
+                    label "Артефакты"
+                    hbox:
+                        for item in items:
+                            if item.type == "accs":
+                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}атк {1}защ".format(item.bonus['atk'], item.bonus['def']))
+                                text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
+                vbox:
+                    xalign 0.5
+                    label "Предметы"
+                    hbox:
+                        for item in items:
+                            if item.type == "cons":
+                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "")
+                                text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
+            textbutton "{b}Закрыть{/b}":
+                xalign 0.5 yalign 0
+                action Hide("shop_menu")
+
+screen EquipmentScreen():
+    modal True
+    zorder 101 
+    $ xalingpos = 0.25
+    $ yalignpos = 0.14
+    $ i = 1
+    for player in party_list:
+        $ i +=1
+        if i > 3:
+            $ yalignpos = 0.75
+            $ xalingpos = 0.25
+            $ i = 1
+        frame:
+            style "neat_frame"
+            xalign xalingpos yalign yalignpos
+            vbox:
+                hbox:
+                    xalign 0.5
+                    text "{sc=1.5}{b}[player.name]{/b} [player.lvl]lvl{/sc}"
+                hbox:
+                    xalign 0.5
+                    text "[player.exp]xp / {0}xp".format((player.lvl+1)**3)
+                        
+                for slot in ['chest', 'hand', 'accs']:
+                    vbox:
+                        hbox:
+                            text "{0}:".format(slot.capitalize())
+                            $ item = player.equip.get(slot)
+                            if item is not None:
+                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(player.removeEquip, slot, item)
+                        hbox:
+                            for item_inv in player_inv.inv:
+                                $ name = item_inv[0].name
+                                $ icon = item_inv[0].icon
+                                $ desc = item_inv[0].desc
+                                $ type = item_inv[0].type
+                                if type == slot:
+                                    textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
+        $ xalingpos += 0.5
+    frame:
+        style "neat_frame"
+        xalign 0.5 yalign 0.14
+        vbox:
+            hbox:
+                xalign 0.5
+                text "{sc=2}{b}[a.name]{/b} [a.lvl]lvl{/sc}"
+            for slot in ['chest', 'hand', 'accs']:
+                vbox:
+                    hbox:
+                        text "{0}:".format(slot.capitalize())
+                        $ item = a.equip.get(slot)
+                        if item is not None:
+                            textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(a.removeEquip, slot, item)
+                    hbox:
+                        for item_inv in player_inv.inv:
+                            $ name = item_inv[0].name
+                            $ icon = item_inv[0].icon
+                            $ desc = item_inv[0].desc
+                            $ type = item_inv[0].type
+                            if type == slot:
+                                textbutton "{{image=images/inv/{0}}}".format(icon) action Function(a.addEquip, slot, item_inv[0])
+            textbutton "{b}Закрыть{/b}":
+                xalign 0.5
+                action Hide("EquipmentScreen")
 
 screen inv_tooltip(item=False,seller=False):
+    zorder 101
     if item:
         hbox:
             xalign 0.5 yalign 0.14#0.7
@@ -152,19 +314,20 @@ screen inventory_screen(first_inventory, second_inventory=False, trade_mode=Fals
     default crafting_screen = False
     tag menu
     modal True
+    zorder 101
     frame:
         style_group "invstyle"
         hbox:
             spacing 25
             vbox:
-                label first_inventory.name
+                label "{0}, у тебя {1} грывень".format(first_inventory.name, math.ceil(first_inventory.money))
                 if second_inventory:
                     use money(first_inventory, second_inventory, bank_mode)
                 use inventory_view(first_inventory, second_inventory, trade_mode)
                 use view_nav(first_inventory)
                 use sort_nav(first_inventory)
-                if not second_inventory:
-                    textbutton "Crafting Mode" action ToggleScreenVariable("crafting_screen")
+                #if not second_inventory:
+                    #textbutton "Crafting Mode" action ToggleScreenVariable("crafting_screen")
                 textbutton "Close" action Hide("inventory_screen")
             if second_inventory:
                 vbox:
@@ -173,10 +336,11 @@ screen inventory_screen(first_inventory, second_inventory=False, trade_mode=Fals
                     use inventory_view(second_inventory, first_inventory, trade_mode)
                     use view_nav(second_inventory)
                     use sort_nav(second_inventory)
-            if crafting_screen:
-                use crafting(first_inventory)
+            #if crafting_screen:
+                #use crafting(first_inventory)
 
 screen inventory_view(inventory, second_inventory=False, trade_mode=False):
+    zorder 101
     side "c r":
         style_group "invstyle"
         area (0, 0, 700, 500)
@@ -185,7 +349,7 @@ screen inventory_view(inventory, second_inventory=False, trade_mode=False):
             mousewheel True
             xsize 700 ysize 500
             if inventory.grid_view:
-                cols 3 spacing 10
+                cols 9 spacing 10
             else:
                 cols 1 spacing 25
             for item in inventory.inv:
@@ -195,11 +359,11 @@ screen inventory_view(inventory, second_inventory=False, trade_mode=False):
                 $ qty = str(item[1])
                 hbox:
                     if item[0].icon:
-                        $ icon = "images/inv/" + item[0].icon + ".webp"#$ icon = item[0].icon
+                        $ icon = "images/inv/" + item[0].icon#$ icon = item[0].icon
                         $ hover_icon = im.Sepia(icon)
                         imagebutton:
-                            idle LiveComposite((192,192), (0,0), icon, (0,0), Text(qty))
-                            hover LiveComposite((192,192), (0,0), hover_icon, (0,0), Text(qty))
+                            idle LiveComposite((50,50), (0,0), icon, (0,0), Text(qty))
+                            hover LiveComposite((50,50), (0,0), hover_icon, (0,0), Text(qty))
                             action (If(not second_inventory, item[0].act, (If(trade_mode, Function(trade,inventory, second_inventory, item), Function(transaction,inventory, second_inventory, item)))))
                             hovered Show("inv_tooltip",item=item,seller=second_inventory)
                             unhovered Hide("inv_tooltip")
@@ -227,6 +391,7 @@ screen inventory_view(inventory, second_inventory=False, trade_mode=False):
 
 
 screen money(inventory, second_inventory, bank_mode=False):
+    zorder 101
     hbox:
         style_group "invstyle"
         text "Money: [inventory.money]"
@@ -288,12 +453,14 @@ screen crafting(inventory):
         textbutton "Hide" action ToggleScreenVariable("crafting_screen") xalign 0.5
 
 screen view_nav(inventory):
+    zorder 101
     hbox:
         text "View: " yalign 0.5
         textbutton "Grid" action SetField(inventory, "grid_view", True)
         textbutton "List" action SetField(inventory, "grid_view", False)
 
 screen sort_nav(inventory):
+    zorder 101
     hbox:
         text "Sort: " yalign 0.5
         textbutton "Name" action [ToggleField(inventory, "sort_by", inventory.sort_name), inventory.sort_name]
@@ -305,7 +472,7 @@ screen sort_nav(inventory):
             textbutton "des." action [ToggleField(inventory, "sort_order"), inventory.sort_by]
 
 screen inventory_popup(message):
-    zorder 100
+    zorder 101
     frame:
         style_group "invstyle"
         hbox:
