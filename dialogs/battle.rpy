@@ -74,7 +74,7 @@ label start_battle():
     ''
     ''
     hide screen world_time
-    call battle
+    call battle from _call_battle
     "Вы пришли, как вдруг на вас напал"
     show screen world_time
     show screen map

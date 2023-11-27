@@ -6,7 +6,7 @@ label turn_actions:
         call screen turn_select
         $ currentplayer = _return
         if currentplayer != "done":
-            call player_skill
+            call player_skill from _call_player_skill
             $ endTurn()
             jump turn_actions
         else:
@@ -31,20 +31,20 @@ label player_skill:
     $ b_skill = _return
     if isinstance(b_skill, Skill):
         $ target = b_skill.targ
-        call target_select(b_skill.targs)
+        call target_select(b_skill.targs) from _call_target_select
     if b_skill == "item":
         $ message = "item"
         call screen inventory_inbattle(player_inv)
         hide screen inv_tooltip
         $ b_skill = _return
         $ target = getTarget(b_skill)
-        call target_select
+        call target_select from _call_target_select_1
     elif b_skill == "attack":
-        call target_select
+        call target_select from _call_target_select_2
         $ target = "attack"
     if b_skill == "defend":
         $ target = "defend"
-    call skill_effects
+    call skill_effects from _call_skill_effects
     return
 
 screen choose_skill():

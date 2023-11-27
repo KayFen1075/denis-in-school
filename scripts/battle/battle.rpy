@@ -19,7 +19,7 @@ label battle:
     $ currentplayer = None
     show screen battle_tooltip
 
-    call battle_music
+    call battle_music from _call_battle_music
 
     random:
         scene bb1
@@ -33,7 +33,7 @@ label battle:
         x "С ней будет проще сражаться"
         hide px
         with dissolve
-    call player_select
+    call player_select from _call_player_select
     show screen display_monsters with diss
     show screen battle_message
     show screen battle_overlay with diss
@@ -210,7 +210,7 @@ label battling:
             jump end_battle
         $ startPlayersTurn()
         $ message = "attack"
-        call turn_actions
+        call turn_actions from _call_turn_actions
         $ message = "none"
         if not first_pola:
             x "Теперь ходят монстры"
@@ -220,6 +220,26 @@ label end_battle:
     hide screen battle_overlay
     with dissolve
     if win:
+        if type_battle == "1les":
+            $ win_1les = True
+            $ renpy.notify("Доступны новые действия!")
+        elif type_battle == "2les":
+            $ win_2les = True
+            $ renpy.notify("Доступны новые действия!")
+        elif type_battle == "3les":
+            $ win_3les = True
+        elif type_battle == "4les":
+            $ win_4les = True
+        elif type_battle == "1dan":
+            $ win_1dan = True
+        elif type_battle == "2dan":
+            $ win_2dan = True
+        elif type_battle == "3dan":
+            $ win_3dan = True
+        elif type_battle == "4dan":
+            $ win_4dan = True
+        elif type_battle == "0denis":
+            $ win_denis == True
         stop music
         play sound fanfare
         "Ты выиграл!"

@@ -379,80 +379,51 @@ label ray:
     u "Кто{w} из вас{w} будет главным героем"
     menu gg:
         "Выбрать главного героя(Только в боях, уник магия, фразы)"
-        "Саша - Главный герой | Макс - Друг гг":
-            $ ggName = "Саша"
+        "Саша - Главный герой":
             $ name = "Саша"
             $ img_player = "sasha"
             $ a.name = name
             $ a.skills = [doubleattack]
-            call load_monsters
-            call load_items
-            $ party_list = [maks, sanek, lox]
-            $ wild_monsters = [mon1,mon2]
-            $ restorehp()
-            $ restoremp()
-            u "{bt=3}Отличный выбор!{/bt}"
-            u "{bt=3}Саша, отныне ты должен со своим другом отпиздить короля демонов{/bt}"
-            u "{bt=3}Управлять всем будеш ты{/bt}"
-            u "{bt=3}Давай я покажу тебе как всё работает{/bt}"
-            scene maprev
-            with fade
-            u "{bt=3}Перед тобой карта города{/bt}"
-            $ persistent.main_menu = "gui/main_menu_ch_1_2.png"
-            $ config.main_menu_music = "music/battle_in_aries_peak.mp3"
-            $ renpy.notify("Загляни в гавное меню)")
-            u "{bt=3}Здесь есть места которые ты можешь посетить{/bt}"
-            u "{bt=3}Белые места - оносительно безопасные места{/bt}"
-            u "{bt=3}Красные - места где на тебя могут напасть{/bt}"
-            u "{bt=3}Не советую туда ходить{/bt}"
-            show screen world_time
-            u "{bt=3}С лева с верху показано время{/bt}"
-            $ addTime()
-            u "{bt=3}Следи за ним и не ходи ночью{/bt}"
-            $ addTime()
-            u "{bt=3}Я ограничила некоторые локации в разное время{/bt}"
-            $ addTime()
-            u "{bt=3}Что же, дальше ты сам{/bt}"
-            $ addTime()
-            u "{bt=3}Одолей короля демонов и спаси этот мир!{/bt}"
-            show screen map
-            ''  
-        "Макс - Главный герой | Саша - Друг гг":
-            $ ggName = "Макс"
-            $ player1 = {
-                "name": "Макс",
-                "sprites": {
-                    "fight": "images/pixel/pm talk.png",
-                    "talk": "images/pixel/pm talk.png",
-                },
-                "stats": {
-                    "magic": [
-                        "maks"
-                    ],
-                    "weapons": [
-                        "fists"
-                    ],
-                },
-                "backpack": [],
-            }
-            $ player2 = {
-                "name": "Саша",
-                "sprites": {
-                    "fight": "images/pixel/pm talk.png",
-                    "talk": "images/pixel/pm talk.png",
-                },
-                "stats": {
-                    "magic": [
-                        "sasha"
-                    ],
-                    "weapons": [
-                        "fists"
-                    ],
-                },
-                "backpack": [],
-            }
+            $ a.hpmax = 30
+            $ party_list = [maks]
             
-            #block of code to run
-        
+        "Макс - Главный герой":
+            $ name = "Макс"
+            $ img_player = "maks"
+            $ a.name = name
+            $ a.skills = [circleofhealing]
+            $ a.hpmax = 25
+            $ party_list = [sasha]
+    call load_monsters from _call_load_monsters
+    call load_items from _call_load_items
+    $ restorehp()
+    $ restoremp()
+    u "{bt=3}Отличный выбор!{/bt}"
+    u "{bt=3}[name], отныне ты должен со своим другом отпиздить короля демонов{/bt}"
+    u "{bt=3}Управлять всем будеш ты{/bt}"
+    u "{bt=3}Давай я покажу тебе как всё работает{/bt}"
+    scene maprev
+    with fade
+    u "{bt=3}Перед тобой карта города{/bt}"
+    $ persistent.main_menu = "gui/main_menu_ch_1_2.png"
+    $ config.main_menu_music = "music/battle_in_aries_peak.mp3"
+    $ renpy.notify("Загляни в гавное меню)")
+    u "{bt=3}Здесь есть места которые ты можешь посетить{/bt}"
+    u "{bt=3}Белые места - оносительно безопасные места{/bt}"
+    u "{bt=3}Красные - места где на тебя могут напасть{/bt}"
+    u "{bt=3}Не советую туда ходить{/bt}"
+    show screen world_time
+    u "{bt=3}С лева с верху показано время{/bt}"
+    $ addTime()
+    u "{bt=3}Следи за ним и не ходи ночью{/bt}"
+    $ addTime()
+    u "{bt=3}Я ограничила некоторые локации в разное время{/bt}"
+    $ addTime()
+    u "{bt=3}Что же, дальше ты сам{/bt}"
+    $ addTime()
+    u "{bt=3}Одолей короля демонов и спаси этот мир!{/bt}"
+    show screen map
+    ''  
+    
     ''
     return

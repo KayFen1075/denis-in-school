@@ -1,4 +1,5 @@
 label start:
+    $ state = "something"
     pause(2)
     $ _dismiss_pause = False
     scene main_menu

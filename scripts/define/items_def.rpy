@@ -38,7 +38,7 @@ label load_items:
 
     "Загруска предметов завершена"
     return
-
+    
 init python:
     def getTarget(i):
         if 'targ' in i.tags:

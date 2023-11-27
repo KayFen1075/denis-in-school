@@ -1,7 +1,7 @@
 init python:
     import copy
     class Char(object):
-        def __init__(self, name, img="player", atk=5, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
+        def __init__(self, name, img="player", atk=7, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
         condition={'burn': False, 'freeze': False, 'paral': False, 'poison': False, 'sleep': False, 'stun': False, 'confus': False, 'wound': False, 'rage': False}, turn=False, defending=False,
         dead=False, bonus_atk=0, bonus_dfn=0, img_pos=0, bar_pos=0, dmg_pos=0):
             self.name = name
@@ -40,6 +40,9 @@ init python:
                 value = max( 0, min( self.mpmax, value ) )
                 self._mp = value
             return self._mp
+            
+        def addSkill(self, skill):
+            self.skills.append(skill)
 
         def addEquip(self, slot, item):
             if self.equip[slot] is None:
@@ -90,14 +93,14 @@ default p2 = Char("p2")
 define character.a = Character("[name]", image="[name]")
 default a = Char("[name]", img="[img_player]", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
-define character.sasha = Character("Саша", image="maks")
-default sasha = Char("Саша", lvl=1, hpmax=30, img="maks", skills=[doubleattack], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+define character.sasha = Character("Саша", image="sasha")
+default sasha = Char("Саша", lvl=1, hpmax=30, img="sasha", skills=[doubleattack], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.maks = Character("Макс", image="mq see")
-default maks = Char("Макс", lvl=1, hpmax=20, img="maks", skills=[circleofhealing, magicheal], p_skills=[passive2], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default maks = Char("Макс", lvl=1, hpmax=25, img="maks", skills=[circleofhealing, magicheal], p_skills=[passive2], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.k = Character("Кирилл", image="lox")
-default lox = Char("Кирилл", lvl=1, hpmax=25, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default lox = Char("Кирилл", lvl=1, hpmax=27, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.sanek = Character("Санёк", image="sanek")
 default sanek = Char("Санёк", lvl=26, hpmax=40, img="sanek", skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})

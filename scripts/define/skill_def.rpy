@@ -44,6 +44,9 @@ init python:
             currentplayer._hp += t.finaldmg/2
         if s == souldrain:
             currentplayer._hp += t.finaldmg
+        if s == swordofdeath and t == denis:
+            t._hp += t.finaldmg * 2
+            renpy.say('Денис', 'Ого{w}, у меня встал')
 
     def radarFX(p):
         global skilltext
@@ -94,13 +97,14 @@ init python:
             global msg_skill
             damage = self.pwr
             print(self.targ)
-            if self.targ != "self" or self.targ != "ally":
-                if char is not None:
-                    if char.equip['hand']:
-                        damage *= char.equip['hand'].damage
-                        print("Damage hand {0}".format(char.equip['hand'].damage))
-                    if char.equip['accs']:
-                        damage += char.equip['accs'].bonus.atk
+            if char is not None:
+                damage += (char.lvl * (damage/4))
+                # if char.equip['hand']:
+                    # char.equip['hand'].damage
+                    # print("Damage hand {0}".format(char.equip['hand'].damage))
+                # if char.equip['accs']:
+                    # damage += 
+                    #char.equip['accs'].bonus.atk
             mp_lost = self.mp_cost
             atk_sfx = "audio/battle/skills/" + self.sfx + ".ogg"
             msg_skill = self.name

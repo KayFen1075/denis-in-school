@@ -273,36 +273,51 @@ default wild_monsters = []
 default battle_players = []
 default alive_players = []
 default battle_monsters = []
-default misstext_list = ["Промазал!", "Не попал!", "Лох пормазал!", "Я ЖЕ БЛЯТЬ СТРЕЛЯЛ!"]
+default misstext_list = ["Промазал!", "Не попал!", "Лох пормазал!", "Я ЖЕ БЛЯТЬ СТРЕЛЯЛ!", "Мимо", "Мимо?", "Да ты снайпер"]
 
 default diss = Dissolve(.2)
 
 # ACTIVE SKILLS (name, pwr, mp_cost, sfx, targ, targs, type='active', trans=None, img=None, back_row=False)
-default doubleattack = ActiveSkill("Двойная атака", 1.1, 25, "sword", "enemy", 2, back_row=True, img="arrowhail") # two enemy targets
-default attackall = ActiveSkill("Attack All", 1.2, 75, "rock", "all") # targets all enemies
-default magicheal = ActiveSkill("Magic Heal", -50, 25, "heal", "self") # negative pwr to heal
-default defenseup = ActiveSkill("Defense Up", 0, 25, "defend", "self") # use is in skill_effects
-default magicswap = ActiveSkill("Magic Swap", 0, 15, "heal", "enemy", 2, back_row=True) # can target back row
-default arrowhail = ActiveSkill("Arrow Hail", 10, 40, "bow", "all", img="arrowhail", back_row=True)
-default mindfreeze = ActiveSkill("Mind Freeze", 15, 5, "ice", img="mindfreeze", back_row=True)
+
+# Уник магия
+default doubleattack = ActiveSkill("Двойная атака", 8, 25, "sword", "enemy", 2, back_row=True, img="arrowhail") # two enemy targets
+default attackall = ActiveSkill("Атаковать всех", 15, 75, "rock", "all", img="swordofdeath") # targets all enemies
+default giftofangels = ActiveSkill("Подарок с небес", -10, 10, "heal", "ally", 2, img="giftofangels")
+default iceball = ActiveSkill("Влюбить 2 врагов", 5, 30, "ice", "row", 2, img="iceball") # attacks whole row
+default souldrain = ActiveSkill("Секс рабство", 16, 60, "acid", img="souldrain")
+
+
+# Полученная магия
+default mindfreeze = ActiveSkill("Леденой шар", 11, 5, "ice", img="mindfreeze", back_row=True)
+default mindfire = ActiveSkill("Огненный шар", 14, 5, "fire", img="mindburn", back_row=True)
+default magicheal = ActiveSkill("Исцеление", -5, 25, "heal", "self") # negative pwr to heal
+default defenseup = ActiveSkill("Улучшить щит", 0, 25, "defend", "self") # use is in skill_effects
+default magicswap = ActiveSkill("Поменять местами", 0, 15, "heal", "enemy", 2, back_row=True) # can target back row
+default arrowhail = ActiveSkill("Обстрел", 10, 40, "bow", "all", img="arrowhail", back_row=True)
+default lavaburst = ActiveSkill("Лавовой взрыв", 20, 5, "fire", img="lavaburst")
+default swordofdeath = ActiveSkill("Голое фото дениса", 30, 10, "sword", img="swordofdeath")
+
+
 default thunderbolt = ActiveSkill("Thunderbolt", 35, 10, "thunder", "enemy", 3, img="thunderbolt", back_row=True)
-default iceball = ActiveSkill("Ice Ball", 30, 5, "ice", "row", img="iceball") # attacks whole row
 default asteroid = ActiveSkill("Asteroid", 20, 5, "rock", img="asteroid")
-default swordofdeath = ActiveSkill("Sword of Death", 30, 10, "sword", img="swordofdeath")
 default rockthrow = ActiveSkill("Rock Throw", 30, 40, "rock", "enemy", 2, back_row=True, img="rockthrow")
 default spikeshield = ActiveSkill("Spike Shield", 45, 70, "block", "all", img="spikeshield")
 default circleofhealing = ActiveSkill("Circle of Healing", -30, 10, "heal", "ally", img="circleofhealing")
 default mindburn = ActiveSkill("Mindburn", 35, 15, "fire", img="mindburn")
 default mindblast = ActiveSkill("Mindblast", 20, 5, "thunder", img="mindblast")
-default souldrain = ActiveSkill("Soul Drain", 35, 60, "acid", img="souldrain")
-default lavaburst = ActiveSkill("Lava Burst", 20, 5, "fire", img="lavaburst")
 default deathmissile = ActiveSkill("Death Missile", 70, 45, "rock", img="deathmissile")
+
+# Проклятая магия
 default meteorshower = ActiveSkill("Meteor Shower", 80, 40, "rock", "all", img="meteorshower")
 default hellrage = ActiveSkill("Hell Rage", 120, 80, "fire", "all", img="hellrage")
 default lifedrain = ActiveSkill("Life Drain", 35, 50, "acid", img="lifedrain")
 default devastationbeam = ActiveSkill("Devastation Beam", 30, 5, "fire", "all", img="devastationbeam")
 default energybeams = ActiveSkill("Energy Beams", 70, 40, "thunder", "all", img="energybeams")
-default giftofangels = ActiveSkill("Gift of Angels", -35, 10, "heal", "ally", 2, img="giftofangels")
+
+# Скрытая
+
+
+
 # PASSIVE SKILLS (name, sfx=None, img=None, trans=None, lvl=0)
 default radar = PassiveSkill("Radar", "heal")
 default passive1 = PassiveSkill("Passive Skill 1", "heal")

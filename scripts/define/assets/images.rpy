@@ -1,6 +1,6 @@
-image bb1 = "images/bg/1.webp"
-image bb2 = "images/bg/2.webp"
-image bb3 = "images/bg/3.webp"
+image bb1 = "images/bg/1.png"
+image bb2 = "images/bg/2.png"
+image bb3 = "images/bg/3.png"
 
 image player_battle = TransitionConditionSwitch(Dissolve(0.5, alpha=True),
     "currentplayer == a","images/char/glow/player_battle.webp",

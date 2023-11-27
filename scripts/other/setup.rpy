@@ -10,8 +10,8 @@ label load_setup:
     $ magicheal.addSkill(a) # add new skills
     $ defenseup.addSkill(c)
     $ magicswap.addSkill(y)
-    call load_monsters
-    call load_items
+    call load_monsters from _call_load_monsters_1
+    call load_items from _call_load_items_1
     $ party_list = [m,s,k] # initial party list, including main character
     $ fixedset = "set 1"
     $ wild_monsters = [mon1,mon2,mon3,mon4,mon5,mon6,mon7,mon8,mon9,mon10,mon11]

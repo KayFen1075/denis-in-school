@@ -20,6 +20,9 @@ label load_monsters:
     # Данж 4
     $ mon10 = Monster("Charizard", 90, 95, 4.0, 50, 8, "10", "fire", anim=idle_shake, skills=[deathmissile])
     $ mon11 = Monster("Blastoise", 85, 85, 5.0, 50, 5, "11", "water", anim=idle_x, skills=[thunderbolt])
+
+    # Финал
+    $ denis = Monster("Денис", 85, 85, 5.0, 50, 5, "1", "water", anim=idle_x, skills=[thunderbolt])
     return
 
 init python:

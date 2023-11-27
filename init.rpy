@@ -5,6 +5,7 @@ define d = Character('Денис', color="#e41010", image="d", callback=name_cal
 define k = Character('Кирилл', color="#9610e4", image="k", callback=name_callback, cb_name="k")
 define u = Character('Бог Юй', color="#e410c4", image="u", callback=name_callback, cb_name="u")
 define x = Character('Санёк', color="#df9921", image="x", callback=name_callback, cb_name="x")
+define t = Character('Тянка', color="#f68ccd")
 define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b")
 
 define bb = Character('Бог Юй', color="#e410c4", kind=nvl)
@@ -35,40 +36,28 @@ init python:
     first_barmen = False
     barmen = False
     first_pola = False
+    first_libriary = False
     maxim = False
-
     # in game
     game_time = 12
     cost_multiplate = 1
-    xp = 0
-    needXp = 50
-    cash = 0
-    level = 1
-    ggName = None
-    player1 = {
-        "name": None,
-        "sprites": {
-            "fight": "images/pixel/pm talk.png",
-            "talk": "images/pixel/pm talk.png",
-        },
-        "stats": {
-            "magic": [],
-            "weapons": [],
-        },
-        "backpack": [],
-    }
-    player2 = {
-        "name": None,
-        "sprites": {
-            "fight": "images/pixel/pm talk.png",
-            "talk": "images/pixel/pm talk.png",
-        },
-        "stats": {
-            "magic": [],
-            "weapons": [],
-        },
-        "backpack": [],
-    }
+
+    type_battle = "none"
+
+    win_1les = False
+    talk_1tank = False
+    action_1tank = False 
+    talk_1sanek = False
+    talk_1maxim = False
+
+    win_2les = False
+    win_3les = False
+    win_4les = False #
+    win_1dan = False
+    win_2dan = False
+    win_3dan = False
+    win_4dan = False #
+    win_0denis = False
 
     # functions
     def ending(name):
