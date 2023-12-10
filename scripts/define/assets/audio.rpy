@@ -4,7 +4,10 @@ define sfx_whoosh = RandomBag(["audio/battle/whoosh1.ogg", "audio/battle/whoosh2
 define sfx_monsterdead = RandomBag(["audio/battle/monsterdead1.ogg", "audio/battle/monsterdead2.ogg", "audio/battle/monsterdead3.ogg"])
 
 label battle_music:
-    random:
-        play music "audio/battle1.ogg"
-        play music "audio/battle2.ogg"
+    if bb == 1:
+        play music battle1
+    elif bb == 2:
+        play music battle2
+    elif bb == 3:
+        play music battle3
     return

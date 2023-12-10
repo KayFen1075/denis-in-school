@@ -13,23 +13,33 @@ label load_items:
 
     $ bow = Weapon(name="Ебейший лук", desc="A sharp sword", cost=100, damage=199, icon="bronze_sworld.png")
     $ pizdezbow = Weapon(name="Ещё более Ебейший лук", desc="A sharp sword", cost=100, damage=1999)
-    $ shield = Armor(name="Shield", desc="A sturdy shield", defense=35, cost=100, icon="bronze_helmet.png")
-    $ shield2 = Armor(name="Золотой нагрудник", desc="Просто крутой", defense=35, cost=100, icon="bronze_helmet.png")
     
+    # arrmory
+    $ arrmory_wood = Armor(name="Берёзовые штаны", desc="Мама сшила мне штаны из берёзовой коры", defense=20, cost=100, icon="bronze_helmet.png")
+    $ arrmory_kolk = Armor(name="Кольчуга", desc="Столько дырок сколько и в сюжете этой игры..", defense=60, cost=700, icon="silver_arr.png")
+    $ arrmory_diamond = Armor(name="Алмазная броня", desc="Богатый?", defense=170, cost=2700, icon="blue_arr.png")
+    $ arrmory_gold = Armor(name="Золотоя броня про", desc="Лучшая броня в мире", defense=320, cost=6000, icon="gold_arr.png")
+    $ arrmory_god = Armor(name="Броня бога", desc="Кто-то раздел юй", defense=600, cost=15000, icon="god_arr.png")
+
     # Sworlds
-    
-    $ bronze_sworld = Weapon(name="Бронзовый меч", desc="Слабое оружие", cost=100, damage=6, icon="bronze_sworld.png")
-    $ silver_sworld = Weapon(name="Серебряный меч", desc="Против вампиров", cost=250, damage=15, icon="silver_sworld.png")
-    $ gold_sworld = Weapon(name="Золотой меч", desc="Еврей ебаный 14 урона", cost=500, damage=24, icon="gold_sworld.png")
-    $ emerald_sworld = Weapon(name="Емеральдовый клинок", desc="Ебаный еврей версия житель", cost=1000, damage=37, icon="emerald_sworld.png")
-    $ obs_sworld = Weapon(name="Обсидиановый меч", desc="Собрав 12 таких можно вернутся в ад", damage=56, cost=2500, icon="obs_sworld.png")
-    
-    $ ring = Accessory(name="Ring", desc="A magical ring", cost=100, bonus={"atk": -10, "def": 50}, icon="bronze_sworld.png")
+    $ bronze_sworld = Weapon(name="Бронзовый меч", desc="Слабое оружие", cost=100, damage=12, icon="bronze_sworld.png")
+    $ silver_sworld = Weapon(name="Серебряный меч", desc="Против вампиров", cost=500, damage=36, icon="silver_sworld.png")
+    $ gold_sworld = Weapon(name="Золотой меч", desc="Еврей ебаный 14 урона", cost=2000, damage=76, icon="gold_sworld.png")
+    $ emerald_sworld = Weapon(name="Емеральдовый клинок", desc="Ебаный еврей версия житель", cost=5500, damage=125, icon="emerald_sworld.png")
+    $ obs_sworld = Weapon(name="Обсидиановый меч", desc="Собрав 12 таких можно вернутся в ад", damage=180, cost=15000, icon="obs_sworld.png")
+    $ resinoviy_chlen = Weapon(name="Резиновый член", desc="Когда-то он пренадлижал Кириллу", damage=24, cost=1, icon="resinoviy_chlen.png")
+
+    # assc
+    $ ass_silver = Accessory(name="Серебренное кольцо", desc="Одевают на член", cost=100, bonus={"atk": 6, "def": 8}, icon="silver_acc.png")
+    $ ass_blue = Accessory(name="Голубое кольцо", desc="Геи одевают на член", cost=650, bonus={"atk": 22, "def": 16}, icon="blue_acc.png")
+    $ ass_demon = Accessory(name="Деманическое кольцо", desc="Король деманов сам его создал", cost=2500, bonus={"atk": 115, "def": -50}, icon="demon_acc.png")
+    $ ass_red = Accessory(name="Ожелеье из боли", desc="Когда-то носил Денис", cost=9000, bonus={"atk": -50, "def": 95}, icon="red_acc.png")
+    $ ass_oh = Accessory(name="Идеал", desc="Нету изьянов", cost=20000, bonus={"atk": 85, "def": 55}, icon="oh_acc.png")
 
     $ items = [
+        arrmory_wood, arrmory_kolk, arrmory_diamond, arrmory_gold, arrmory_god,
         bronze_sworld, silver_sworld, gold_sworld, emerald_sworld, obs_sworld,
-        shield, shield2,
-        ring,
+        ass_silver, ass_blue, ass_demon, ass_red, ass_oh,
         hpotion, bighpotion, mpotion, bigmpotion, rpotion
     ]
 

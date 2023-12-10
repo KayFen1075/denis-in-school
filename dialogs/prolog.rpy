@@ -25,9 +25,7 @@ label start:
     m "Давай"
     s "Денис"
     m "بالطبع! ما الذي ترغب في معرفته أو مناقشته باللغة العربي"
-    
     m "Идём в школу, или сьёбёмся играть в CS?"
-    
     menu:
         "Да, сьёбываем нахуй":
             jump uyti
@@ -39,7 +37,7 @@ label start:
 label uyti:
     hide m
     hide s
-    scene bg d
+    scene bg spooke stairs with fade
     "Они ушли домой"
     "Но"
     with dissolve
@@ -71,7 +69,7 @@ label ostatsa:
     "Так они пришли в класс Дениса, что бы проверить пришёл ли он"
     "Странно, но в коридоре не кого не было{w}. Даже у входа в школу"
     "Может это рук дела Дениса?"
-    scene bg clas
+    scene bg myclass
     "Вы пришли в класс"
     show m smile at left
     with dissolve
@@ -84,14 +82,13 @@ label ostatsa:
     scene black
     with ease
     "Прошло 20 минут"
-    scene bg clas
+    scene bg myclass with fade
     "."
     " .  . . .  ."
     s "слышишь топот?"
     show s ogo
     with dissolve
     s "Кто-то идёт сюда"
-    hide s
     show s ogo at left
     with move
     ""
@@ -102,6 +99,7 @@ label ostatsa:
     "Кто-то под партой Ух Ебать"
     m "Ты что тут забыл?"
     hide d
+    with dissolve
     "Денис молча посмотрел и ушёл"
     show m talk at right
     with dissolve
@@ -252,32 +250,44 @@ label pobeg:
                     pass
             "{i}Вы добежали до подвала и закрыли дверь{/i}"
             scene bg podval
+            with fade
+            show m talk at left
+            with moveinleft
             m "Вроде убежали"
+            show k at right
+            with moveinright
             if kHelp:
                 k "Спасибо что помог"
                 k "Без тебя меня бы трахнули"
             k "Переждём здесь, тут безопасно"
             "{i}Вы услышали какой-то звук{/i}"
+            play music fight
+            show s
+            with pixellate
             "Появился Саша"
-            # play music bossMain
             s "Пидарас кинул меня, тоби пизда"
-            "Figth!"
+            "Fight!"
             "Round 1!"
             menu round1:
                 "Когда у меня день рождение?"
                 "27.07.2007":
+                    $ FigthPoints -= 1
                     pass
                 "26.06.2007":
                     s "Почти, пидарас"
+                    $ FigthPoints -= 1
                     pass
                 "27.06.2006":
                     s "Не верно"
+                    $ FigthPoints -= 1
                     pass
                 "26.06.2006":
                     s "Хоть это ты знаешь"
+                    $ FigthPoints += 2
                     pass
                 "28.07.2007":
                     s "Всё мимо"
+                    $ FigthPoints -= 1
                     pass
             "Round 2"
             menu optional_name:
@@ -321,7 +331,8 @@ label pobeg:
                             $ FigthPoints -= 1
                             pass
                         "Лайм":
-                            
+                            s "Ебать чёрт, всё знаешь"
+                            $ FigthPoints += 2
                             pass
                         "Нефритовый":
                             $ FigthPoints -= 1
@@ -340,8 +351,137 @@ label pobeg:
                 "Голубой":
                     $ FigthPoints -= 1
                     pass
-                    
-                
+            "Round 3"
+            menu round3:
+                "Кто стоит на обложке Sex Simulator?"
+                "Денис":
+                    s "Та хуй там"
+                    $ FigthPoints -= 1
+                    pass
+                "Борис":
+                    $ FigthPoints += 2
+                    s "Это легко"
+                    s "А теперь посмотрим запускал ли ты игру вообще"
+                    menu skolko: 
+                        "Сколько всего там концовок?"
+                        "1":
+                            s "Неправильно"
+                            $ FigthPoints -= 1
+                            pass
+                        "2":
+                            s "Неправильно"
+                            $ FigthPoints -= 1
+                            pass
+                        "3":
+                            s "Неправильно"
+                            $ FigthPoints -= 1
+                            pass
+                        "4":
+                            s "Неправильно"
+                            $ FigthPoints -= 1
+                            pass
+                        "5": 
+                            s "Вау{w}, я поражен"
+                            s "Я даже сам не помнил сколько их"
+                            $ FigthPoints += 2
+                            pass
+                        "6":
+                            s "Неправильно"
+                            $ FigthPoints -= 1
+                            pass
+                            pass
+                "Макс":
+                    s "Нет"
+                    $ FigthPoints -= 1
+                    pass
+                "Саша":
+                    s "Лол нет"
+                    $ FigthPoints -= 1
+                    pass
+                "Рома":
+                    s "Нет"
+                    $ FigthPoints -= 1
+                    pass
+                "Кирилл":
+                    s "Нет"
+                    $ FigthPoints -= 1
+                    pass
+                "Тарас":
+                    s "Нет"
+                    $ FigthPoints -= 1
+                    pass
+                "Гитлер":
+                    s "Пошёл нахуй уебан"
+                    "{i}Саша призвал дениса{/i}"
+                    show d scream2
+                    hide m
+                    hide s
+                    hide k
+                    play audio cum
+                    d "مرحبًا بك في عالم اللغة العربية!"
+                    scene denis
+                    with fade
+                    pause 1.5
+                    $ ending("Умереть от Дениса")
+                    "Вы слишком слабенькие что бы убежать от Дениса.."
+                    "[end_message]"
+                    return
+                    pass
+                "Пригожин":
+                    s "Ебать ты аутист"
+                    $ FigthPoints -= 1
+                    pass
+            if FigthPoints >= 6:
+                play audio "Intro.wav"
+                stop music
+                s "Вы ответили правильно на мои вопросы"
+                show s smile
+                play music mansion
+                s "Ладно, сорян что хотел трахнуть вас"
+                m "Та иди ты нахуй"
+                k "А я и не против был"
+                show d scream2 at right with vpunch
+                hide k
+                d "Я спиздел у вас Кирилла"
+                d "Если хотите его"
+                d "Идите на кладбище"
+                hide d
+                pause 1.0
+                s "Может ну его нахуй"
+                s "Просто уйдём домой и всё"
+                menu posiobam:
+                    "Уйти?"
+                    "Да":
+                        play music "music/BitWaves.wav"
+                        m "Согласен"
+                        m "Лучше не встревать во всю эту хуйню"
+                        m "А Кирилл пусть сам разбераеться там"
+                        s "Рил"
+
+                        "Вы ушли по домам{w}, по забыв обо всём что сегодня произошло"
+                        #Надо добавить концовку
+                        $ ending("Уйти по домам")
+                        "[end_message]"
+                        return
+                    "Пойти на кладбище":
+                        pass
+            else:
+                s "Вы не ответели правильно.."
+                "{i}Саша призвал дениса{/i}"
+                show d scream2
+                hide m
+                hide s
+                hide k
+                play audio cum
+                d "مرحبًا بك في عالم اللغة العربية!"
+                scene denis
+                with fade
+                pause 1.5
+                $ ending("Умереть от Дениса")
+                "Вы слишком слабенькие что бы убежать от Дениса.."
+                "[end_message]"
+                return
+            pass
         "Саша":
             "Саша зашёл в заброшенный дом"
             "В друг за ним закрываются двери"

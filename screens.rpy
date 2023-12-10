@@ -352,6 +352,7 @@ screen main_menu():
 
     ## Этот тег гарантирует, что любой другой экран с тем же тегом будет
     ## заменять этот.
+
     tag menu
 
     imagemap:
@@ -361,7 +362,7 @@ screen main_menu():
 
         hotspot(650, 50, 600, 120) action Start()
         hotspot(220, 175, 600, 100) action ShowMenu("load")
-        hotspot(30, 250, 600, 120) action ShowMenu("stats")
+        hotspot(30, 250, 600, 120) action ShowMenu("help")
         hotspot(1100, 170, 600, 100) action ShowMenu("preferences")
         hotspot(1700, 0, 400, 120) action Quit(confirm=True)
         hotspot(1500, 250, 600, 120) action ShowMenu("about") 
@@ -545,14 +546,14 @@ screen about():
 
         vbox:
 
-            label "[config.name!t]"
+            label "Денис в школе"
             text _("Версия [config.version!t]\n")
 
             ## gui.about обычно установлено в options.rpy.
             if gui.about:
                 text "[gui.about!t]\n"
 
-            text _("Сделано с помощью {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+            text _("Визуальная новела про поход в школу, много кринжа и пиздеца.\n\nВ этой игре на renpy было сделано RPG и связь с дискордом, так что многие действия будут отправлены в дискорд\n\nВ будующем планируется сделать около 4 глав с законченной историей, на данный момент готова первая глава про путишествие в загробном мире.")
 
 
 style about_label is gui_label

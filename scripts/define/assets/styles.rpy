@@ -1,27 +1,40 @@
 style pixel:
+    font "fonts/YourFontFile.ttf"
     outlines [(3, "#658791", 1, 1)]
     color "#b4c5cb"
     size 40
 
 style dmg_text:
+    font "fonts/damages.ttf"
     color "#000000"
     size 80
     outlines [(4.5, "#ffffff", 3.5, 3.5)]
 
 style battle_playerlvl_text:
+    font "fonts/damages.ttf"
     color "#ffffff"
     outlines [(2, "#00000080", 1, 1)]
-    size 16
+    size 15
+
+style battle_hp_text:
+    font "fonts/damages.ttf"
+    color "#ffffff"
+    outlines [(2, "#00000080", 1, 1)]
+    size 15
 
 style battle_playername_text:
+    font "fonts/name.ttf"
     outlines [(4, "#00000025", 2, 2), (2, "#900c3f", 0, 0)]
     color "#ff5733"
-    size 24
+    size 36
 
 style skills_button_text:
-    size 40
+    font "fonts/YourFontFile.ttf"
+    size 55
     anchor (.5,.5)
     align (.5,.5)
+
+
 
 init python:
     style.bar_mhp = Style(style.default)

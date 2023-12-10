@@ -54,6 +54,58 @@ init python:
         renpy.play("audio/battle/skills/defend.ogg")
         renpy.with_statement(vpunch)
 
+    def accFormula(a, d):
+        global miss_roll
+        global message
+        global atk_sfx
+        global damage
+
+        misschance = 0
+        if d.debility > 0:
+            deb_multiplier = min(1, d.debility / d.need_debility)
+            misschance = 10 * (1 - deb_multiplier) 
+
+        accuracy = 10 - int(misschance * 0.7)
+        miss_roll = renpy.random.randint(1, 10)
+
+        if miss_roll > accuracy:
+            missed_t.append(d)
+            renpy.play(sfx_whoosh.draw())
+            renpy.show_screen("monster_dmg")
+            return False
+        else:
+            return True
+
+    def dmgFormula(m):
+        global damage
+        pre_dmg = int(damage*1.1 - (damage * renpy.random.randint(1, 20) / 100))
+        m.finaldmg = math.ceil(int(pre_dmg*(100/(100+m.dfn))))
+        hit_t.append(m)
+        
+    def accFormula(a, d):
+        global miss_roll
+        global message
+        global atk_sfx
+        global damage
+        misschance = 0
+        print(atk_sfx)
+        if atk_sfx == "audio/battle/skills/lovedefence.ogg":
+            misschance = 0
+        elif d.debility > 0:
+            deb_multiplier = min(1, d.debility / d.need_debility)
+            misschance = 10 * (1 - deb_multiplier) 
+        elif d.lvl > a.lvl:
+            misschance = d.lvl - a.lvl
+        accuracy = 10 - int(misschance*0.7)
+        miss_roll = renpy.random.randint(1, 10)
+        if miss_roll > accuracy:
+            missed_t.append(d)
+            renpy.play(sfx_whoosh.draw())
+            renpy.show_screen("monster_dmg")
+            return False
+        else:
+            return True
+
     def Attack():
         global damage
         global message
@@ -74,30 +126,6 @@ init python:
                 renpy.pause(0.2)
                 t.state = None
 
-    def accFormula(a, d):
-        global miss_roll
-        global message
-        global atk_sfx
-        global damage
-        misschance = 0
-        if d.lvl > a.lvl:
-            misschance = d.lvl - a.lvl
-        accuracy = 10 - int(misschance*0.7)
-        miss_roll = renpy.random.randint(1, 10)
-        if miss_roll > accuracy:
-            missed_t.append(d)
-            renpy.play(sfx_whoosh.draw())
-            renpy.show_screen("monster_dmg")
-            return False
-        else:
-            return True
-
-    def dmgFormula(m):
-        global damage
-        pre_dmg = int(damage*1.1 - (damage * renpy.random.randint(1, 20) / 100))
-        m.finaldmg = math.ceil(int(pre_dmg*(100/(100+m.dfn))))
-        hit_t.append(m)
-
     def expFormula():
         global players
         global curr_exp
@@ -109,7 +137,7 @@ init python:
             if monsters_total > 0:
                 curr_exp += m.exp
                 monsters_total -= 1
-        curr_exp = (curr_exp * a.lvl) / players
+        curr_exp = math.ceil((curr_exp * a.lvl) / players)
         curr_money = math.ceil(curr_exp / 1.5)
         player_inv.money += curr_money
         renpy.say(None, "За этот бой вы заработали [curr_money] грывни")

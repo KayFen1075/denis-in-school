@@ -1,5 +1,6 @@
 init python:
     def monstersFixed():
+        global misstext
         global monsters_total
         global battle_monsters
         global m1
@@ -19,13 +20,29 @@ init python:
         m7 = copy.deepcopy(empty)
         m8 = copy.deepcopy(empty)
         if fixedset == "set 1":
-            m2 = copy.deepcopy(mon4)
-            m3 = copy.deepcopy(mon5)
-            m4 = copy.deepcopy(mon6)
-            m5 = copy.deepcopy(mon7)
-            m6 = copy.deepcopy(mon8)
-            m7 = copy.deepcopy(mon3)
+            m2 = copy.deepcopy(mon1)
+            m3 = copy.deepcopy(mon2)
+            m4 = copy.deepcopy(mon2)
+            m5 = copy.deepcopy(mon3)
+            m6 = copy.deepcopy(mon2)
+            m7 = copy.deepcopy(mon1)
             battle_monsters = [m2,m3,m4,m5,m6,m7]
+        elif fixedset == "zeleboba":
+            m1 = copy.deepcopy(empty); m2 = copy.deepcopy(mon7); m3 = copy.deepcopy(mon10); m4 = copy.deepcopy(mon8)
+            m5 = copy.deepcopy(mon8); m6 = copy.deepcopy(mon9); m7 = copy.deepcopy(mon9); m8 = copy.deepcopy(empty)
+            battle_monsters = [m2,m3,m4,m5,m6,m7]
+        elif fixedset == "lolis":
+            m1 = copy.deepcopy(mon11); m2 = copy.deepcopy(mon13); m3 = copy.deepcopy(mon13); m4 = copy.deepcopy(mon11)
+            m5 = copy.deepcopy(mon11); m6 = copy.deepcopy(mon12); m7 = copy.deepcopy(mon12); m8 = copy.deepcopy(mon11)
+            battle_monsters = [m1,m2,m3,m4,m5,m6,m7,m8]
+        elif fixedset == "lolisboss":
+            m1 = copy.deepcopy(mon19); m2 = copy.deepcopy(mon14); m3 = copy.deepcopy(mon20); m4 = copy.deepcopy(mon19)
+            m5 = copy.deepcopy(mon18); m6 = copy.deepcopy(mon17); m7 = copy.deepcopy(mon17); m8 = copy.deepcopy(mon18)
+            battle_monsters = [m1,m2,m3,m4,m5,m6,m7,m8]
+        elif fixedset == "finalpodval":
+            m1 = copy.deepcopy(mon18); m2 = copy.deepcopy(ui22); m3 = copy.deepcopy(denis); m4 = copy.deepcopy(mon18)
+            m5 = copy.deepcopy(mon16); m6 = copy.deepcopy(mon17); m7 = copy.deepcopy(mon17); m8 = copy.deepcopy(mon16)
+            battle_monsters = [m1,m2,m3,m4,m5,m6,m7,m8]
         else:
             m1 = copy.deepcopy(mon1)
             battle_monsters = [m1]
@@ -90,7 +107,6 @@ init python:
 
     def partyRevive():
         for c in party_list:
-            c.bonus_dfn = 0
             if c.dead == True:
                 c.dead = False
                 c._hp = 1
@@ -196,7 +212,7 @@ init python:
         global msg_mons
         global win
         for p in battle_players:
-            if p.hp == 0 and not p.dead:
+            if p.hp <= 0 and not p.dead:
                 renpy.pause(0.5)
                 p.dead = True
                 koplayer = p.name
@@ -226,7 +242,7 @@ init python:
             return "images/skills/" + i.img + ".png"
 
     def playerAction(p):
-        if not battleEnd and not p.turn:
+        if not battleEnd and not p.turn and not p.dead:
             if renpy.get_screen("turn_select"):
                 return Return(p)
             else:
@@ -280,39 +296,64 @@ default diss = Dissolve(.2)
 # ACTIVE SKILLS (name, pwr, mp_cost, sfx, targ, targs, type='active', trans=None, img=None, back_row=False)
 
 # Уник магия
-default doubleattack = ActiveSkill("Двойная атака", 8, 25, "sword", "enemy", 2, back_row=True, img="arrowhail") # two enemy targets
+default doubleattack = ActiveSkill("Двойная атака", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
 default attackall = ActiveSkill("Атаковать всех", 15, 75, "rock", "all", img="swordofdeath") # targets all enemies
-default giftofangels = ActiveSkill("Подарок с небес", -10, 10, "heal", "ally", 2, img="giftofangels")
-default iceball = ActiveSkill("Влюбить 2 врагов", 5, 30, "ice", "row", 2, img="iceball") # attacks whole row
-default souldrain = ActiveSkill("Секс рабство", 16, 60, "acid", img="souldrain")
-
+default giftofangels = ActiveSkill("Подарок с небес", -3, 20, "heal", "ally", 2, img="giftofangels")
+default loved = ActiveSkill("Влюбить 2 врагов", 3, 30, "ice", "row", 2, img="iceball") # attacks whole row
+default souldrain = ActiveSkill("Секс рабство", 20, 60, "acid", img="souldrain")
 
 # Полученная магия
-default mindfreeze = ActiveSkill("Леденой шар", 11, 5, "ice", img="mindfreeze", back_row=True)
-default mindfire = ActiveSkill("Огненный шар", 14, 5, "fire", img="mindburn", back_row=True)
-default magicheal = ActiveSkill("Исцеление", -5, 25, "heal", "self") # negative pwr to heal
+default mindfreeze = ActiveSkill("Леденой шар", 7, 20, "ice", img="iceball")
+default mindfire = ActiveSkill("Огненный шар", 14, 35, "fire", img="asteroid")
+default magicheal = ActiveSkill("Исцеление", -6, 25, "heal", "self", img="mindburn") # negative pwr to heal
 default defenseup = ActiveSkill("Улучшить щит", 0, 25, "defend", "self") # use is in skill_effects
-default magicswap = ActiveSkill("Поменять местами", 0, 15, "heal", "enemy", 2, back_row=True) # can target back row
 default arrowhail = ActiveSkill("Обстрел", 10, 40, "bow", "all", img="arrowhail", back_row=True)
-default lavaburst = ActiveSkill("Лавовой взрыв", 20, 5, "fire", img="lavaburst")
-default swordofdeath = ActiveSkill("Голое фото дениса", 30, 10, "sword", img="swordofdeath")
-
-
-default thunderbolt = ActiveSkill("Thunderbolt", 35, 10, "thunder", "enemy", 3, img="thunderbolt", back_row=True)
-default asteroid = ActiveSkill("Asteroid", 20, 5, "rock", img="asteroid")
-default rockthrow = ActiveSkill("Rock Throw", 30, 40, "rock", "enemy", 2, back_row=True, img="rockthrow")
-default spikeshield = ActiveSkill("Spike Shield", 45, 70, "block", "all", img="spikeshield")
-default circleofhealing = ActiveSkill("Circle of Healing", -30, 10, "heal", "ally", img="circleofhealing")
-default mindburn = ActiveSkill("Mindburn", 35, 15, "fire", img="mindburn")
-default mindblast = ActiveSkill("Mindblast", 20, 5, "thunder", img="mindblast")
-default deathmissile = ActiveSkill("Death Missile", 70, 45, "rock", img="deathmissile")
+default lavaburst = ActiveSkill("Лавовой взрыв", 16, 55, "fire", img="lavaburst")
+default swordofdeath = ActiveSkill("Голое фото дениса", 30, 100, "sword", img="hellrage")
+default spikeshield = ActiveSkill("Колючий щит", 4, 40, "block", "all", img="spikeshield")
+default magicswap = ActiveSkill("Смена позиции", 0, 15, "heal", "enemy", 2, back_row=True, img="rockthrow") # can target back row
+default lovedefence = ActiveSkill("Ослабить уровень", 0, 15, "lovedefence", "enemy", back_row=True, img="mindblast") # can target back row
 
 # Проклятая магия
-default meteorshower = ActiveSkill("Meteor Shower", 80, 40, "rock", "all", img="meteorshower")
-default hellrage = ActiveSkill("Hell Rage", 120, 80, "fire", "all", img="hellrage")
-default lifedrain = ActiveSkill("Life Drain", 35, 50, "acid", img="lifedrain")
-default devastationbeam = ActiveSkill("Devastation Beam", 30, 5, "fire", "all", img="devastationbeam")
-default energybeams = ActiveSkill("Energy Beams", 70, 40, "thunder", "all", img="energybeams")
+default meteorshower = ActiveSkill("Метеоритный дождь", 10, 70, "rock", "all", img="meteorshower", cost=12000)
+default hellrage = ActiveSkill("Адская ярость", 14, 80, "fire", "all", img="deathmissile", cost=20000)
+default lifedrain = ActiveSkill("Высасывание жизни", 10, 50, "acid", img="lifedrain", cost=10000)
+default devastationbeam = ActiveSkill("Луч опустошения", 4, 45, "fire", "all", img="devastationbeam", cost=15000)
+default energybeams = ActiveSkill("Энергетические лучи", 5, 50, "thunder", "all", img="energybeams", cost=16000)
+
+default thunderbolt = ActiveSkill("Thunderbolt", 6, 10, "thunder", "enemy", 3, img="thunderbolt", back_row=True)
+default asteroid = ActiveSkill("Asteroid", 5, 5, "rock", img="asteroid")
+default rockthrow = ActiveSkill("Rock Throw", 4, 40, "rock", "enemy", 2, back_row=True, img="rockthrow")
+default circleofhealing = ActiveSkill("Circle of Healing", -10, 10, "heal", "ally", img="circleofhealing")
+default mindburn = ActiveSkill("Mindburn", 5, 15, "fire", img="mindburn")
+default mindblast = ActiveSkill("Mindblast", 6, 5, "thunder", img="mindblast")
+default deathmissile = ActiveSkill("Death Missile", 7, 45, "rock", img="deathmissile")
+
+default magics = [
+    meteorshower, hellrage, lifedrain, devastationbeam, energybeams
+]
+
+label lb_by_magic(magic):
+    $ player_inv.money -= magic.cost
+    hide screen by_magic
+    hide screen magic_shop_menu
+    menu select_player:
+        "Кого вы хотите научить этой магии?"
+        "[name]" if not len(a.skills) >= 8:
+            $ a.addSkill(magic)
+        "Макс" if maks in party_list and not len(maks.skills) >= 8:
+            $ maks.addSkill(magic)
+        "Саша" if sasha in party_list and not len(sasha.skills) >= 8:
+            $ sasha.addSkill(magic)
+        "Кирилл" if lox in party_list and not len(lox.skills) >= 8:
+            $ lox.addSkill(magic)
+        "Любимый" if maksim in party_list and not len(maksim.skills) >= 8:
+            $ maksim.addSkill(magic)
+        "Тянка" if tanka in party_list and not len(tanka.skills) >= 8:
+            $ tanka.addSkill(magic)
+
+
+
 
 # Скрытая
 

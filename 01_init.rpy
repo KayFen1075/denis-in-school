@@ -116,30 +116,49 @@ init python:
         def __init__(self, transition, *args, **kwargs):
             super(TransitionConditionSwitch, self).__init__(**kwargs)
             self.transition = transition
-            self.d = zip(args[0::2], args[1::2])
+            self.d = list(zip(args[0::2], args[1::2]))
             self.time_reset = True
             self.old_d = None
             self.current_d = None
             self.ta = None
+            self.old_st = 0
+        
         def render(self, width, height, st, at):
             if self.time_reset:
                 self.time_reset = False
                 self.st = st
                 self.at = at
-            return renpy.render(self.ta, width, height, st-self.st, at-self.at)
+                self.old_st = 0
+            
+            if st < self.old_st:
+                self.st, self.at, st, at = 0, 0, 1000000.0, 1000000.0
+                self.time_reset = True  # Добавляем это для перерисовки при переходе к предыдущему изображению
+            
+            self.old_st = st
+            return renpy.render(self.ta, width, height, st - self.st, at - self.at)
+        
         def per_interact(self):
-            change_to = self.current_d
             for name, d in self.d:
                 if eval(name):
                     change_to = d
                     break
+            else:
+                change_to = None
+            
             if change_to is not self.current_d:
-                self.time_reset = True
+                self.time_reset = True  # Добавляем это для перерисовки при смене изображения
                 self.old_d = self.current_d
                 self.current_d = change_to
+                
                 if self.old_d is None:
                     self.old_d = self.current_d
-                self.ta = anim.TransitionAnimation(self.old_d, 0.00, self.transition, self.current_d)
+                
+                if self.current_d is not None:
+                    self.ta = anim.TransitionAnimation(self.old_d, 0.00, self.transition, self.current_d)
+                else:
+                    self.ta = None  # Изменение, чтобы избежать ошибок, если текущее изображение - None
+                    
                 renpy.redraw(self, 0)
+        
         def visit(self):
-            return [ self.ta ]
+            return [self.ta] if self.ta is not None else []

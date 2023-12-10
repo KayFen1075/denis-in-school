@@ -47,6 +47,10 @@ init python:
         if s == swordofdeath and t == denis:
             t._hp += t.finaldmg * 2
             renpy.say('Денис', 'Ого{w}, у меня встал')
+        if s == lovedefence:
+            if t.need_debility >= t.debility:
+                t.debility += 1
+
 
     def radarFX(p):
         global skilltext
@@ -89,22 +93,25 @@ init python:
             if self.type == "passive" and not self in char.p_skills:
                 char.p_skills.append(self)
 
-        def useSkill(self, char=None):
+        def useSkill(self, char=None, monster=None):
             global damage
             global mp_lost
             global atk_sfx
             global s_trans
             global msg_skill
             damage = self.pwr
-            print(self.targ)
-            if char is not None:
+            if self == doubleattack:
+                damage = char.atk
+                if char.equip['hand']:
+                    damage += char.equip['hand'].damage
+                if char.equip['accs']:
+                    print(char.equip['accs'].bonus)
+                    damage += char.equip['accs'].bonus['atk']
+                damage /= 1.5
+            if char is not None and self != doubleattack:
                 damage += (char.lvl * (damage/4))
-                # if char.equip['hand']:
-                    # char.equip['hand'].damage
-                    # print("Damage hand {0}".format(char.equip['hand'].damage))
-                # if char.equip['accs']:
-                    # damage += 
-                    #char.equip['accs'].bonus.atk
+            if monster is not None:
+                damage += (monster.lvl * (damage/4))
             mp_lost = self.mp_cost
             atk_sfx = "audio/battle/skills/" + self.sfx + ".ogg"
             msg_skill = self.name
@@ -121,7 +128,7 @@ init python:
             self.lvl = lvl
 
     class ActiveSkill(Skill):
-        def __init__(self, name, pwr, mp_cost, sfx='sword', targ='enemy', targs=1, type='active', trans=None, img=None, dice=[2,8], acc=0, lvl=0, back_row=False):
+        def __init__(self, name, pwr, mp_cost, sfx='sword', targ='enemy', targs=1, type='active', trans=None, img=None, cost=0, dice=[2,8], acc=0, lvl=0, back_row=False):
             super(Skill, self).__init__()
             self.name = name
             self.pwr = pwr
@@ -129,6 +136,7 @@ init python:
             self.mp_cost = mp_cost
             self.sfx = sfx
             self.img = img
+            self.cost = cost
             self.trans = trans
             self.targ = targ
             self.targs = targs

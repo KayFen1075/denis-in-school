@@ -1,7 +1,7 @@
 init python:
     import copy
     class Char(object):
-        def __init__(self, name, img="player", atk=7, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
+        def __init__(self, name, img="player", debility=0, need_debility=2, atk=7, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
         condition={'burn': False, 'freeze': False, 'paral': False, 'poison': False, 'sleep': False, 'stun': False, 'confus': False, 'wound': False, 'rage': False}, turn=False, defending=False,
         dead=False, bonus_atk=0, bonus_dfn=0, img_pos=0, bar_pos=0, dmg_pos=0):
             self.name = name
@@ -9,6 +9,8 @@ init python:
             self.atk = atk
             self.dfn = dfn
             self.lvl = lvl
+            self.debility = debility
+            self.need_debility = need_debility
             self.exp = exp
             self.hpmax = hpmax
             self._hp = 60
@@ -46,40 +48,38 @@ init python:
 
         def addEquip(self, slot, item):
             if self.equip[slot] is None:
-                print(self.equip[slot])
                 self.equip[slot] = item
-
                 player_inv.drop(item, 1)
                 if isinstance(item, Weapon):
-                    self.atk += item.damage
+                    self.bonus_atk += item.damage
                 elif isinstance(item, Armor):
-                    self.dfn += item.defense
+                    self.bonus_dfn += item.defense
                 elif isinstance(item, Accessory):
                     self.bonus_atk += item.bonus.get('atk', 0)
                     self.bonus_dfn += item.bonus.get('def', 0)
             else:
-                player_inv.take(self.equip[slot], 1)
-                player_inv.drop(item)
                 if isinstance(self.equip[slot], Weapon):
-                    self.atk += self.equip[slot].damage
+                    self.bonus_atk -= self.equip[slot].damage
+                    self.bonus_atk += item.damage
                 elif isinstance(self.equip[slot], Armor):
-                    self.dfn -= self.equip[slot].defense
+                    self.bonus_dfn -= self.equip[slot].defense
+                    self.bonus_dfn += item.defense
                 elif isinstance(self.equip[slot], Accessory):
                     self.bonus_atk -= self.equip[slot].bonus.get('atk', 0)
                     self.bonus_dfn -= self.equip[slot].bonus.get('def', 0)
-                self.equip[slot] = item
-                if isinstance(item, Accessory):
-                    self.bonus_atk += item.bonus.get('atk', 0)
                     self.bonus_dfn += item.bonus.get('def', 0)
-                    self.equip[slot] = item
+                    self.bonus_atk += item.bonus.get('atk', 0)
+                player_inv.take(self.equip[slot], 1)
+                player_inv.drop(item)
+                self.equip[slot] = item
 
         def removeEquip(self, slot, item):
             if self.equip[slot] is not None:
                 player_inv.take(self.equip[slot], 1)
                 if isinstance(item, Weapon):
-                    self.atk -= item.damage
+                    self.bonus_atk -= item.damage
                 elif isinstance(item, Armor):
-                    self.dfn -= item.defense
+                    self.bonus_dfn -= item.defense
                 elif isinstance(item, Accessory):
                     self.bonus_atk -= item.bonus.get('atk', 0)
                     self.bonus_dfn -= item.bonus.get('def', 0)
@@ -91,16 +91,25 @@ define character.p2 = Character("p2")
 default p2 = Char("p2")
 
 define character.a = Character("[name]", image="[name]")
-default a = Char("[name]", img="[img_player]", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default a = Char("[name]", img="[img_player]", skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.sasha = Character("Саша", image="sasha")
-default sasha = Char("Саша", lvl=1, hpmax=30, img="sasha", skills=[doubleattack], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sasha = Char("Саша", lvl=1, hpmax=30, img="sasha", mpmax=110, skills=[doubleattack], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+
+define character.boris = Character("Борис", image="boris")
+default boris = Char("Борис", lvl=1, hpmax=70, img="boris", mpmax=0, atk=20, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.maks = Character("Макс", image="mq see")
-default maks = Char("Макс", lvl=1, hpmax=25, img="maks", skills=[circleofhealing, magicheal], p_skills=[passive2], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default maks = Char("Макс", lvl=1, hpmax=25, img="maks", mpmax=140, skills=[circleofhealing, magicheal], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
-define character.k = Character("Кирилл", image="lox")
-default lox = Char("Кирилл", lvl=1, hpmax=27, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+define character.lox = Character("Кирилл", image="lox")
+default lox = Char("Кирилл", lvl=19, hpmax=57, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
 
 define character.sanek = Character("Санёк", image="sanek")
-default sanek = Char("Санёк", lvl=26, hpmax=40, img="sanek", skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[radar], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sanek = Char("Санёк", lvl=26, hpmax=86, img="sanek", mpmax=170, skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+
+define character.tanka = Character("Тянка", image="tanka")
+default tanka = Char("Тянка", lvl=11, hpmax=54, img="tanka", mpmax=90, skills=[spikeshield], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+
+define character.maksim = Character("Любимый", image="maksim")
+default maksim = Char("Любимый", lvl=11, hpmax=54, img="maksim", mpmax=95, skills=[loved], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})

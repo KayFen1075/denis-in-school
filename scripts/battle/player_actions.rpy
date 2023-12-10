@@ -58,24 +58,24 @@ screen choose_skill():
         transpose True
         for skll in currentplayer.skills:
             if skll.img == None:
-                textbutton "[skll.name]" align (.5,.5) action Return(skll), SensitiveIf(sensIf(skll)) tooltip "Damage: {0}\nMP Cost: {1}".format(skll.pwr, skll.mp_cost)
+                textbutton "[skll.name]" align (.5,.5) action Return(skll), SensitiveIf(sensIf(skll)) tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
             else:
                 imagebutton:
                     align (.5,.5) action Return(skll), SensitiveIf(sensIf(skll))
                     idle getImage(skll)
                     hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
                     insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
-                    tooltip "{0}\nDamage: {1}\nMP Cost: {2}".format(skll.name, skll.pwr, skll.mp_cost)
+                    tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
         for i in range(0, (8-len(currentplayer.skills))):
             imagebutton:
                 idle "images/skills/blank.png"
         style_group "skills"
     vbox:
         align (0.35, 0.30)
-        textbutton "Attack" align (.5,.5) action Return("attack")
-        textbutton "Defend" align (.5,.5) action Return("defend")
-        textbutton "Use Item" align (.5,.5) action Return("item")
-        textbutton "Cancel" align (.5,.5) action Function(renpy.pop_call), Jump("turn_actions")
+        textbutton "Атаковать" align (.5,.5) style_group "skills" action Return("attack")
+        textbutton "Защита" align (.5,.5) style_group "skills" action Return("defend")
+        textbutton "Предметы" align (.5,.5) style_group "skills" action Return("item")
+        textbutton "Отмена" align (.5,.5) style_group "skills" action Function(renpy.pop_call), Jump("turn_actions")
     timer 300 action Hide('choose_skill'), Function(renpy.pop_call), Jump("turn_actions")
 
 label target_select(targs=1):

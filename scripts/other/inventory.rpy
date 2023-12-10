@@ -234,30 +234,72 @@ screen shop_menu():
             textbutton "{b}Закрыть{/b}":
                 xalign 0.5 yalign 0
                 action Hide("shop_menu")
-
+screen magic_shop_menu():
+    modal True
+    zorder 101 
+    frame:
+        xalign 0.5 yalign 0.5
+        vbox:
+            style_group "invstyle"
+            xsize 1280 ysize 720
+            yalign 0
+            label "{size=30}Гримуары древних укров евреев{/size}"
+            label "[a.name] имеет {0}₴".format(math.ceil(player_inv.money))
+            vbox:
+                # Магия
+                xalign 0.5
+                vbox:
+                    xalign 0.5
+                    label "Заблокированные свитки"
+                    hbox:
+                        for magic in magics:
+                            textbutton "{{image=images/skills/{0}.png}}".format(magic.img) action Show("by_magic", None, magic, a)
+                            text "{0}₴".format(math.ceil(magic.cost))
+            textbutton "{b}Закрыть{/b}":
+                xalign 0.5 yalign 0
+                action Hide("magic_shop_menu")
+screen by_magic(magic, player):
+    modal True
+    zorder 102
+    frame:
+        xalign 0.5 yalign 0.5
+        vbox:
+            style_group "invstyle"
+            label "{{image=images/skills/{0}.png}} Потвердить покупку?".format(magic.img)
+            vbox:
+                text "{b}[magic.name]{/b}" 
+                text "Цена: {0}₴".format(magic.cost)
+            hbox:
+                textbutton "Купить":
+                    if player_inv.money >= magic.cost:
+                        action Call("lb_by_magic", magic)
+                textbutton "Отмена":
+                    action Hide("by_magic")
 screen EquipmentScreen():
     modal True
     zorder 101 
     $ xalingpos = 0.25
-    $ yalignpos = 0.14
+    $ yalignpos = 0.04
     $ i = 1
     for player in party_list:
         $ i +=1
         if i > 3:
-            $ yalignpos = 0.75
-            $ xalingpos = 0.25
-            $ i = 1
+            if i == 4:
+                $ yalignpos = 0.95
+                $ xalingpos = 0.25
         frame:
             style "neat_frame"
             xalign xalingpos yalign yalignpos
             vbox:
                 hbox:
                     xalign 0.5
-                    text "{sc=1.5}{b}[player.name]{/b} [player.lvl]lvl{/sc}"
+                    text "{sc=1.5}{b}[player.name]{/b} [player.lvl]lvl{/sc}" 
                 hbox:
                     xalign 0.5
-                    text "[player.exp]xp / {0}xp".format((player.lvl+1)**3)
-                        
+                    text "Атака: {1}, Защита: {2}".format(player.name, player.atk+player.bonus_atk, player.dfn+player.bonus_dfn) size 15 
+                hbox:
+                    xalign 0.5
+                    text "{0}xp / {1}xp".format((player.exp-(player.lvl**3)), (player.lvl+1)**3-(player.lvl)**3) font "fonts/damages.ttf" size 15
                 for slot in ['chest', 'hand', 'accs']:
                     vbox:
                         hbox:
@@ -273,14 +315,23 @@ screen EquipmentScreen():
                                 $ type = item_inv[0].type
                                 if type == slot:
                                     textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
-        $ xalingpos += 0.5
+        if i < 3:
+            $ xalingpos += 0.5
+        else:
+            $ xalingpos += 0.25
     frame:
         style "neat_frame"
-        xalign 0.5 yalign 0.14
+        xalign 0.5 yalign 0.03
         vbox:
             hbox:
                 xalign 0.5
                 text "{sc=2}{b}[a.name]{/b} [a.lvl]lvl{/sc}"
+            hbox:
+                xalign 0.5
+                text "Атака: {1}, Защита: {2}".format(a.name, a.atk+a.bonus_atk, a.dfn+a.bonus_dfn) size 15
+            hbox:
+                xalign 0.5
+                text "{0}xp / {1}xp".format((a.exp-(a.lvl**3)), (a.lvl+1)**3-(a.lvl)**3) font "fonts/damages.ttf" size 15
             for slot in ['chest', 'hand', 'accs']:
                 vbox:
                     hbox:

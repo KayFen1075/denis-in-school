@@ -51,7 +51,7 @@ init python:
             use_skill = renpy.random.choice([True, False, False])
             if use_skill:
                 b_skill = renpy.random.choice(m.skills)
-                b_skill.useSkill()
+                b_skill.useSkill(monster=m)
                 if b_skill.targ == "all":
                     picked_targs = alive_players
                     return
