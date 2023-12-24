@@ -21,8 +21,6 @@ default persistent.user_name = "Не указанно"
 default persistent.main_menu_music = "music/disco.mp3"
 default persistent.secret_code = True
 
-define config.main_menu_music = "music/disco.mp3"
-
 # Имена для входа
 default persistent.denis = "?"
 default persistent.sasha = "?"
@@ -38,7 +36,7 @@ image bronze_sworld:
 init python:
     from discord_webhook import DiscordWebhook
     # info
-    count_endings = 4
+    count_endings = 6
     end_message = f"Вы прошли {len(persistent.endings)} концовку из {count_endings}!"
 
     # запись действий
@@ -47,6 +45,13 @@ init python:
     FigthPoints = 0
     LoliAnswers = 0
     love_points = 0
+    wait_most = 0
+
+    max_level = 12
+    see_attack_speed = 1
+    attack_speed = 0.7
+    kill_speed = 1
+
     mogila_borisa = False
     ch_1_dialog_ms = False
     student = False
@@ -78,10 +83,11 @@ init python:
     talk_1boris = False
 
     win_3les = False
+    talk_2tank = False
     talk_3sanek = False
-    tank_2tank = False
+    talk_2tank = False
     talk_1denis = False # -friend
-    tank_3tank = False  # +tank
+    talk_3tank = False  # +tank
 
     win_4les = False # +lox
     first_win4les = False
@@ -107,24 +113,24 @@ init python:
     
     win_4dan = False #
     first_win4dan = False
+    talk_2taras = False
+    talk_4maxim = False
+    talk_3tank = False
     talk_6sanek = False
     talk_5boris = False
-    talk_3tank = False
     talk_3sasha = False
-    talk_4maxim = False
-    talk_2taras = False
-
+    talk_5maxim = False
 
     win_denis = False
+    action_ostavit_borisa = False
     
     # functions
     def ending(name):
-        persistent.endings = []
         if name not in persistent.endings:
             global DiscordWebhook
             persistent.endings.append(name)
             renpy.notify(f'Открыта новая концовка {name}')
-            DiscordMessage("**{0}** открыл новую концовку `{1}`!\nПройдено концовок: {2} из {3}".format(persistent.user_name, name, len(persistent.endings)+1, count_endings))
+            DiscordMessage("**{0}** открыл новую концовку `{1}`!\nПройдено концовок: {2} из {3}".format(persistent.user_name, name, len(persistent.endings), count_endings))
     def DiscordMessage(m):
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m)
         response = webhook.execute()
@@ -141,14 +147,79 @@ init python:
 
 label splashscreen:
     $ renpy.movie_cutscene('videos/black.mpg')
+    define config.main_menu_music = persistent.main_menu_music
     if persistent.first_run == True:
         $ from discord_webhook import DiscordWebhook
-        scene bg angels
         play music battle3
+        scene bg angels
+        with fade
         m "Добро пожаловать в ебейшую визуальную новелу"
         m "Сейчас будет один вопрос{w}, ВАЖНО ОТВЕТИТЬ ЧЕСТНО!"
         $ persistent.endings = []
         $ persistent.user_name = renpy.input("Как тебя зовут в реальности? (Это важно!!!)", length=32)
+        if persistent.user_name.casefold() == "денис" or persistent.user_name.casefold() == "даун" or persistent.user_name.casefold() == "аутист" or persistent.user_name.casefold() == "уебан":
+            m "Оу"
+            m "Денис?"
+            s "Если сможешь пройти игру 3 раза с определёнными условиями то получишь прикольчик"
+            m "Так что удачи)"
+        elif persistent.user_name.casefold() == "макс":
+            m "Какие люди"
+            s "Ты посмотри на этого далбоёба"
+            m "Та вообще пидр"
+            k "Я бы его трахнул"
+        elif persistent.user_name.casefold() == "борис":
+            m "Борис{w} какое имя"
+            s "Уебанское"
+            b "Ахуели?"
+            s "Ух ебать"
+            s "Он в начальном экране говорит"
+            m "Я вахуи"
+        elif persistent.user_name.casefold() == "кирилл" or persistent.user_name.casefold() == "лох":
+            m "Ты дождался своего бета теста)"
+            s "Кирилл предуприждаю"
+            s "Тебя будут так и так в игре"
+            m "Так что проходи только с резиновым членом в жопе"
+        elif persistent.user_name.casefold() == "саша":
+            s "А кто же это"
+            m "Alexmantos"
+            s "Это блогодаря ему здесь 2 колабы"
+        elif persistent.user_name.casefold() == "рома":
+            m "Могу сказать что тебя не будет в первой главе"
+            m "А вот во второй.."
+            s "Всё в переди!"
+        elif persistent.user_name.casefold() == "тарас":
+            m "Можно менять название"
+            s "Титан в школе"
+        elif persistent.user_name.casefold() == "максим" or persistent.user_name.casefold() == "любимый":
+            m "Любимый!"
+            m "Цколько лет цколько цим"
+            s "Ты про кого?"
+        elif persistent.user_name.casefold() == "юй":
+            m "А ты что тут забыла?"
+            d "Я бы её трахнул сейчас"
+        elif persistent.user_name.casefold() == "тянка":
+            t "Я же говорила что я реальна!"
+            t "Вот я выбралась и скачала эту игру"
+        elif persistent.user_name.casefold() == "влад":
+            m "Вот и неведимка зашёл в игру"
+            s "Я здесь не кого не вижу"
+        elif persistent.user_name.casefold() == "вадим":
+            m "Вадим?"
+            m "Тебя в первой главе нету"
+            m "Но можешь появиться во второй)"
+        elif persistent.user_name.casefold() == "илья":
+            m "Тебе игра понравиться"
+            m "Здесь можно поиграть в мортал комбат"
+        elif persistent.user_name.casefold() == "аня" or persistent.user_name.casefold() == "катя":
+            m "ААА ЖЕНЩИНА"
+            k "ААА ЖЕНЩИНА"
+            s "ААА ЖЕНЩИНА"
+            b "ААА ЖЕНЩИНА"
+            z "ААА ЖЕНЩИНА"
+            x "ААА ЖЕНЩИНА"
+            l "ААА ЖЕНЩИНА"
+            d "ААА ЖЕНЩИНА"
+            u "а что тут такого?"
         m "Привет [persistent.user_name]!{w} твоё имя будет использовано для статистики. {w}Её можно будет посмотреть в дискорде."
         s "Приятной дрочке!"
         $ persistent.first_run = False
@@ -157,8 +228,16 @@ label splashscreen:
     scene black
     with fade
 
-
-
+label prefSpeed(on=False):
+    if on:
+        $ print('speed')
+        $ see_attack_speed = 0.3
+        $ attack_speed = 0.2
+    else:
+        $ print('slow')
+        $ see_attack_speed = 1
+        $ attack_speed = 0.7
+    return
 #'''
 #Пример концовки
 #
@@ -169,4 +248,3 @@ label splashscreen:
 #"Вы слишком слабенькие что бы убежать от Дениса.."
 #"[end_message]"
 #'''
-

@@ -137,17 +137,22 @@ init python:
             if monsters_total > 0:
                 curr_exp += m.exp
                 monsters_total -= 1
+        curr_money = math.ceil((curr_exp * a.lvl) / 3)
         curr_exp = math.ceil((curr_exp * a.lvl) / players)
-        curr_money = math.ceil(curr_exp / 1.5)
         player_inv.money += curr_money
         renpy.say(None, "За этот бой вы заработали [curr_money] грывни")
         for p in battle_players:
             if p.hp > 0:
-                p.exp += curr_exp
                 renpy.play("audio/game/exp.ogg")
-                renpy.say(None, "%s получил %i опыта!" % (p.name, curr_exp))
-                while p.exp >= (p.lvl+1)**3:
-                    p.lvl += 1
-                    p.hpmax += math.ceil((5 / (p.lvl/2)))
-                    renpy.play("audio/game/lvlup.ogg")
-                    renpy.say(None, "%s получил %i уровень!" % (p.name, p.lvl))
+                if p.lvl <= max_level:
+                    p.exp += curr_exp
+                    renpy.say(None, "%s получил %i опыта!" % (p.name, curr_exp))
+                    while p.exp >= (p.lvl+1)**3:
+                        if p.lvl >= max_level:
+                            break
+                        p.lvl += 1
+                        p.hpmax += math.ceil((5 / (p.lvl/2)))
+                        renpy.play("audio/game/lvlup.ogg")
+                        renpy.say(None, "%s получил %i уровень!" % (p.name, p.lvl))
+                else:
+                    renpy.say(None, "{0} имеет максимальный уровень!".format(p.name))

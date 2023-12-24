@@ -159,7 +159,7 @@ init python:
         currentplayer._mp -= mp_lost
         currentplayer._hp -= hp_lost
         player_inv.drop(dropitem)
-        renpy.pause(1.5, hard=True)
+        renpy.pause(see_attack_speed * 2, hard=True)
         playersChk()
         renpy.hide_screen("monster_dmg")
 
@@ -213,18 +213,18 @@ init python:
         global win
         for p in battle_players:
             if p.hp <= 0 and not p.dead:
-                renpy.pause(0.5)
+                renpy.pause(see_attack_speed)
                 p.dead = True
                 koplayer = p.name
                 message = "player_ko"
-                renpy.pause(0.7)
+                renpy.pause(attack_speed)
         for m in battle_monsters:
             if m.hp <= 0 and not m.dead:
                 m.state = "dying"
                 msg_mons = m.name
                 message = "m_dead"
                 renpy.play(sfx_monsterdead.draw())
-                renpy.pause(1)
+                renpy.pause(kill_speed)
                 message = "none"
                 monsters_dead += 1
                 m.dead = True
@@ -299,8 +299,9 @@ default diss = Dissolve(.2)
 default doubleattack = ActiveSkill("Двойная атака", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
 default attackall = ActiveSkill("Атаковать всех", 15, 75, "rock", "all", img="swordofdeath") # targets all enemies
 default giftofangels = ActiveSkill("Подарок с небес", -3, 20, "heal", "ally", 2, img="giftofangels")
-default loved = ActiveSkill("Влюбить 2 врагов", 3, 30, "ice", "row", 2, img="iceball") # attacks whole row
+default loved = ActiveSkill("Влюбить 2 врагов", 3, 30, "ice", "enemy", 2, img="iceball") # attacks whole row
 default souldrain = ActiveSkill("Секс рабство", 20, 60, "acid", img="souldrain")
+default souldrain2 = ActiveSkill("Похищение", 2, 50, "acid", img="souldrain")
 
 # Полученная магия
 default mindfreeze = ActiveSkill("Леденой шар", 7, 20, "ice", img="iceball")
@@ -309,7 +310,7 @@ default magicheal = ActiveSkill("Исцеление", -6, 25, "heal", "self", im
 default defenseup = ActiveSkill("Улучшить щит", 0, 25, "defend", "self") # use is in skill_effects
 default arrowhail = ActiveSkill("Обстрел", 10, 40, "bow", "all", img="arrowhail", back_row=True)
 default lavaburst = ActiveSkill("Лавовой взрыв", 16, 55, "fire", img="lavaburst")
-default swordofdeath = ActiveSkill("Голое фото дениса", 30, 100, "sword", img="hellrage")
+default swordofdeath = ActiveSkill("Голое фото дениса", 30, 100, "sword", img="hellrage", cost=0)
 default spikeshield = ActiveSkill("Колючий щит", 4, 40, "block", "all", img="spikeshield")
 default magicswap = ActiveSkill("Смена позиции", 0, 15, "heal", "enemy", 2, back_row=True, img="rockthrow") # can target back row
 default lovedefence = ActiveSkill("Ослабить уровень", 0, 15, "lovedefence", "enemy", back_row=True, img="mindblast") # can target back row
@@ -333,8 +334,9 @@ default magics = [
     meteorshower, hellrage, lifedrain, devastationbeam, energybeams
 ]
 
-label lb_by_magic(magic):
-    $ player_inv.money -= magic.cost
+label lb_by_magic(magic, free=False):
+    if not free:
+        $ player_inv.money -= magic.cost
     hide screen by_magic
     hide screen magic_shop_menu
     menu select_player:

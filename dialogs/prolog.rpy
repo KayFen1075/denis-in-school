@@ -7,7 +7,7 @@ label start:
     pause(3)
     $ renpy.notify(persistent.endings)
     $ persistent.main_menu = "gui/main_menu.png"
-    $ config.main_menu_music = "music/disco.mp3"
+    $ persistent.main_menu_music = "music/disco.mp3"
 
     play music back
     scene bg shcool with dissolve
@@ -631,20 +631,20 @@ label pobeg:
                                     m "Во сколько я радился"
                                     menu hourm:
                                         "Во сколько я радился"
-                                        "19 Февраля 2006г в 2:00":
+                                        "19 Февраля 2007г в 2:00":
                                             m "Вау, я поражён"
                                             m "Ты точно знаешь когда я родился"
                                             m "Честно даже я не знал об этом"
                                             $ FigthPoints += 2
-                                        "19 Февраля 2006г в 4:00":
+                                        "19 Февраля 2007г в 4:00":
                                             m "Не правильно, а я уже поверил.."
                                             $ FigthPoints -= 1
                                             pass
-                                        "19 Февраля 2006г в 5:27":
+                                        "19 Февраля 2007г в 5:27":
                                             m "Не правильно, а я уже поверил.."
                                             $ FigthPoints -= 1
                                             pass
-                                        "19 Февраля 2006г в 6:00":
+                                        "19 Февраля 2007г в 6:00":
                                             m "Не правильно, а я уже поверил.."
                                             $ FigthPoints -= 1
                                             pass

@@ -1,7 +1,7 @@
 init python:
     import copy
     class Char(object):
-        def __init__(self, name, img="player", debility=0, need_debility=2, atk=7, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None, 'weapon': None, 'armor': None, 'accessory': None},
+        def __init__(self, name, img="player", debility=0, need_debility=2, atk=7, dfn=0, lvl=1, exp=0, hpmax=60, mpmax=100, skills=[], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None, 'weapon': None, 'armor': None, 'accessory': None},
         condition={'burn': False, 'freeze': False, 'paral': False, 'poison': False, 'sleep': False, 'stun': False, 'confus': False, 'wound': False, 'rage': False}, turn=False, defending=False,
         dead=False, bonus_atk=0, bonus_dfn=0, img_pos=0, bar_pos=0, dmg_pos=0):
             self.name = name
@@ -91,25 +91,25 @@ define character.p2 = Character("p2")
 default p2 = Char("p2")
 
 define character.a = Character("[name]", image="[name]")
-default a = Char("[name]", img="[img_player]", skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default a = Char("[name]", img="[img_player]", skills=[], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.sasha = Character("Саша", image="sasha")
-default sasha = Char("Саша", lvl=1, hpmax=30, img="sasha", mpmax=110, skills=[doubleattack], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sasha = Char("Саша", lvl=1, hpmax=30, img="sasha", mpmax=110, skills=[doubleattack], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.boris = Character("Борис", image="boris")
-default boris = Char("Борис", lvl=1, hpmax=70, img="boris", mpmax=0, atk=20, skills=[], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default boris = Char("Борис", lvl=1, hpmax=70, img="boris", mpmax=0, atk=20, skills=[], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.maks = Character("Макс", image="mq see")
-default maks = Char("Макс", lvl=1, hpmax=25, img="maks", mpmax=140, skills=[circleofhealing, magicheal], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default maks = Char("Макс", lvl=1, hpmax=25, img="maks", mpmax=140, skills=[circleofhealing, magicheal], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.lox = Character("Кирилл", image="lox")
-default lox = Char("Кирилл", lvl=19, hpmax=57, img="lox", skills=[], p_skills=[passive1], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default lox = Char("Кирилл", lvl=19, hpmax=57, img="lox", skills=[souldrain2], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.sanek = Character("Санёк", image="sanek")
-default sanek = Char("Санёк", lvl=26, hpmax=86, img="sanek", mpmax=170, skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default sanek = Char("Санёк", lvl=26, hpmax=86, img="sanek", mpmax=170, skills=[souldrain, giftofangels, mindburn, attackall], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.tanka = Character("Тянка", image="tanka")
-default tanka = Char("Тянка", lvl=11, hpmax=54, img="tanka", mpmax=90, skills=[spikeshield], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default tanka = Char("Тянка", lvl=11, hpmax=54, img="tanka", mpmax=90, skills=[spikeshield], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})
 
 define character.maksim = Character("Любимый", image="maksim")
-default maksim = Char("Любимый", lvl=11, hpmax=54, img="maksim", mpmax=95, skills=[loved], p_skills=[], equip={'hand': None, 'head': None, 'chest': None, 'accs': None})
+default maksim = Char("Любимый", lvl=11, hpmax=54, img="maksim", mpmax=95, skills=[loved], p_skills=[], equip={'оружие': None, 'head': None, 'броня': None, 'аксессуар': None})

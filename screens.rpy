@@ -740,6 +740,12 @@ screen preferences():
                     textbutton _("После выборов") action Preference("after choices", "toggle")
                     textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle"))
 
+                vbox:
+                    style_prefix "check"
+                    label _("Скорость боя")
+                    textbutton _("Стандарт") action Call("prefSpeed", False)
+                    textbutton _("Быстрый") action Call("prefSpeed", True)
+
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
 

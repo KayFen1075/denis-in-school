@@ -230,15 +230,19 @@ label end_battle:
     if win:
         if type_battle == "1les":
             $ win_1les = True
+            $ max_level = max(max_level, 16)
             $ renpy.notify("Доступны новые действия!")
         elif type_battle == "2les":
             $ win_2les = True
+            $ max_level = max(max_level, 22)
             $ renpy.notify("Доступны новые действия!")
         elif type_battle == "3les":
             $ win_3les = True
+            $ max_level = max(max_level, 26)
             $ renpy.notify("Доступны новые действия!")
         elif type_battle == "4les":
             $ win_4les = True
+            $ max_level = max(max_level, 30)
             if not first_win4les:
                 $ first_win4les = True
                 if name == "Кирилл":
@@ -307,6 +311,7 @@ label end_battle:
                     k "Хорошо"
         elif type_battle == "1dan":
             $ win_1dan = True
+            $ max_level = max(max_level, 45)
             if first_win1dan == False:
                 $ first_win1dan = True
                 "Вы смогли освободить лолей из секс рабства Дениса"
@@ -339,6 +344,7 @@ label end_battle:
                 "Так они трахались"
         elif type_battle == "2dan":
             $ win_2dan = True
+            $ max_level = max(max_level, 60)
         elif type_battle == "3dan":
             $ win_3dan = True
         elif type_battle == "4dan":
@@ -360,12 +366,77 @@ label end_battle:
                 k "Я уверен у нас получиться его одолеть"
                 s "Ну что"
                 m "Закупаемся и в последний путь"
-        elif type_battle == "0denis":
+        elif type_battle == "denis":
             $ win_denis == True
+            scene black
+            hide screen world_time
+            play music "music/videoplayback.mp3"
+            u "{bt=1}Да как вы посмели..{/bt}"
+            d "Экхе"
+            "Вы смогли одолеть их"
+            s "Наконец-то мы сможем выбраться от сюда!"
+            m "Хоть это было и сложно{w} зато весело"
+            k "Я поебался с мухомором"
+            k "Оно того стоило"
+            l "А я с тобой Макс"
+            t "Сейчас я докажу вам что я настоящия"
+            z "Я знал что всё привидёт к этому!"
+            b "Вы же не забыли про меня?"
+            menu ostavit_borisa:
+                "Оставить его здесь":
+                    $ action_ostavit_borisa = True
+                    "Все сделали вид что его тут нету"
+                "Взять с собой":
+                    s "Конечно"
+                    m "Ты идёшь с нами"
+                    "Вы взяли с собой Бориса"
+            $ renpy.notify("Это действие будет иметь последствия")
+            scene bg koledsh
+            with fade
+            "Больше ни кто не изучит магию в колледже"
+            scene bg shop
+            with fade
+            "Ни кто не купить запрещённое оружие"
+            scene 1
+            with fade
+            "В лесу теперь спокойно"
+            scene bg dd
+            with fade
+            "Старый дом Дениса скоро обвалиться"
+            scene bg demon
+            with fade
+            "Замок короля демонов полностью оброс листвой"
+            scene black
+            with fade
+            stop music
+            "Но"
+            "?" "Ты ещё не исправил будующие"
+            scene whitle
+            with Fade(1,4,1,color="#fff")
+            "{fi}Первая глава пройдена{/fi}"
+            "{fi}Второй главы пока нет{w}, можете перепройти на другие концовки{/fi}"
+            scene parish
+            with diss
+            play audio iavparish
+            pause 8
+            scene black with fade
+            return
         stop music
         play sound fanfare
-        "Ты выиграл!"
-        
+        random:
+            "[name]" "Сосать боты"
+            "[name]" "Легчайшая"
+            "[name]" "Меня ебали"
+            "[name]" "Изи"
+            "[name]" "Ez"
+            "[name]" "Боже боты"
+            "[name]" "Я ебал вас"
+            "[name]" "Побэда"
+            "[name]" "Без потерь"
+            "[name]" "Более кринжовых фраз я ещё не говорил.."
+            "[name]" "Нихуя себе, победа"
+            "[name]" "ЕЗЗЗ"
+            "[name]" "Подайте сыр мисье"
         if not first_pola:
             x "Отлично!"
             x "Это был ваш первый бой"

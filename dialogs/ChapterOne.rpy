@@ -3,6 +3,7 @@ label deadw:
     with fade
     pause(3)
     $ persistent.main_menu = "gui/main_menu_ch_1.png"
+    $ persistent.main_menu_music = "music/BitWaves.wav"
     $ config.main_menu_music = "music/BitWaves.wav"
     $ renpy.notify("Загляни в главное меню")
     scene black
@@ -14,7 +15,7 @@ label deadw:
     "? ? ?" "Помню что на меня кто-то напал в спину.."
     "? ? ?" "Как будто со мной кто-то был"
     "? ? ?" "Почему я ни чего не чувствую"
-    b "{bt=3}Иди за мной{/bt}"
+    u "{bt=3}Иди за мной{/bt}"
     "? ? ?" "Кто ты"
     "? ? ?" "{i}{move}начали двигаться{/move}{/i}"
     "? ? ?" "Что происходит"
@@ -38,7 +39,6 @@ label deadw:
             menu adray:
                 "Кому дать слово?"
                 "[persistent.denis]":
-                    $ persistent.denis = "Денису"
                     "Вы дали слово Денису"
                     "Возможно это было худшее решение{w} за всю игру"
                     d "Пошла нах.."
@@ -62,12 +62,15 @@ label deadw:
                     u "{bt=20}Любишь меня?{/bt}"
                     d "Трахаю"
                     u "{bt=50}☠ ☠ ☠{/bt}"
+                    u "{bt=3}Я посмотрела твоё дело..{/bt}"
+                    u "{bt=3}То что ты делал при жизни это ужасно{w} так что{/bt}"
                     u "{bt=50}Я считаю{w} что{w} вы все{w} должны{w} попасть{w}...{/bt}"
                     with vpunch
+                    u "{bt=3}{/bt}"
+                    $ persistent.denis = "Денису"
                     u "В АД"
                     jump ad
                 "[persistent.sasha]":
-                    $ persistent.sasha = "Саше"
                     "Вы дали слово Саше"
                     s "Ну давайте я отвечу"
                     show u muha
@@ -81,7 +84,7 @@ label deadw:
                     s "Милфы естественно"
                     hide u
                     show lolidance
-                    pause(3)
+                    pause(2)
                     u "{bt=3}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
                     u "{bt=3}Кто ты для меня Братикк{w}, или друг?{/bt}"
                     s "Бля шо за вопросы"
@@ -91,16 +94,20 @@ label deadw:
                     u "{bt=10}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
                     u "{bt=20}Любишь меня?{/bt}"
                     s "28"
-                    pause 2
+                    pause(1.0)
                     m "..."
                     m "Нам пизда"
                     u "{bt=50}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
+                    u "{bt=3}Я посмотрела твоё дело..{/bt}"
+                    u "{bt=3}Боже мой{/bt}"
+                    u "{bt=3}Зачем ты выебал кошку Кирилла?{/bt}"
+                    u "{bt=3}Ну ладно{w} это не педофилия{/bt}"
                     u "{bt=50}Я считаю{w} что{w} вы все{w} можете{w} попасть{w} в{w} рай{/bt}"
                     m "Ебать"
+                    $ persistent.sasha = "Саше"
                     m "Как нахуй"
                     jump ray
                 "[persistent.lox]":
-                    $ persistent.lox = "Кириллу"
                     "Вы дали слово Кириллу"
                     k "Ладно, давайте я отвечу"
                     m "Не разрешаю"
@@ -120,6 +127,9 @@ label deadw:
                     hide u
                     show lolidance
                     pause(3)
+                    u "{bt=3}Я посмотрела твоё дело..{/bt}"
+                    u "{bt=3}Зачем ты обрыгал всё что двигалось и не двигалось?{/bt}"
+                    u "{bt=3}Ну ладно{/bt}"
                     u "{bt=3}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
                     u "{bt=3}Кто ты для меня Братикк{w}, или друг?{/bt}"
                     k "Я твой отчим и твой любовник"
@@ -129,10 +139,10 @@ label deadw:
                     u "{bt=50}☠ ☠ ☠{/bt}"
                     u "{bt=50}Я считаю{w} что{w} вы все{w} должны{w} попасть{w}...{/bt}"
                     with vpunch
+                    $ persistent.lox = "Кириллу"
                     u "В АД"
                     jump ad
                 "[persistent.maks]":
-                    $ persistent.maks = "Максу"
                     "Вы дали слово Максу"
                     m "Я знаю всё про неё, так что на вопросы отвечу правильно!"
                     show u muha
@@ -154,7 +164,11 @@ label deadw:
                     u "{bt=20}Любишь меня?{/bt}"
                     m "Иди нахуй"
                     u "{bt=50}❤️❤️↘️❤️❤️⬅️❤️❤️↗️❤️❤️❤️⬇️❤️❤️⬆️❤️❤️{/bt}"
+                    u "{bt=3}Я посмотрела твоё дело..{/bt}"
+                    u "{bt=3}Ты был фурри фем бойчиком{/bt}"
+                    u "{bt=3}Так что{/bt}"
                     u "{bt=50}Я считаю{w} что{w} вы все{w} можете{w} попасть{w} в{w} рай{/bt}"
+                    $ persistent.maks = "Максу"
                     jump ray
         "В соло":
             "Вы решили ответить сами"
@@ -222,9 +236,7 @@ label deadw:
                 s "Ну вообще круто"
                 m "Блять какого хуя, мы даже ни чего сказать не успели"
                 jump ad
-   
     return
-
 
 label ad:
     u "{bt=3}Вы все отправляетесь в ад{/bt}"
@@ -338,7 +350,6 @@ label ad:
     scene bg city2ad
     with fade
     play music "music/pixel_sprinter_loop.mp3"
-    "Густой кровавый лес"
     "Вы прибежали в адский город"
     k "Ебать красиво"
     d "Ладно{w}, я потом тебя трахну"
@@ -422,7 +433,7 @@ label ad:
     show pk
     with moveinleft
     k "Пиздец"
-    k "Этот еблан врезался в стекло и упал с 15 этажа"
+    k "Этот еблан врезался в окно и упал с 15 этажа"
     k "За ним я точно прыгать не буду"
     pause(1.0)
     k "Интересно{w} чей это дом"
@@ -473,7 +484,7 @@ label ad:
     $ name = "Кирилл"
     $ img_player = "lox"
     $ a.name = name
-    $ a.skills = [] # ВАЖНО ДОБАВИТЬ СКИЛЛ
+    $ a.skills = [souldrain2]
     $ a.hpmax = 27
     menu maks_sasha:
         "Выбрать напарника"
@@ -498,6 +509,7 @@ label ad:
     with fade
     u "{bt=3}Перед тобой карта города{/bt}"
     $ persistent.main_menu = "gui/main_menu_ch_1_2.png"
+    $ persistent.main_menu_music = "music/battle_in_aries_peak.mp3"
     $ config.main_menu_music = "music/battle_in_aries_peak.mp3"
     $ renpy.notify("Загляни в главное меню)")
     u "{bt=3}Здесь есть места которые ты можешь посетить{/bt}"
@@ -621,9 +633,9 @@ label ray:
     u "{bt=3}В раю запрещена вся похабщина{/bt}"
     hide u
     show lolidance
-    b "{bt=3}Тоби ж вам запрещено трахаться{w} и нарушать законы Украины{/bt}"
-    b "{bt=3}Если вы их нарушите{w} будет{w} штраф{w} в размере{w} в ад{/bt}"
-    b "{bt=3}Так что можете наслаждаться спокойной жизнью!{/bt}"
+    u "{bt=3}Тоби ж вам запрещено трахаться{w} и нарушать законы Украины{/bt}"
+    u "{bt=3}Если вы их нарушите{w} будет{w} штраф{w} в размере{w} в ад{/bt}"
+    u "{bt=3}Так что можете наслаждаться спокойной жизнью!{/bt}"
     hide lolidance
     with dissolve
     m "Эм..{w} лучше уж в ад"
@@ -845,6 +857,7 @@ label ray:
     with fade
     u "{bt=3}Перед тобой карта города{/bt}"
     $ persistent.main_menu = "gui/main_menu_ch_1_2.png"
+    $ persistent.main_menu_music = "music/battle_in_aries_peak.mp3"
     $ config.main_menu_music = "music/battle_in_aries_peak.mp3"
     $ renpy.notify("Загляни в главное меню)")
     u "{bt=3}Здесь есть места которые ты можешь посетить{/bt}"

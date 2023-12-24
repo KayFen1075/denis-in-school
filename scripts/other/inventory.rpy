@@ -33,15 +33,15 @@ init python:
                 self.recipe = recipe
 
     class Armor(Item):
-        def __init__(self, name, desc, cost, defense, icon=False, value=0, act=Show("inventory_popup", message='as'), type="chest", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, defense, icon=False, value=0, act=Show("inventory_popup", message='as'), type="броня", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.defense = defense
             self.act = Show("inventory_popup", message=self.type)
-            self.inventory_item = Item(name, desc, cost, icon, value, act, "chest", recipe, tags)
+            self.inventory_item = Item(name, desc, cost, icon, value, act, "броня", recipe, tags)
 
     class Weapon(Item):
-        def __init__(self, name, desc, cost, damage, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="hand", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, damage, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="оружие", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.damage = damage
@@ -49,12 +49,12 @@ init python:
             self.inventory_item = Item(name, desc, cost, icon, value, act, type, recipe, tags)
 
     class Accessory(Item):
-        def __init__(self, name, desc, cost, bonus, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="accs", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, bonus, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="аксессуар", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.bonus = bonus
             self.act = Show("inventory_popup", message=self.type)
-            self.inventory_item = Item(name, desc, cost, icon, value, act, "accs", recipe, tags)
+            self.inventory_item = Item(name, desc, cost, icon, value, act, "аксессуар", recipe, tags)
 
 
     class Inventory(store.object):
@@ -202,7 +202,7 @@ screen shop_menu():
                     label "Броня"
                     hbox:
                         for item in items:
-                            if item.type == "chest":
+                            if item.type == "броня":
                                 textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}защ".format(item.defense))
                                 text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
                 # Оружие
@@ -211,7 +211,7 @@ screen shop_menu():
                     label "Оружие"
                     hbox:
                         for item in items:
-                            if item.type == "hand":
+                            if item.type == "оружие":
                                 textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}атк".format(item.damage))
                                 text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
                 # Артефакты
@@ -220,7 +220,7 @@ screen shop_menu():
                     label "Артефакты"
                     hbox:
                         for item in items:
-                            if item.type == "accs":
+                            if item.type == "аксессуар":
                                 textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}атк {1}защ".format(item.bonus['atk'], item.bonus['def']))
                                 text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
                 vbox:
@@ -300,7 +300,7 @@ screen EquipmentScreen():
                 hbox:
                     xalign 0.5
                     text "{0}xp / {1}xp".format((player.exp-(player.lvl**3)), (player.lvl+1)**3-(player.lvl)**3) font "fonts/damages.ttf" size 15
-                for slot in ['chest', 'hand', 'accs']:
+                for slot in ['броня', 'оружие', 'аксессуар']:
                     vbox:
                         hbox:
                             text "{0}:".format(slot.capitalize())
@@ -332,7 +332,7 @@ screen EquipmentScreen():
             hbox:
                 xalign 0.5
                 text "{0}xp / {1}xp".format((a.exp-(a.lvl**3)), (a.lvl+1)**3-(a.lvl)**3) font "fonts/damages.ttf" size 15
-            for slot in ['chest', 'hand', 'accs']:
+            for slot in ['броня', 'оружие', 'аксессуар']:
                 vbox:
                     hbox:
                         text "{0}:".format(slot.capitalize())
@@ -379,7 +379,7 @@ screen inventory_screen(first_inventory, second_inventory=False, trade_mode=Fals
                 use sort_nav(first_inventory)
                 #if not second_inventory:
                     #textbutton "Crafting Mode" action ToggleScreenVariable("crafting_screen")
-                textbutton "Close" action Hide("inventory_screen")
+                textbutton "Закрыть" action Hide("inventory_screen")
             if second_inventory:
                 vbox:
                     label second_inventory.name
@@ -422,17 +422,17 @@ screen inventory_view(inventory, second_inventory=False, trade_mode=False):
                             vbox:
                                 text name
                                 if not trade_mode:
-                                    text "List Value: [value]"
+                                    text "Ценность: [value]"
                                     if second_inventory:
-                                        text ("Sell Value: " + str(calculate_price(item, second_inventory)) + ")")
+                                        text ("Цена: " + str(calculate_price(item, second_inventory)) + ")")
 
                     else:
                         textbutton "[name] ([qty])" action (If(not second_inventory, item[0].act,(If(trade_mode, Function(trade,inventory, second_inventory, item), Function(transaction,inventory, second_inventory, item))))) hovered Show("inv_tooltip",item=item,seller=second_inventory) unhovered Hide("inv_tooltip")
                         if not inventory.grid_view:
                             vbox:
-                                text "List Value: [value]"
+                                text "Ценность: [value]"
                                 if not trade_mode and second_inventory:
-                                    text "Sell Value: " + str(calculate_price(item, second_inventory)) + ")"
+                                    text "Цена: " + str(calculate_price(item, second_inventory)) + ")"
 
             ## maintains spacing in empty inventories.
             if len(inventory.inv) == 0:
@@ -445,7 +445,7 @@ screen money(inventory, second_inventory, bank_mode=False):
     zorder 101
     hbox:
         style_group "invstyle"
-        text "Money: [inventory.money]"
+        text "Деньги: [inventory.money]"
         if bank_mode and inventory.money:
             textbutton "Transfer" action Show("banking", depositor=inventory, withdrawer=second_inventory)
 
@@ -506,21 +506,21 @@ screen crafting(inventory):
 screen view_nav(inventory):
     zorder 101
     hbox:
-        text "View: " yalign 0.5
-        textbutton "Grid" action SetField(inventory, "grid_view", True)
-        textbutton "List" action SetField(inventory, "grid_view", False)
+        text "Просмотр: " yalign 0.5
+        textbutton "Сетка" action SetField(inventory, "grid_view", True)
+        textbutton "Список" action SetField(inventory, "grid_view", False)
 
 screen sort_nav(inventory):
     zorder 101
     hbox:
-        text "Sort: " yalign 0.5
-        textbutton "Name" action [ToggleField(inventory, "sort_by", inventory.sort_name), inventory.sort_name]
-        textbutton "Quantity" action [ToggleField(inventory, "sort_by", inventory.sort_qty), inventory.sort_qty]
-        textbutton "Value" action [ToggleField(inventory, "sort_by", inventory.sort_value), inventory.sort_value]
+        text "Сортировка: " yalign 0.5
+        textbutton "Имя" action [ToggleField(inventory, "sort_by", inventory.sort_name), inventory.sort_name]
+        textbutton "Клич." action [ToggleField(inventory, "sort_by", inventory.sort_qty), inventory.sort_qty]
+        textbutton "Ценнос." action [ToggleField(inventory, "sort_by", inventory.sort_value), inventory.sort_value]
         if inventory.sort_order:
-            textbutton "asc." action [ToggleField(inventory, "sort_order"), inventory.sort_by]
+            textbutton "инфо." action [ToggleField(inventory, "sort_order"), inventory.sort_by]
         else:
-            textbutton "des." action [ToggleField(inventory, "sort_order"), inventory.sort_by]
+            textbutton "опис." action [ToggleField(inventory, "sort_order"), inventory.sort_by]
 
 screen inventory_popup(message):
     zorder 101

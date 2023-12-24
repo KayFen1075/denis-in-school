@@ -5,7 +5,7 @@ image battle_background = TransitionConditionSwitch(Dissolve(0.5, alpha=True),
     "bb == 2","images/bg/2.png")
 
 image sasha_battle = TransitionConditionSwitch(Dissolve(0.5, alpha=True),
-    "sasha.dead or a.name == 'Саша' and a.dead","images/char/dead/maks_dead.png",
+    "sasha.dead or a.name == 'Саша' and a.dead","images/char/dead/sasha_dead.png",
     "not sasha.dead or a.name == 'Саша' and not a.dead", "images/char/sasha_battle.png")
 
 image maks_battle = TransitionConditionSwitch(Dissolve(0.5, alpha=True),

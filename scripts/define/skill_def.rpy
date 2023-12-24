@@ -20,7 +20,7 @@ init python:
             if monster_slot.index(m) > 3: # if m is in front row
                 return True
             if currentplayer != None:
-                if currentplayer.equip['hand'] == "Bow": # if player has bow
+                if currentplayer.equip['оружие'] == "Bow": # if player has bow
                     return True
             if isinstance(b_skill, Skill):
                 if b_skill.back_row: # specific skills
@@ -42,7 +42,7 @@ init python:
         global currentplayer
         if s == lifedrain:
             currentplayer._hp += t.finaldmg/2
-        if s == souldrain:
+        if s == souldrain or s == souldrain2:
             currentplayer._hp += t.finaldmg
         if s == swordofdeath and t == denis:
             t._hp += t.finaldmg * 2
@@ -50,7 +50,6 @@ init python:
         if s == lovedefence:
             if t.need_debility >= t.debility:
                 t.debility += 1
-
 
     def radarFX(p):
         global skilltext
@@ -102,11 +101,11 @@ init python:
             damage = self.pwr
             if self == doubleattack:
                 damage = char.atk
-                if char.equip['hand']:
-                    damage += char.equip['hand'].damage
-                if char.equip['accs']:
-                    print(char.equip['accs'].bonus)
-                    damage += char.equip['accs'].bonus['atk']
+                if char.equip['оружие']:
+                    damage += char.equip['оружие'].damage
+                if char.equip['аксессуар']:
+                    print(char.equip['аксессуар'].bonus)
+                    damage += char.equip['аксессуар'].bonus['atk']
                 damage /= 1.5
             if char is not None and self != doubleattack:
                 damage += (char.lvl * (damage/4))
