@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## Версия игры.
 
-define config.version = "1.4fix"
+define config.version = "1.6"
 
 
 ## Текст, помещённый в экран "Об игре". Поместите текст между тройными скобками.

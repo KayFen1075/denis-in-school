@@ -38,8 +38,8 @@ label load_monsters:
     # Данж 4
     $ mon20 = Monster("Генерал лоли", 666, 200, 66.0, 500, 55, "20", "cut", anim=idle_shake, skills=[rockthrow])
     # Финал
-    $ denis = Monster("Денис", 998, 300, 70.0, 998, 100, "21", "water", need_debility=5, anim=idle_x, skills=[souldrain, mindfreeze, mindfire, arrowhail, lavaburst, swordofdeath, spikeshield])
-    $ ui22 = Monster("Великое божество Юй", 999, 333, 80.0, 999, 100, "22", "water", need_debility=3, anim=idle_x, skills=[souldrain, mindfreeze, mindfire, arrowhail, lavaburst, swordofdeath, spikeshield])
+    $ denis = Monster("Денис", 998, 190, 70.0, 998, 100, "21", "water", need_debility=5, anim=idle_x, skills=[souldrain, mindfreeze, mindfire, arrowhail, lavaburst, swordofdeath, spikeshield])
+    $ ui22 = Monster("Великое божество Юй", 999, 200, 80.0, 999, 100, "22", "water", need_debility=3, anim=idle_x, skills=[souldrain, mindfreeze, mindfire, arrowhail, lavaburst, swordofdeath, spikeshield])
     return
 
 init python:

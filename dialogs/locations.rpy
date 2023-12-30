@@ -1,4 +1,5 @@
 label les:
+    scene black
     play music "audio/music/8-bit-arcade-138828.mp3"
     $ bb = 1
     if not first_libriary:
@@ -1453,6 +1454,10 @@ label most:
         with dissolve
         "На вас выскочил Денис"
         d "Я убью тебя"
+        $ fixedset = "finalpodval"
+        $ type_battle = "denis"
+        $ final_battle = False
+        call battle
     "Вы пршли к мосту"
     if random_choise(15):
         "Как вдруг вы заметили какой-то код"
@@ -1806,6 +1811,24 @@ label shop:
         m "Сегодня я не дрочил"
         hide pb
         with dissolve
+    $ player_inv.money = 123342000
+    if not autohil and player_inv.money >= 3000 and random_choise(10):
+        show pb
+        with dissolve
+        b "Я вижу что вы часто ко мне ходите лечиться"
+        b "Хотити я вам продам пиво которое не портиться за пределами лавки?"
+        menu infpivo:
+            "Купить бесконечное пиво за 3 000 грывень"
+            "Да(-3 000)":
+                $ player_inv.money -= 3000
+                b "О отлично"
+                b "Вы купили бесконечное пиво"
+                b "Удачных вам боёв"
+                $ autohil = True
+            "Нет":
+                b "Как хотите"
+        hide pb
+        with dissolve
     menu shop_bar:
         "Продавец":
             show pb open
@@ -2138,7 +2161,7 @@ label shop:
             if not talk_3tank and win_4dan:
                 $ talk_3tank = True
                 show pm oshko at right with moveinright
-                show px at left with moveinleft
+                show ps smile at left with moveinleft
                 show tank with moveinbottom
                 t "Саша, зачем ты тогда ушёл и не вернулся"
                 m "Ты за хлебом ходил?"
@@ -2376,7 +2399,7 @@ label shop:
             if not talk_3kirill:
                 show pt
                 with dissolve
-                z "Иди в комнату{w} там общий сбор"
+                z "Иди ночью в комнату{w} там общий сбор"
                 hide pt
                 with dissolve
                 jump shop_bar
@@ -2487,7 +2510,7 @@ label shop:
 
 label daun:
     play music "music/8-bit-moonlight-sonata-music-loop.mp3"
-    if talk_2maxim and talk_1boris and otpizdeli_denisa >= 2 and game_time == 24:
+    if talk_2maxim and talk_1boris and otpizdeli_denisa >= 2 and game_time == 24 and not talk_1denis:
         $ talk_1denis = True
         scene black
         pause(1.0)
@@ -2662,7 +2685,7 @@ label daun:
         play music "music/Path to Lake Land.ogg"
         scene black
         ''
-    if talk_3sanek and game_time == 24:
+    if talk_3sanek and game_time == 24 and not talk_1denis:
         scene bg dd
         with fade
         m "Вот мы и нашли его дом"
@@ -2764,6 +2787,7 @@ label daun:
         k "Заходим!"
         $ fixedset = "finalpodval"
         $ type_battle = "denis"
+        $ final_battle = True
         call battle from _call_battle_5
     "Нет..{w} ещё рано.."
     show screen map

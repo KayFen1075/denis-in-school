@@ -1,4 +1,7 @@
 label battle:
+    if autohil:
+        $ restorehp()
+        $ restoremp()
     hide screen world_time
     $ stopEvent()
     $ misstext = renpy.random.choice(misstext_list)
@@ -265,6 +268,7 @@ label end_battle:
                         "Вы открыли клетку"
                         k "Нам надо спасти Макса"
                         k "Он в заточении в подвале"
+                        m "Я спиздел то что колекционировал зелебоба"
                     else:
                         $ party_list.append(sasha)
                         $ sasha.lvl = 23
@@ -281,12 +285,9 @@ label end_battle:
                         "Вы открыли клетку"
                         k "Нам надо спасти Макса"
                         k "Он в заточении в подвале"
-                    k "Я спиздел то что колекционировал зелебоба"
+                        s "Я спиздел то что колекционировал зелебоба"
                     k "Не знаю что это"
                     k "Но выглядит как что-то для магии"
-                    "Вы открыли клетку"
-                    show pk product
-                    with dissolve
                     k "Отправлюсь к Саньку"
                     k "Он знает что с этим делать"
                 else:
@@ -366,7 +367,7 @@ label end_battle:
                 k "Я уверен у нас получиться его одолеть"
                 s "Ну что"
                 m "Закупаемся и в последний путь"
-        elif type_battle == "denis":
+        elif type_battle == "denis" and final_battle:
             $ win_denis == True
             scene black
             hide screen world_time

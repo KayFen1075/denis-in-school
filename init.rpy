@@ -61,6 +61,7 @@ init python:
     first_pola = False
     first_libriary = False
     maxim = False
+    autohil = False
     # in game
     game_time = 12
     cost_multiplate = 1
@@ -122,6 +123,7 @@ init python:
     talk_5maxim = False
 
     win_denis = False
+    final_battle = False
     action_ostavit_borisa = False
     
     # functions
