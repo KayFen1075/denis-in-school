@@ -5,7 +5,7 @@ import sys
 import os
 
 starttime = int(time.time())
-client_id = '1178223705567014952' # id of your Discord application
+client_id = '1230138565187604510' # id of your Discord application
 large_text = "Game" # text of large img of your app
 large_image = "logo" # large img of your app
 small_text = "FUFSoB" # text of small img of your app

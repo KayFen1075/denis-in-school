@@ -153,7 +153,9 @@ label dm:
         scene black
         $ talk_3maxim = True
         s "Борис как думаешь кто этот Максим?"
+        voice b0003
         b "Не знаю{w}, я его ещё не видел"
+        voice b0004
         b "Только слышал про него от Макса и Кирилла"
         s "Макс что-то у него сегодня задержался"
         s "Идём к ним"
@@ -163,8 +165,10 @@ label dm:
         show ps at left
         show pb at right with dissolve
         s "Ебать"
+        voice b0005
         b "Так он бомж походу"
         s "Зачем он выбрал жить здесь?"
+        voice b0006
         b "Не знаю{w}, у всех свои вкусы"
         s "Ладно заходим внутрь"
         scene bg rdm_vhod with fade
@@ -178,21 +182,26 @@ label dm:
         s "Макс?"
         show ps at left with moveinleft
         show pb at right with moveinright
+        voice b0007
         b "Почему ты здесь один?"
         m "Что{w} я не один"
         m "Со мной любимый"
         s "О чём ты"
+        voice b0008
         b "Здесь не кого нет"
         m "Вы ебланы?"
         m "Вот он перед вами"
         s "Борис{w} он шизик"
+        voice b0009
         b "Да"
         m "Так нет, с вами что-то не так"
         m "Максим скажи им что-то"
         pause(1.5)
         m "Видите он настоящий"
         s "Здесь только ты"
+        voice b0010
         b "Саша{w} давай уходить от сюда"
+        voice b0011
         b "Здесь слишком жутко"
         s "Ладно уходим"
         m "Пиздец вы ебанутые"
@@ -597,6 +606,7 @@ label ds:
                         k "Нужно узнать его уровень"
                         k "И на что он вообще способен"
                         x "Борис, что ты так захотел узнать{w}, когда уже тут несколько лет здесь?"
+                        voice b0012
                         b "Просто стало интересно"
                         x "Ладно"
                         x "Положи свою руку на этот магический шар"
@@ -606,15 +616,22 @@ label ds:
                         "Магический шар" "Так же маны тоже.."
                         x "В первые такое вижу"
                         k "Ты Аста?"
+                        voice b0013
                         b "Нет"
+                        voice b0014
                         b "Ну бывает"
+                        voice b0015
                         b "Я всё равно торговец"
+                        voice b0016
                         b "Мне оно и ненужно"
                         k "Но ты сходишь с нами в бой"
+                        voice b0017
                         b "Я не хочу в бахмут"
                         k "Мы и так в бахмуте"
                         k "Это наш город"
+                        voice b0018
                         b "Ладно"
+                        voice b0019
                         b "Схожу с вами"
                         x "Я заметил что вы превзошли учителя"
                         x "Ваш уровень уже давно выше моего"
@@ -622,9 +639,11 @@ label ds:
                         x "Приходите все вместе ко мне в конце месяца"
                         x "Проведём выпускной"
                         k "Это получается мы закончим среднее образование?"
+                        voice b0020
                         b "Да{w}, вы да{w}"
                         x "Увидимся"
                         hide px with moveoutbottom
+                        voice b0021
                         b "Что же{w} пойду дальше продавать нелегальное оружие"
                         hide pb with moveoutleft
                         k "Пойду расскажу про всё это Саше и Максу"
@@ -712,6 +731,7 @@ label ds:
                     $ talk_3tank = True
                     show tank
                     with dissolve
+                    voice t0003
                     t "Я пришла сюда"
                     show ps smile at left
                     with dissolve
@@ -725,6 +745,7 @@ label ds:
                     x "Где Макс?"
                     s "Он пошёл к Максиму"
                     x "Ладно начнём"
+                    voice t0004
                     t "Что надо делать?"
                     x "Вот магический шар"
                     x "Положи на него руку"
@@ -738,10 +759,13 @@ label ds:
                     "Магический шар" "Ты одеваешь его на всех врагов"
                     "Магический шар" "И они получают небольшой урон от шипов"
                     x "Не видел я ещё такой магии"
+                    voice t0005
                     t "Крута"
                     s "Предлагаю тебе сходить с нами в один бой"
                     s "Ты не против?"
+                    voice t0006
                     t "Можно, за одно опробую магию"
+                    voice t0007
                     t "Только ты купи мне снаряжение за то что мы награбили"
                     s "Хорошо"
                     $ party_list.append(tanka)
@@ -1592,9 +1616,13 @@ label shop:
             "Вы пришли ночью к Тянке"
             show tank
             with dissolve
+            voice t0008
             t "Вы пришли"
+            voice t0009
             t "Сейчас будем его грабить"
+            voice t0010
             t "Он уже уснул крепким сном"
+            voice t0011
             t "Так что может тут хоть до утра сидеть"
             s "Погнали"
             scene black
@@ -1605,16 +1633,20 @@ label shop:
             with fade
             show tank
             with dissolve
+            voice t0012
             t "Можем начать выносить деньги"
             hide tank
             with dissolve
             "Вы начали копаться в вещах Бориса"
             m "Я нашёл 200 грын у него в пиджаке"
             s "Забирай всё{w} пиджак тоже"
+            voice t0013
             t "Я заберу всю кассу"
             s "Надо оставить следы{w}, что бы он подумал что это зелебоба его ограбил"
+            voice t0014
             t "Да, у меня всегда есть мешок с болотом для этого"
             "Вы оставили следы в виде квадратов из грязи"
+            voice t0015
             t "Он тупой не догадается"
             show ps at right
             show pm at left
@@ -1622,6 +1654,7 @@ label shop:
             with dissolve
             s "Сколько у нас по итогу получилось?"
             m "У меня 200 грын и пиджак"
+            voice t0016
             t "Сегодня он что-то мало продал{w}, 500 грын"
             s "Понятно у меня 300"
             m "Отсоси у меня"
@@ -1629,8 +1662,11 @@ label shop:
             m "Договорились"
             m "Сегодня зайдёшь к Саньку?"
             m "Мы будем тебя ждать там"
+            voice t0017
             t "Да конечно"
+            voice t0018
             t "Спасибо что пришли"
+            voice t0019
             t "А теперь сьёбывайте нахуй"
             $ player_inv.money += 1000
             scene black
@@ -1666,37 +1702,53 @@ label shop:
             m "Лучший"
             show pb open
             with dissolve
+            voice b0022
             b "Что ты сделал!?!?"
+            voice b0023
             b "Как ты посмел осквернить мою могилу!"
             s "Я крутой{w}, так что динах"
             m "Правильно он всё сделал"
+            voice b0024
             b "Вам всё будет дороже!"
+            voice b0025
             b "Вообще желательно не приходите"
         else:
             s "Просто прошёл мимо.."
             m "а ведь ты мог.."
         show pb oshko
+        voice b0026
         b "Ладно"
+        voice b0027
         b "Проходите{w}, я вам всё покажу"
         m "Идём"
         scene bg shop_bar
         with fade
         show pb oshko
         with dissolve
+        voice b0028
         b "Это мой магазин"
+        voice b0029
         b "Не особо популярный"
         m "я конечно знаю что ты умер"
         m "Но знаешь ли ты об этом?"
+        voice b0030
         b "Конечно{w}, как я могу не знать об этом"
+        voice b0031
         b "Я видел иисуса"
+        voice b0032
         b "Он мне показал всё что тут есть"
+        voice b0033
         b "И дал {b}название{/b} моему приключению"
+        voice b0034
         b "Бескрайний круг судеб Бориса: Реинкарнация торговца в мире, где каждый оборот в его жизни — новая сделка! Следите за захватывающим путем Бориса, чьи перерождения приводят его к таинственному магическому рынку, где он торгует не только товарами, но и своим собственным прошлым. От древних базаров до космических торговых постов, он исследует грани коммерческой реинкарнации, сталкиваясь с загадками, клиентами из разных измерений и разнообразием товаров от магических зелий до космических артефактов. В этом захватывающем аниме 'Борис: Реинкарнация Торговца', каждая сделка — это шаг к раскрытию его судьбы и великому богатству, ожидающему его в конце каждой жизни!"
         s "Нахуй ты его выучил?"
         s "Оно даже на экран не помещается"
         m "Реально"
+        voice b0035
         b "Захотел"
+        voice b0036
         b "Осмотритесь и подойдите ко мне"
+        voice b0037
         b "Я покажу чем торгую"
         hide pb
         with dissolve
@@ -1806,7 +1858,9 @@ label shop:
     if game_time < 12:
         show pb
         with dissolve
+        voice b0038
         b "Ого"
+        voice b0039
         b "Вы сегодня первые кто пришли в мой бар"
         m "Сегодня я не дрочил"
         hide pb
@@ -1832,6 +1886,7 @@ label shop:
         "Продавец":
             show pb open
             with dissolve
+            voice b0040
             b "Что вы хотите купить?"
             menu shop23:
                 "Оружие":
@@ -1839,7 +1894,9 @@ label shop:
                     'Нажми что бы продолжить'
                     jump shop23
                 "Исцели меня бухлом":
+                    voice b0041
                     b "Знатно вас избили"
+                    voice b0042
                     b "Ладно бухайте"
                     "Вы бухали 2 дня"
                     $ restorehp()
@@ -1847,17 +1904,25 @@ label shop:
                     jump shop23
                 "Поговорить":
                     if not barmen:
+                        voice b0043
                         b "Вы уже тут?"
                         s "Да"
                         m "Показывай что у тебя тут есть"
+                        voice b0044
                         b "Значит смотрите, я продаю оружие и бухло для них"
+                        voice b0045
                         b "Большего в жизни не надо"
                         s "Можешь дать что-то бесплатно для начала"
                         m "Да, нам надо уровень повысить, а денег 0"
+                        voice b0046
                         b "Не чем не могу помочь"
+                        voice b0047
                         b "Будут деньги приходите"
+                        voice b0048
                         b "Здесь ещё есть Тарас"
-                        b "Он часто тут появляется днём"
+                        voice b0049
+                        b "Он часто тут появляется днём, часов где-то в 12"
+                        voice b0050
                         b "Можете с ним попробовать поговорить"
                         $ barmen = True
                         jump shop23
@@ -1865,44 +1930,68 @@ label shop:
                         $ talk_1boris = True
                         show pb
                         with dissolve
+                        voice b0051
                         b "Привет Саша"
+                        voice b0052
                         b "Что хочешь?"
                         show pb
                         show ps at left
                         with dissolve
                         if action_1tank:
                             s "Это правда что зелебоба тебя грабит?"
+                            voice b0053
                             b "Да"
+                            voice b0054
                             b "Я вахуи"
+                            voice b0055
                             b "Он каждые 3-4 дня приходит пока меня нету"
+                            voice b0056
                             b "И ворует деньги"
+                            voice b0057
                             b "Мне про это Тянка рассказывала"
                             s "Круто"
                         else:
                             s "Что с Тянкой?"
+                            voice b0058
                             b "Она наказана"
+                            voice b0059
                             b "Думаю оно ещё не скоро выйдет из комнаты"
+                        voice b0060
                         b "а где Макс?"
+                        voice b0061
                         b "Обычно ты с ним ходишь"
                         s "Он до Максима пошёл"
                         s "Думаю он уже в колледже"
+                        voice b0062
                         b "Могу рассказать как попасть в болото зелебобы"
                         s "Давай, рассказывай"
+                        voice b0063
                         b "Вообще м"
+                        voice b0064
                         b "Вам нужно пробраться в озеро среди леса"
+                        voice b0065
                         b "Зачистить там монстров"
+                        voice b0066
                         b "И дальше будет болото"
+                        voice b0067
                         b "Вот там он и живёт"
                         s "Пойду с ним познакомлюсь"
                         s "Сделаю ZELEBOBA ADVENTURE REMASTERED"
+                        voice b0068
                         b "Жду"
+                        voice b0069
                         b "Но он довольно агрессивный"
+                        voice b0070
                         b "Защищает своё болто"
+                        voice b0071
                         b "Он переманил всех монстров в болоте на свою сторону{w}, после этого они и стали заходить в лес поля и нападать на нас"
                         s "Думаю справлюсь"
+                        voice b0072
                         b "Покупайте снаряжение особенно броню"
+                        voice b0073
                         b "Без неё вас будут убивать с одного удара"
                         s "Знаю{w}, я не даун"
+                        voice b0074
                         b "Ладно"
                         s "Пойду до Макса"
                         s "Секса хочется"
@@ -1916,26 +2005,38 @@ label shop:
                         show pb at right
                         with moveoutright
                         k "Здорова{w}, я хотел узнать больше про бдсм лолей"
+                        voice b0075
                         b "Фу{w} лоликонч"
                         k "Та блять нет"
                         k "Я про похищение то"
+                        voice b0076
                         b "а"
                         k "Ты не знаешь куда он мог пропасть?"
+                        voice b0077
                         b "Есть одно место"
+                        voice b0078
                         b "Оно очень опасное"
+                        voice b0079
                         b "Я не слышал что бы из него возвращались живыми"
+                        voice b0080
                         b "Подземелье{w}, там обитали самые опасные существа"
+                        voice b0081
                         b "С ними справлялись{w}, но после последних событий"
+                        voice b0082
                         b "От туда не кто не возращялся"
                         k "Ты хочешь сказать что он может быть там?"
+                        voice b0083
                         b "Да"
                         k "Что же{w}, схожу туда проверю"
+                        voice b0084
                         b "Когда успел вернутся?"
                         k "Недавно"
                         k "Меня спас [name] от зелебобы"
                         k "Я был у него в клетке"
                         k "Он чуть не выебал меня"
+                        voice b0085
                         b "Понял"
+                        voice b0086
                         b "Не буду спрашивать как ты туда попал"
                         k "Пойду в подземелье"
                         hide pk with moveoutleft
@@ -1944,25 +2045,37 @@ label shop:
                     if not talk_3boris and win_2dan:
                         $ talk_3boris = True
                         show pb with dissolve
+                        voice b0087
                         b "Здравствуй Кирилл"
                         show pk dshentelmen at left with moveinleft
+                        voice b0088
                         b "Я видел вы одолели зелебобу"
+                        voice b0089
                         b "Деньги из моей кассы больше не пропадают"
+                        voice b0090
                         b "Спасибо вам"
                         k "Мы смогли собрать всю команду"
                         k "Очень скоро мы сможем попасть в логово Дениса"
                         k "Ты бы хотел выбраться от сюда?"
+                        voice b0091
                         b "Знаешь"
+                        voice b0092
                         b "Как бы этот мир не был прекрасен"
+                        voice b0093
                         b "Это всё же средневековье"
+                        voice b0094
                         b "И мне здесь делать не чего"
+                        voice b0095
                         b "Я бы хотел выбраться с вами"
                         k "Отлично"
                         k "Как тебе идея показать себя в боях?"
+                        voice b0096
                         b "Не знаю{w}, я не пробовал себя в магии или чём-то таком"
                         k "Так что?"
+                        voice b0097
                         b "Можем"
                         k "Тогда встретимся у Санька"
+                        voice b0098
                         b "Договорились"
                         hide pk with moveoutleft
                         hide pb with moveoutright
@@ -1973,32 +2086,44 @@ label shop:
                         show pb with moveinbottom
                         s "Здарова Борис"
                         m "Мы скоро будем выбираться от сюда"
+                        voice b0099
                         b "Ого{w}, меня возьмете?"
                         s "Вообще ты нам не чего не давал"
                         s "Так что мы подумаем"
+                        voice b0100
                         b "Та ну"
+                        voice b0101
                         b "Я же тут навсегда останусь"
                         m "Позже скажем"
+                        voice b0102
                         b "Ладно"
+                        voice b0103
                         b "Если меня здесь оставите я вас буду проклинать"
                         s "Почему у тебя не появляеться новое оружие"
                         s "Логичноже пополнять товар"
+                        voice b0104
                         b "Да{w}, но больше нету материалов из которых можно сделать оружие"
                         s "Ладно"
+                        voice b0105
                         b "У меня есть вопрос по поводу третей руки Макса"
                         m "А?"
                         m "Ты про эту"
+                        voice b0106
                         b "Да{w} что это за хуйня"
                         m "Ну так это{w}, я зелёный{w}, а значит мутант"
                         s "И ведь не поспоришь"
+                        voice b0107
                         b "Так а реально от куда?"
                         m "Я сам не ебу"
                         m "Она просто появилась когда я сюда попал"
                         m "Могу сказать что дрочить удобно"
                         s "Потверждаю"
+                        voice b0108
                         b "Так у тебя нету третей руки"
                         s "А обязательно моя?"
+                        voice b0109
                         b "Пиздец"
+                        voice b0110
                         b "Идите нахуй пидарасы"
                         m ")))"
                         hide pm with moveoutright
@@ -2006,17 +2131,23 @@ label shop:
                         hide px with moveoutbottom
                     random:
                         b "У меня самые выгодные цены!"
+                        voice b0111
                         b "Два хуя!{w} И все у меня во рту"
+                        voice b0112
                         b "Только я продаю нелегальное оружие!"
                         b "Меня ебали"
+                        voice b0113
                         b "Хочешь подозрительные зелья?"
+                        voice b0115
                         b "Меня ебут каждый день в очко"
+                        voice b0114
                         b "Наркотики тоже продаю!"
                         b "Бухло есть!"
                         b "Я сосу члены"
 
                     jump shop23
                 "Уйти":
+                    voice b0116
                     b "Увидимся ещё"
                     hide pb
                     jump shop_bar
@@ -2034,33 +2165,50 @@ label shop:
                 "Вы подошли к тянке"
                 show tank
                 with dissolve
+                voice t0020
                 t "Папа{w} и папа"
+                voice t0021
                 t "У меня два отца"
                 m "Да{w}, мы тарахались"
                 s "Не важно"
                 s "Как ты здесь оказалась?"
+                voice t0022
                 t "Не знаю"
+                voice t0023
                 t "Я помню только как кого-то позвала к себе домой"
+                voice t0024
                 t "А он пошёл играть в майнкрафт с друзьями"
+                voice t0025
                 t "От такого я пошла и повесилась"
                 s "Насколько я помню это была лучшая концовка в моей игре"
                 m "Да, я всегда на неё проходил"
                 m "Концовка сигмы"
                 s "Там надо было переспать с тянкой и потом пойти играть в майн"
+                voice t0026
                 t "Вы о чём?"
+                voice t0027
                 t "Не с кем я не спала"
+                voice t0028
                 t "Пидарасы"
                 s "Да"
                 s "И после этого ты попала в этот мир? Видела бога юй или иисуса?"
+                voice t0029
                 t "Нет, я была в пустоте"
+                voice t0030
                 t "Целый год"
+                voice t0031
                 t "Я ждала{w} и в какой-то момент попала сюда"
+                voice t0032
                 t "Здесь я встретила Бориса"
+                voice t0033
                 t "Я иногда у него убираю{w} и он разрешает мне здесь жить"
                 m "Понятно, он тебя использует"
                 s "100\%"
+                voice t0034
                 t "Неа, я его наёбываю"
+                voice t0035
                 t "Я уже давно пиздю у него Деньги"
+                voice t0036
                 t "Он думает что это зелебоба{w}, но это я"
                 menu raskasat:
                     "Рассказать Борису?"
@@ -2074,9 +2222,12 @@ label shop:
                         with fade
                         "К вам подошёл Борис"
                         "Макс рассказал всё как было"
-                        b "Ах ты тварь"
+                        voice b0117
+                        b "Ах ты тварь!"
                         "Борис забрал Тянку и ушёл в свою комнату с ней"
+                        voice t0037
                         t "АПУТИ!"
+                        voice b0118
                         b "Не путю"
                         scene bg shop_bar
                         with fade
@@ -2119,33 +2270,50 @@ label shop:
                         m "Мы получается тоже можем пиздить деньги?"
                         s "Да, надо его грабить нахуй"
                         $ renpy.notify("Это действие будет иметь последствия")
+                        voice t0038
                         t "Вы можете приходить ночью"
+                        voice t0039
                         t "Когда он спит, он закрывает дверь на замок"
+                        voice t0040
                         t "Я могу вам открывать{w}, но не всегда"
+                        voice t0041
                         t "Так что приходите не сильно часто"
                         m "Ок"
                         s "Будем примерно раз в 4 дня приходить"
+                        voice t0042
                         t "Жду вас"
                         s "У меня есть к тебе вопрос"
                         s "Какой магией ты обладаешь?"
+                        voice t0043
                         t "Не знаю{w}, я слышала что тут есть магия и всякое такое"
+                        voice t0044
                         t "Но мне это не сильно интересно"
+                        voice t0045
                         t "Тем более в колледже слишком дорогое обучение"
                         m "Мы можем договориться что бы Санёк бесплатно тебя обучал"
+                        voice t0046
                         t "Я же говорю не сильно хочу этим заниматься"
+                        voice t0047
                         t "Тем более если кто-то узнает что у меня есть боевые способности"
+                        voice t0048
                         t "Меня отправят в Бахмут"
                         m "Мне похуй"
                         m "Ты идёшь в колледж"
+                        voice t0049
                         t "Динахуй{w}, не хочу"
                         s "Та давай"
                         s "Один раз сходишь"
                         s "Просто посмотришь что у тебя за магия"
+                        voice t0050
                         t "Ну ладно"
+                        voice t0051
                         t "Если один раз"
+                        voice t0052
                         t "То можно"
+                        voice t0053
                         t "Только позже, ладно?"
                         s "Хорошо, ждём"
+                        voice t0054
                         t "Я пойду убирать{w}, а то он меня выселит"
                         hide tank
                         with dissolve
@@ -2162,13 +2330,16 @@ label shop:
                 show pm oshko at right with moveinright
                 show ps smile at left with moveinleft
                 show tank with moveinbottom
+                voice t0055
                 t "Саша, зачем ты тогда ушёл и не вернулся"
                 m "Ты за хлебом ходил?"
                 s "Нет"
                 s "Вообще-м мы так подумали"
                 s "Ты не реальна{w} как и всё остальное"
                 m "Ого и как ты это понял?"
+                voice t0056
                 t "Как я могу быть не реальной"
+                voice t0057
                 t "Вот я перед тобой"
                 s "Да{w}, но это только для тех кто знал про тебя до смерти"
                 m "Ты думаешь это так?"
@@ -2176,7 +2347,9 @@ label shop:
                 s "Максима я не видел при жизни{w}, а значит и здесь его для меня нету"
                 s "Они существуют в реальности ещё живые"
                 s "А мы умерли"
+                voice t0058
                 t "Ладно"
+                voice t0059
                 t "Но почему я чуствую себя живой тогда?"
                 s "Потому что я создал дебя живой"
                 s "Со своей историей и т.д."
@@ -2184,15 +2357,20 @@ label shop:
                 m "Но тогда как мы можем верить в то что ты Санёк, Борис настоящие"
                 s "Не знаю"
                 s "В любом случае это информация нам даёт только то что мы не все сможем выбраться"
+                voice t0060
                 t "Ты хочешь сказать я не смогу вернуться домой?"
                 s "Не то что бы так"
                 s "Это и есть твой дом"
                 m "Как я понял ты появилась здесь из чьих-то воспоминаний"
+                voice t0061
                 t "Грустно"
+                voice t0062
                 t "Но я вам не верю!"
+                voice t0063
                 t "Так что я смогу выбраться от сюда и буду сражаться до конца"
                 s "Ну пробуй"
                 s "Не думаю что у тебя получиться"
+                voice t0064
                 t "Вот и буду пробывать!"
                 hide tank with moveoutbottom
                 m "Может ты зря с ней так?"
@@ -2208,21 +2386,35 @@ label shop:
                 show ps uwu at right
                 show pt
                 with dissolve
+                voice z0002
                 z "О"
+                voice z0003
                 z "Привет"
+                voice z0004
                 z "Я знаю всё"
+                voice z0005
                 z "Если вам нужна помощь обращайтесь!"
+                voice z0006
                 z "Я подскажу что вам надо сделать сейчас"
+                voice z0007
                 z "Меня заперли в этом здании строители"
+                voice z0008
                 z "Дверь слишком мала"
                 s "Ты не можешь нагнутся?"
+                voice z0009
                 z "Я не могу нагнутся{w}, разрабы дауны"
                 m "По ф{w}a{w}к{w}т{w}у"
+                voice z0010
                 z "Сейчас я вам подскажу что можно сделать!"
                 s "Рассказывай"
+            if party_list.count == 0:
+                voice z0053
+                z "Ебать [name] лох, один в отряде остался"
+            
             if not first_pola:
                 show pt
                 with dissolve
+                voice z0011
                 z "Вы должны пойти в 24 часа в поле и встретить там Санька"
                 hide pt
                 with dissolve
@@ -2230,6 +2422,7 @@ label shop:
             if not first_libriary:
                 show pt
                 with dissolve
+                voice z0012
                 z "Вы должны пойти в библиотеку и встретить там Санька"
                 hide pt
                 with dissolve
@@ -2237,6 +2430,7 @@ label shop:
             if not win_1les:
                 show pt
                 with dissolve
+                voice z0013
                 z "Идите в лес в первый бой"
                 hide pt
                 with dissolve
@@ -2244,6 +2438,7 @@ label shop:
             if not talk_1tank:
                 show pt
                 with dissolve
+                voice z0014
                 z "Поговорите с Тянкой"
                 hide pt
                 with dissolve
@@ -2251,6 +2446,7 @@ label shop:
             if not talk_1sanek:
                 show pt
                 with dissolve
+                voice z0015
                 z "Пойдите в библиотеку к Саньку"
                 hide pt
                 with dissolve
@@ -2258,6 +2454,7 @@ label shop:
             if not talk_1maxim:
                 show pt
                 with dissolve
+                voice z0016
                 z "Макс{w}, ты можешь пойти домой к Максиму"
                 hide pt
                 with dissolve
@@ -2265,6 +2462,7 @@ label shop:
             if not win_2les:
                 show pt
                 with dissolve
+                voice z0017
                 z "Пройдите чащю леса что бы открыть новые действия"
                 hide pt
                 with dissolve
@@ -2272,6 +2470,7 @@ label shop:
             if not talk_2sanek:
                 show pt
                 with dissolve
+                voice z0018
                 z "Идите в библиотеку и поговорите с Саньком"
                 hide pt
                 with dissolve
@@ -2279,6 +2478,7 @@ label shop:
             if not talk_2maxim:
                 show pt
                 with dissolve
+                voice z0019
                 z "Поговори с Любимым на мосту"
                 hide pt
                 with dissolve
@@ -2286,6 +2486,7 @@ label shop:
             if not talk_1boris:
                 show pt
                 with dissolve
+                voice z0020
                 z "Поговори с Борисом в магазине"
                 hide pt
                 with dissolve
@@ -2293,6 +2494,7 @@ label shop:
             if not win_3les:
                 show pt
                 with dissolve
+                voice z0021
                 z "Продалжай сражаться"
                 hide pt
                 with dissolve
@@ -2300,6 +2502,7 @@ label shop:
             if not talk_3sanek:
                 show pt
                 with dissolve
+                voice z0022
                 z "Поговори с Саньком в поле"
                 hide pt
                 with dissolve
@@ -2307,6 +2510,7 @@ label shop:
             if not talk_2tank and action_1tank:
                 show pt
                 with dissolve
+                voice z0023
                 z "Прийди ночью в магазин Бориса"
                 hide pt
                 with dissolve
@@ -2314,6 +2518,7 @@ label shop:
             if not talk_1denis:
                 show pt
                 with dissolve
+                voice z0024
                 z "Продолжай пиздить Дениса пока он спит"
                 hide pt
                 with dissolve
@@ -2321,6 +2526,7 @@ label shop:
             if not talk_3tank and action_1tank:
                 show pt
                 with dissolve
+                voice z0025
                 z "Поговори с тянкой в колледже"
                 hide pt
                 with dissolve
@@ -2328,6 +2534,7 @@ label shop:
             if not win_4les:
                 show pt
                 with dissolve
+                voice z0026
                 z "Одолей зелебобу"
                 hide pt
                 with dissolve
@@ -2335,6 +2542,7 @@ label shop:
             if not talk_1kirill:
                 show pt
                 with dissolve
+                voice z0027
                 z "Поговори с Кириллом в колледже"
                 hide pt
                 with dissolve
@@ -2342,6 +2550,7 @@ label shop:
             if not talk_2kirill:
                 show pt
                 with dissolve
+                voice z0028
                 z "Поговори с Кириллом в колледже в комнате"
                 hide pt
                 with dissolve
@@ -2349,6 +2558,7 @@ label shop:
             if not talk_2boris:
                 show pt
                 with dissolve
+                voice z0029
                 z "Поговори с Борисом"
                 hide pt
                 with dissolve
@@ -2356,6 +2566,7 @@ label shop:
             if not win_1dan:
                 show pt
                 with dissolve
+                voice z0030
                 z "Зачисти подвал Арнаутова"
                 hide pt
                 with dissolve
@@ -2363,6 +2574,7 @@ label shop:
             if not talk_4sanek:
                 show pt
                 with dissolve
+                voice z0031
                 z "Поговори с Саньком в колледже"
                 hide pt
                 with dissolve
@@ -2370,6 +2582,7 @@ label shop:
             if not talk_1sasha:
                 show pt
                 with dissolve
+                voice z0032
                 z "Иди в свою комнату{w} там будет собрание"
                 hide pt
                 with dissolve
@@ -2377,6 +2590,7 @@ label shop:
             if not win_2dan:
                 show pt
                 with dissolve
+                voice z0033
                 z "Продолжай сражаться!"
                 hide pt
                 with dissolve
@@ -2384,6 +2598,7 @@ label shop:
             if not talk_5sanek:
                 show pt
                 with dissolve
+                voice z0034
                 z "Поговори с Саньком"
                 hide pt
                 with dissolve
@@ -2391,6 +2606,7 @@ label shop:
             if not talk_3boris:
                 show pt
                 with dissolve
+                voice z0035
                 z "Поговори с Борисом"
                 hide pt
                 with dissolve
@@ -2398,6 +2614,7 @@ label shop:
             if not talk_3kirill:
                 show pt
                 with dissolve
+                voice z0036
                 z "Иди ночью в комнату{w} там общий сбор"
                 hide pt
                 with dissolve
@@ -2405,6 +2622,7 @@ label shop:
             if not win_3dan:
                 show pt
                 with dissolve
+                voice z0037
                 z "Продолжай сражаться!"
                 hide pt
                 with dissolve
@@ -2412,6 +2630,7 @@ label shop:
             if not talk_4boris:
                 show pt
                 with dissolve
+                voice z0038
                 z "Поговори с Борисом"
                 hide pt
                 with dissolve
@@ -2419,6 +2638,7 @@ label shop:
             if not talk_3maxim:
                 show pt
                 with dissolve
+                voice z0039
                 z "Отправляйся к Любимому"
                 hide pt
                 with dissolve
@@ -2426,6 +2646,7 @@ label shop:
             if not talk_2sasha:
                 show pt
                 with dissolve
+                voice z0040
                 z "Встеться с Тянкой"
                 hide pt
                 with dissolve
@@ -2433,7 +2654,9 @@ label shop:
             if not win_4dan:
                 show pt
                 with dissolve
+                voice z0041
                 z "Что ты тут делаешь"
+                voice z0042
                 z "Третия штурмова бригада открыла новые подземелье!"
                 hide pt
                 with dissolve
@@ -2442,8 +2665,11 @@ label shop:
                 $ talk_2taras = True
                 show pt
                 with dissolve
-                z "Поздравляю вас с зачисткой всех подвало!"
+                voice z0043
+                z "Поздравляю вас с зачисткой всех подвалов!"
+                voice z0044
                 z "Я вижу будующие.."
+                voice z0045
                 z "У вас всё получиться!"
                 hide pt
                 with dissolve
@@ -2451,6 +2677,7 @@ label shop:
             if not talk_4maxim:
                 show pt
                 with dissolve
+                voice z0046
                 z "Иди к Любимому"
                 hide pt
                 with dissolve
@@ -2458,6 +2685,7 @@ label shop:
             if not talk_3tank:
                 show pt
                 with dissolve
+                voice z0047
                 z "Поговори с Тянкой"
                 hide pt
                 with dissolve
@@ -2465,6 +2693,7 @@ label shop:
             if not talk_6sanek:
                 show pt
                 with dissolve
+                voice z0048
                 z "Ты должен прийти к Саньком"
                 hide pt
                 with dissolve
@@ -2472,6 +2701,7 @@ label shop:
             if not talk_5boris:
                 show pt
                 with dissolve
+                voice z0049
                 z "Поговори с Борисом"
                 hide pt
                 with dissolve
@@ -2479,6 +2709,7 @@ label shop:
             if not talk_3sasha:
                 show pt
                 with dissolve
+                voice z0050
                 z "Общий сбор!"
                 hide pt
                 with dissolve
@@ -2486,12 +2717,14 @@ label shop:
             if not win_denis:
                 show pt
                 with dissolve
+                voice z0051
                 z "Иди блять пизди Дениса!"
                 hide pt
                 with dissolve
                 jump shop_bar
             show pt
             with dissolve
+            voice z0052
             z "Иди нахуй заебал, пидарас доделай игру. Сука блять уже месяц делаешь эту хуйню всё равно не кто не увидит так как это блять не возможно не как, только во время разработки этой хуйни пиздец макс даун спамер ебаный"
             hide pt
             with dissolve
@@ -2554,7 +2787,9 @@ label daun:
         d "Я получил 13 грывень из монстров"
         show pb open at left
         with moveinleft
+        voice b0119
         b "БЛЯТЬ{w} что ты тут делаешь"
+        voice b0120
         b "Как стража вообще впустила в город"
         d "Пожалуйста продай немного еды"
         scene black
@@ -2806,7 +3041,6 @@ label dansh:
         $ first_dan = True
         show pk
         with fade
-        k "Вот я и пришёл"
         k "Вот я и пришёл"
         k "Это то самое жуткое место"
         k '"Подвалы Дениса"'

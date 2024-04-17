@@ -1,14 +1,14 @@
 ﻿# characters
-define m = Character('Макс', color="#3cef5d", image="m", callback=name_callback, cb_name="m")
-define s = Character('Саша', color="#543cef", image="s", callback=name_callback, cb_name="s")
-define d = Character('Денис', color="#e41010", image="d", callback=name_callback, cb_name="d")
-define k = Character('Кирилл', color="#ec32df", image="k", callback=name_callback, cb_name="k")
-define u = Character('Бог Юй', color="#e410c4", image="u", callback=name_callback, cb_name="u")
-define x = Character('Санёк', color="#df9921", image="x", callback=name_callback, cb_name="x")
-define t = Character('Тянка', color="#f68ccd", image="t", callback=name_callback, cb_name="t")
-define z = Character('Тарас', color="#eee44b", image="z", callback=name_callback, cb_name="z")
-define l = Character('Любимый', color="#c31414", image="l", callback=name_callback, cb_name="l")
-define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b")
+define m = Character('Макс', color="#3cef5d", image="m", callback=name_callback, cb_name="m") # soon
+define s = Character('Саша', color="#543cef", image="s", callback=name_callback, cb_name="s") # soon
+define d = Character('Денис', color="#e41010", image="d", callback=name_callback, cb_name="d") # 50/50
+define k = Character('Кирилл', color="#ec32df", image="k", callback=name_callback, cb_name="k") # 50/50
+define u = Character('Бог Юй', color="#e410c4", image="u", callback=name_callback, cb_name="u") # xz
+define x = Character('Санёк', color="#df9921", image="x", callback=name_callback, cb_name="x") # xz
+define t = Character('Тянка', color="#f68ccd", image="t", callback=name_callback, cb_name="t") # xz
+define z = Character('Тарас', color="#eee44b", image="z", callback=name_callback, cb_name="z") # gotov
+define l = Character('Любимый', color="#c31414", image="l", callback=name_callback, cb_name="l") # soon
+define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b") # gotov
 
 
 # persistent
@@ -155,74 +155,124 @@ label splashscreen:
         play music battle3
         scene bg angels
         with fade
+        voice m0001
         m "Добро пожаловать в ебейшую визуальную новелу"
+        voice m0002
         m "Сейчас будет один вопрос{w}, ВАЖНО ОТВЕТИТЬ ЧЕСТНО!"
         $ persistent.endings = []
         $ persistent.user_name = renpy.input("Как тебя зовут в реальности? (Это важно!!!)", length=32)
         if persistent.user_name.casefold() == "денис" or persistent.user_name.casefold() == "даун" or persistent.user_name.casefold() == "аутист" or persistent.user_name.casefold() == "уебан":
+            voice m0003
             m "Оу"
+            voice m0004
             m "Денис?"
+            voice s0001
             s "Если сможешь пройти игру 3 раза с определёнными условиями то получишь прикольчик"
+            voice m0005
             m "Так что удачи)"
         elif persistent.user_name.casefold() == "макс":
+            voice m0006
             m "Какие люди"
+            voice m0007
+            m "Тайлер дёрнул"
+            voice s0002
             s "Ты посмотри на этого далбоёба"
+            voice m0008
             m "Та вообще пидр"
+            voice k0026
             k "Я бы его трахнул"
         elif persistent.user_name.casefold() == "борис":
+            voice m0009
             m "Борис{w} какое имя"
+            voice s0003
             s "Уебанское"
+            voice b0001
             b "Ахуели?"
+            voice s0004
             s "Ух ебать"
+            voice s0005
             s "Он в начальном экране говорит"
+            voice m0010
             m "Я вахуи"
         elif persistent.user_name.casefold() == "кирилл" or persistent.user_name.casefold() == "лох":
+            voice m0011
             m "Ты дождался своего бета теста)"
+            voice s0006
             s "Кирилл предуприждаю"
+            voice s0007
             s "Тебя будут так и так в игре"
+            voice m0012
             m "Так что проходи только с резиновым членом в жопе"
         elif persistent.user_name.casefold() == "саша":
+            voice s0008
             s "А кто же это"
+            voice m0013
             m "Alexmantos"
+            voice s0009
             s "Это блогодаря ему здесь 2 колабы"
         elif persistent.user_name.casefold() == "рома":
+            voice m0014
             m "Могу сказать что тебя не будет в первой главе"
+            voice m0015
             m "А вот во второй.."
+            voice s0010
             s "Всё в переди!"
         elif persistent.user_name.casefold() == "тарас":
+            voice m0016
             m "Можно менять название"
+            voice s0011
             s "Титан в школе"
         elif persistent.user_name.casefold() == "максим" or persistent.user_name.casefold() == "любимый":
+            voice m0017
             m "Любимый!"
+            voice m0018
             m "Цколько лет цколько цим"
+            voice s0012
             s "Ты про кого?"
         elif persistent.user_name.casefold() == "юй":
+            voice m0019b
             m "А ты что тут забыла?"
             d "Я бы её трахнул сейчас"
         elif persistent.user_name.casefold() == "тянка":
+            voice t0001
             t "Я же говорила что я реальна!"
+            voice t0002
             t "Вот я выбралась и скачала эту игру"
         elif persistent.user_name.casefold() == "влад":
+            voice m0019
             m "Вот и неведимка зашёл в игру"
+            voice s0013
             s "Я здесь не кого не вижу"
         elif persistent.user_name.casefold() == "вадим":
+            voice m0020
             m "Вадим?"
+            voice m0021
             m "Тебя в первой главе нету"
+            voice m0022
             m "Но можешь появиться во второй)"
         elif persistent.user_name.casefold() == "илья":
+            voice m0023
             m "Тебе игра понравиться"
+            voice m0024
             m "Здесь можно поиграть в мортал комбат"
         elif persistent.user_name.casefold() == "аня" or persistent.user_name.casefold() == "катя":
+            voice m0025 # ЗАПИСАТЬ
             m "ААА ЖЕНЩИНА"
+            voice k0027
             k "ААА ЖЕНЩИНА"
+            voice s0014 # ЗАПИСАТЬ
             s "ААА ЖЕНЩИНА"
+            voice b0002
             b "ААА ЖЕНЩИНА"
+            voice z0001
             z "ААА ЖЕНЩИНА"
             x "ААА ЖЕНЩИНА"
             l "ААА ЖЕНЩИНА"
             d "ААА ЖЕНЩИНА"
             u "а что тут такого?"
+        voice m0026
         m "Привет [persistent.user_name]!{w} твоё имя будет использовано для статистики. {w}Её можно будет посмотреть в дискорде."
+        voice s0015 # ЗАПИСАТЬ
         s "Приятной дрочке!"
         $ persistent.first_run = False
         $ webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content="**{0}** в первые запустил игру!".format(persistent.user_name))
