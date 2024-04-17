@@ -1811,7 +1811,6 @@ label shop:
         m "Сегодня я не дрочил"
         hide pb
         with dissolve
-    $ player_inv.money = 123342000
     if not autohil and player_inv.money >= 3000 and random_choise(10):
         show pb
         with dissolve
