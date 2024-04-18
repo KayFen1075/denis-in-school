@@ -1,4 +1,4 @@
-style say_dialogue_pixel:
+style pixel_say_dialogue:
     properties gui.text_properties("dialogue")
   
     xpos gui.dialogue_xpos
@@ -8,7 +8,18 @@ style say_dialogue_pixel:
     adjust_spacing False
     font "fonts/ice_pixel-7.ttf"
     size 60
+style pixel_say_label:
+    properties gui.text_properties("name", accent=True)
+    xalign gui.name_xalign
+    yalign 0.5
 
+    xpos 0.5
+    ypos 18
+    
+    outlines [(2, "#125e28", 0, 0)]
+    font "fonts/name.ttf"
+    background "black"
+    size 60
 # Стили пиксельного Макса 
 style style_pm_back:
     xalign 0.1
@@ -146,7 +157,7 @@ style style_pu_back:
     
     font "fonts/gialog.ttf"
 
-    background Image("gui/personalUI/pm/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/personalUI/pu/textbox.png", xalign=0.5, yalign=1.0)
 style style_pu_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign

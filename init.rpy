@@ -11,19 +11,21 @@ define l = Character('Любимый', color="#c31414", image="l", callback=name
 define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b") # gotov
 
 # persistent
+## Статистика
+default persistent.new_games = 1
+default persistent.reset_games = 0
+
 default persistent.first_game = True
 default persistent.selected_u = None
 default persistent.endings = []
 default persistent.one_webhook_messages = []
-default persistent.new_games = 1
-default persistent.reset_games = 0
 default persistent.main_menu = "gui/main_menu.png"
-default persistent.hight_level = 1
 default persistent.first_run = True
 default persistent.angels_pizdet = False
 default persistent.user_name = "Не указанно"
 default persistent.main_menu_music = "music/disco.mp3"
 default persistent.secret_code = True
+default persistent.end_game = False
 
 # Имена для входа
 default persistent.denis = "?"
@@ -38,6 +40,7 @@ image bronze_sworld:
 # config
 
 init python:
+    import time;
     from discord_webhook import DiscordWebhook
     # info
     count_endings = 6
