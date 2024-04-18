@@ -1,11 +1,25 @@
 label start:
+    if persistent.new_games == 2:
+        "Что не первый раз?"
+        "Тебя не устроил прошлый конец?"
+        "Хочешь что-то изменить?"
+        "Хочешь начать всё заново?"
+        menu resetInfo:
+            "начать всё заново?"
+            "Да":
+                $ persistent.one_webhook_messages = []
+                $ persistent.reset_games += 1
+            "Нет":
+                $ persistent.reset_games += 1
+    $ OneDiscordMessage("{name} начал новую игру")
     $ state = "something"
     pause(2)
     $ _dismiss_pause = False
     scene main_menu
     with fade
     pause(3)
-    $ renpy.notify(persistent.endings)
+
+    $ persistent.new_games += 1
     $ persistent.main_menu = "gui/main_menu.png"
     $ persistent.main_menu_music = "music/disco.mp3"
 
@@ -13,8 +27,10 @@ label start:
     scene bg shcool with dissolve
     show s smile at left 
     with dissolve
+    $ config.rollback_enabled = False
     voice s0016
     s "Здарова"
+    $ config.rollback_enabled = True
     voice s0017
     s "Как думаешь сегодня Денис прийдёт в школу?"
     show m at right
@@ -46,6 +62,8 @@ label start:
     return
 
 label uyti:
+    $ persistent.first_game = False
+    $ OneDiscordMessage("# Пролог - {0} 👇\nИдём в школу, или сьёбёмся играть в CS?\n> `Да, сьёбываем нахуй`".format(persistent.user_name))
     hide m
     hide s
     scene bg spooke stairs with fade
@@ -66,6 +84,8 @@ label uyti:
     return
 
 label ostatsa:
+    $ persistent.first_game = False
+    $ OneDiscordMessage("# Пролог - {0} 👇\nИдём в школу, или сьёбёмся играть в CS?\n> `Не, я хочу подрочить на уроке`".format(persistent.user_name))
     voice s0020b
     s "Давай просто пойдём на уроки{w}, мы всё равно пропустили 5 уроков"
     voice m0033
@@ -153,6 +173,7 @@ label bunker:
         "Ну нахуй, слишком стрёмно":
             jump pobeg
         "Нет, идём до конца":
+            $ OneDiscordMessage("# Пролог - {0} 👇\Пойти в бункер?\n> `Нет, идём до конца`".format(persistent.user_name))
             voice m0041
             m "Идём до конца"
             voice s0030 # ЗАПИСАТЬ
@@ -197,6 +218,7 @@ label bunker:
     return
 
 label pobeg:
+    $ OneDiscordMessage("# Пролог - {0} 👇\nПойти в бункер?\n> `Уйти`".format(persistent.user_name))
     
     scene black
     "Вы начали уходить"
@@ -220,6 +242,7 @@ label pobeg:
     menu kto_idet:
         "Кто пойдёт"
         "Макс":
+            $ OneDiscordMessage("# Пролог - {0} 👇\Кто пойдёт?\n> `Макс`".format(persistent.user_name))
             "Максим зашёл в заброшенный дом"
             "В друг за ним закрываются двери"
             play music mansion
@@ -582,6 +605,7 @@ label pobeg:
                 return
             pass
         "Саша":
+            $ OneDiscordMessage("# Пролог - {0} 👇\nКто пойдёт?\n> `Саша`".format(persistent.user_name))
             "Саша зашёл в заброшенный дом"
             "В друг за ним закрываются двери"
             play music mansion
@@ -628,12 +652,14 @@ label pobeg:
             menu ku2:
                 "Помочь?"
                 "Помочь":
+                    $ OneDiscordMessage("# Пролог - {0} 👇\nПомочь кириллу?\n> `Помочь`".format(persistent.user_name))
                     $ kHelp = True
                     "{i}Вы помогли Кириллу{/i}"
                     "{i}Но могли бы не помогать{/i}"
                     $ renpy.notify("Кирилл это запомнит")
                     pass
                 "Оставить хохла":
+                    $ OneDiscordMessage("# Пролог - {0} 👇\nПомочь кириллу?\n> `Оставить хохла`".format(persistent.user_name))
                     "{i}Вы не помогли Кириллу{/i}"
                     "{i}Вы посчиитали что ваша девственность важнее{/i}"
                     "{i}У Кирилла встал{/i}"
@@ -833,6 +859,7 @@ label pobeg:
                 k "Ты мне помог, по этому я взломаю вселенную и найду ответ"
                 voice k0024
                 k "Г жцмцп пну Хитцъ хфуесэ, цеш адт мнъимчнт ицу кыа ухнкъпбыч .. Денис"
+                $ OneDiscordMessage("# Пролог - {0} 😈\nКирилл помог Саше".format(persistent.user_name))
                 voice m0080
                 m "Не знаю почему{w}, но это правильный ответ"
                 $ FigthPoints += 1
@@ -841,9 +868,11 @@ label pobeg:
                 k "Дай подумаю.."
                 voice k0025
                 k "Я не знаю"
+                $ OneDiscordMessage("# Пролог - {0} 😈\nКирилл не помог Саше".format(persistent.user_name))
                 voice m0081
                 m "Это не правильный ответ!"
             if FigthPoints >= 6:
+                $ OneDiscordMessage("# Пролог - {0} 😈\nСаша смог одолеть Макса".format(persistent.user_name))
                 play audio "Intro.wav"
                 stop music
                 voice m0082
@@ -863,6 +892,7 @@ label pobeg:
                 d "Если хотите его"
                 d "Идите на кладбище"
             else:
+                $ OneDiscordMessage("# Пролог - {0} 😈\nСаша не смог одолеть Макса".format(persistent.user_name))
                 voice m0083b
                 m "Вы не ответили правильно.."
                 "{i}Макс призвал Дениса{/i}"
@@ -896,6 +926,7 @@ label morg:
     voice s0072
     s "Достойная причина, тогда и мне"
     "{i}Так они трахались{w}, потом они пришли на кладбище{/i}"
+    $ OneDiscordMessage("# Пролог - {0} 🚶\nСаша и Макс пришли на кладбище".format(persistent.user_name))
     scene bg morg
     play music "music/Venus.wav"
     pause(3.5)
@@ -997,6 +1028,7 @@ label morg:
     "Он призвал Дениса"
     show d aun
     play audio dk
+    $ OneDiscordMessage("# Пролог - {0} 🫢\nСаша узнал прошлое".format(persistent.user_name))
     d "Нахуй ты меня призвал"
     d "В наказание я выебу тебя и всех кто тут есть"
     voice m0087
@@ -1035,10 +1067,12 @@ label morg:
     menu boris:
         "Fress F?"
         "F":
+            $ OneDiscordMessage("# Пролог - {0} 👇\nСаша отдал честь Борису".format(persistent.user_name))
             "Саша выбрал отдать честь погибшему"
             "F"
             pass
-        "Нассал на могилу":
+        "Нассать на могилу":
+            $ OneDiscordMessage("# Пролог - {0} 👇\nСаша нассал на могилу".format(persistent.user_name))
             "Саша ссал на правила"
             "{i}Саша обсосал могилу{/i}"
             $ mogila_borisa = True
@@ -1094,6 +1128,7 @@ label morg:
     menu:
         "Открыть крышку гроба?"
         "Открыть":
+            $ OneDiscordMessage("# Пролог - {0} 👇\n{0} открыл гроб".format(persistent.user_name))
             "То что вы увидели"
             "Было ужасно"
             "Перед вами был расчленённый труп Кирилла"
@@ -1107,6 +1142,7 @@ label morg:
             "Как вдруг вас затянуло.."
             jump deadw
         "Сбежать":
+            $ OneDiscordMessage("# Пролог - {0} 👇\n{0} решил сбежать".format(persistent.user_name))
             pass
     "Вы решили оставить их в покое"
     voice s0111
@@ -1136,4 +1172,5 @@ label morg:
     stop music
     "{fi}Пролог пройден{/fi}"
     jump deadw
+    $ OneDiscordMessage("# Пролог - {0} 🏅\n{0} завершил пролог!".format(persistent.user_name))
     return

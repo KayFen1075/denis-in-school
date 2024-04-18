@@ -159,7 +159,7 @@ style say_dialogue:
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
-
+    
     adjust_spacing False
 
 ## Экран ввода #################################################################
@@ -348,24 +348,34 @@ style navigation_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
+label main_menu:
+    call screen main_menu
+
+label restart:
+    call screen confirm(message=u"{bt=3}Точно хотите начать игру заново?{/bt}", yes_action=Start(), no_action=Jump("main_menu"))
+
 screen main_menu():
 
     ## Этот тег гарантирует, что любой другой экран с тем же тегом будет
     ## заменять этот.
 
     tag menu
-
     imagemap:
         ground (persistent.main_menu)
-        idle "gui/menu_normal.png"
-        hover "gui/menu_hover.png"
-
-        hotspot(650, 50, 600, 120) action Start()
-        hotspot(220, 175, 600, 100) action ShowMenu("load")
-        hotspot(30, 250, 600, 120) action ShowMenu("help")
-        hotspot(1100, 170, 600, 100) action ShowMenu("preferences")
+        if persistent.first_game:
+            idle "gui/menu_normal.png"
+            hover "gui/menu_hover.png"
+            hotspot(505, 77, 870, 115) action Start()
+        else:
+            idle "gui/menu_full_normal.png"
+            hover "gui/menu_full_hover.png"
+            hotspot(450, 50, 1000, 120) action FileLoad(1, confirm=False, page="auto", newest=True)
+            hotspot(715, 170, 440, 65) action Jump("restart")
+        hotspot(220, 190, 470, 100) action ShowMenu("load")
+        hotspot(4, 290, 360, 80) action ShowMenu("help")
+        hotspot(1150, 170, 550, 100) action ShowMenu("preferences")
         hotspot(1700, 0, 400, 120) action Quit(confirm=True)
-        hotspot(1500, 250, 600, 120) action ShowMenu("about") 
+        hotspot(1500, 270, 600, 120) action ShowMenu("about") 
 
 
 

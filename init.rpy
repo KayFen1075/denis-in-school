@@ -1,8 +1,8 @@
 ﻿# characters
-define m = Character('Макс', color="#3cef5d", image="m", callback=name_callback, cb_name="m") # soon
-define s = Character('Саша', color="#543cef", image="s", callback=name_callback, cb_name="s") # soon
+define m = Character('Макс', color="#3cef5d", voice_tag="m", image="m", callback=name_callback, cb_name="m") # soon
+define s = Character('Саша', color="#543cef", voice_tag="s", image="s", callback=name_callback, cb_name="s") # soon
 define d = Character('Денис', color="#e41010", image="d", callback=name_callback, cb_name="d") # 50/50
-define k = Character('Кирилл', color="#ec32df", image="k", callback=name_callback, cb_name="k") # 50/50
+define k = Character('Кирилл', color="#ec32df", voice_tag="k", image="k", callback=name_callback, cb_name="k") # 50/50
 define u = Character('Бог Юй', color="#e410c4", image="u", callback=name_callback, cb_name="u") # xz
 define x = Character('Санёк', color="#df9921", image="x", callback=name_callback, cb_name="x") # xz
 define t = Character('Тянка', color="#f68ccd", image="t", callback=name_callback, cb_name="t") # xz
@@ -10,9 +10,13 @@ define z = Character('Тарас', color="#eee44b", image="z", callback=name_cal
 define l = Character('Любимый', color="#c31414", image="l", callback=name_callback, cb_name="l") # soon
 define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b") # gotov
 
-
 # persistent
+default persistent.first_game = True
+default persistent.selected_u = None
 default persistent.endings = []
+default persistent.one_webhook_messages = []
+default persistent.new_games = 1
+default persistent.reset_games = 0
 default persistent.main_menu = "gui/main_menu.png"
 default persistent.hight_level = 1
 default persistent.first_run = True
@@ -133,6 +137,11 @@ init python:
             persistent.endings.append(name)
             renpy.notify(f'Открыта новая концовка {name}')
             DiscordMessage("**{0}** открыл новую концовку `{1}`!\nПройдено концовок: {2} из {3}".format(persistent.user_name, name, len(persistent.endings), count_endings))
+    def OneDiscordMessage(m):
+        if m not in persistent.one_webhook_messages:
+            persistent.one_webhook_messages.append(m)
+            DiscordMessage(m)
+
     def DiscordMessage(m):
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m)
         response = webhook.execute()

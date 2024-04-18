@@ -1,5 +1,5 @@
 style pixel:
-    font "fonts/YourFontFile.ttf"
+    font "fonts/gialog.ttf"
     outlines [(3, "#658791", 1, 1)]
     color "#b4c5cb"
     size 40
@@ -29,7 +29,7 @@ style battle_playername_text:
     size 36
 
 style skills_button_text:
-    font "fonts/YourFontFile.ttf"
+    font "fonts/gialog.ttf"
     size 55
     anchor (.5,.5)
     align (.5,.5)

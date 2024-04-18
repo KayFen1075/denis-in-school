@@ -2,6 +2,18 @@ label deadw:
     scene main_menu_ch_1
     with fade
     pause(3)
+ 
+    $ m = Character('Макс', color="#3cef5d", voice_tag="m", who_style="style_pm_label", what_style="style_pm_dialogue", window_style="style_pm_back", image="m", callback=name_callback, cb_name="m") # soon
+    $ s = Character('Саша', color="#543cef", voice_tag="s", who_style="style_ps_label", what_style="style_ps_dialogue", window_style="style_ps_back", image="s", callback=name_callback, cb_name="s") # soon
+    $ d = Character('Денис', color="#e41010", voice_tag="d", image="d", who_style="style_pd_label", what_style="style_pd_dialogue", window_style="style_pd_back", callback=name_callback, cb_name="d") # 50/50
+    $ k = Character('Кирилл', color="#ec32df", voice_tag="k", who_style="style_pk_label", what_style="style_pk_dialogue", window_style="style_pk_back", image="k", callback=name_callback, cb_name="k") # 50/50
+    $ u = Character('Бог Юй', color="#e410c4", voice_tag="u", image="u", who_style="style_pu_label", what_style="style_pu_dialogue", window_style="style_pu_back", callback=name_callback, cb_name="u") # xz
+    $ x = Character('Санёк', color="#df9921", voice_tag="x", image="x", who_style="style_px_label", what_style="style_px_dialogue", window_style="style_px_back", callback=name_callback, cb_name="x") # xz
+    $ t = Character('Тянка', color="#f68ccd", voice_tag="t", image="t", who_style="style_pt_label", what_style="style_pt_dialogue", window_style="style_pt_back", callback=name_callback, cb_name="t") # xz
+    $ z = Character('Тарас', color="#eee44b", voice_tag="z", image="z", who_style="style_pz_label", what_style="style_pz_dialogue", window_style="style_pz_back", callback=name_callback, cb_name="z") # gotov
+    $ l = Character('Любимый', color="#c31414", voice_tag="l", image="l", who_style="style_pl_label", what_style="style_pl_dialogue", window_style="style_pl_back", callback=name_callback, cb_name="l") # soon
+    $ b = Character('Борис', color="#a921df", voice_tag="b", image="b", who_style="style_pb_label", what_style="style_pb_dialogue", window_style="style_pb_back", callback=name_callback, cb_name="b") # gotov
+
     $ persistent.main_menu = "gui/main_menu_ch_1.png"
     $ persistent.main_menu_music = "music/BitWaves.wav"
     $ config.main_menu_music = "music/BitWaves.wav"
@@ -38,13 +50,30 @@ label deadw:
     "Наступило молчание"
     "Все ждали приговора"
     "Как вдруг"
+    $ persistent.selected_u = None
     menu kanon:
         "Пойти по канону или в соло"
         "Канон":
             menu adray:
                 "Кому дать слово?"
                 "[persistent.denis]":
+                    if persistent.selected_u != 1 and persistent.selected_u != None or persistent.end_game:
+                        "Вы дали слово.."
+                        hide u
+                        with dissolve
+                        "Вы дали слово [name]"
+                        stop music
+                        "Я знаю что ты сделал{w}, ты загрузился"
+                        pause(3)
+                        "Больше так не делай"
+                        "Я слежу за тобой"
+                        play music "music/Do Not Run.mp3"
+                        show u dab
+                        jump kanon
+                    $ persistent.selected_u = 1
+                    $ config.rollback_enabled = False
                     "Вы дали слово Денису"
+                    $ config.rollback_enabled = True
                     "Возможно это было худшее решение{w} за всю игру"
                     d "Пошла нах.."
                     "Макс закрыл рот аутисту"
@@ -86,7 +115,23 @@ label deadw:
                     u "В АД"
                     jump ad
                 "[persistent.sasha]":
+                    if persistent.selected_u != 2 and persistent.selected_u != None or persistent.end_game:
+                        "Вы дали слово.."
+                        hide u
+                        with dissolve
+                        "Вы дали слово [name]"
+                        stop music
+                        "Я знаю что ты сделал{w}, ты загрузился"
+                        pause(3)
+                        "Больше так не делай"
+                        "Я слежу за тобой"
+                        play music "music/Do Not Run.mp3"
+                        show u dab
+                        jump kanon
+                    $ persistent.selected_u = 2
+                    $ config.rollback_enabled = False
                     "Вы дали слово Саше"
+                    $ config.rollback_enabled = True
                     s "Ну давайте я отвечу"
                     show u muha
                     with vpunch
@@ -134,7 +179,24 @@ label deadw:
                     m "Как нахуй"
                     jump ray
                 "[persistent.lox]":
+                    if persistent.selected_u != 3 and persistent.selected_u != None or persistent.end_game:
+                        "Вы дали слово.."
+                        hide u
+                        with dissolve
+                        "Вы дали слово [name]"
+                        stop music
+                        "Я знаю что ты сделал{w}, ты загрузился"
+                        pause(3)
+                        "Больше так не делай"
+                        "Я слежу за тобой"
+                        play music "music/Do Not Run.mp3"
+                        show u dab
+                        jump kanon
+
+                    $ persistent.selected_u = 3
+                    $ config.rollback_enabled = False
                     "Вы дали слово Кириллу"
+                    $ config.rollback_enabled = True
                     voice k0028
                     k "Ладно, давайте я отвечу"
                     m "Не разрешаю"
@@ -188,7 +250,24 @@ label deadw:
                     u "В АД"
                     jump ad
                 "[persistent.maks]":
+                    if persistent.selected_u != 4 and persistent.selected_u != None or persistent.end_game:
+                        "Вы дали слово.."
+                        hide u
+                        with dissolve
+                        "Вы дали слово [name]"
+                        stop music
+                        "Я знаю что ты сделал{w}, ты загрузился"
+                        pause(3)
+                        "Больше так не делай"
+                        "Я слежу за тобой"
+                        play music "music/Do Not Run.mp3"
+                        show u dab
+                        jump kanon
+
+                    $ persistent.selected_u = 4
+                    $ config.rollback_enabled = False
                     "Вы дали слово Максу"
+                    $ config.rollback_enabled = True
                     m "Я знаю всё про неё, так что на вопросы отвечу правильно!"
                     show u muha
                     with vpunch
@@ -223,7 +302,23 @@ label deadw:
                     $ persistent.maks = "Максу"
                     jump ray
         "В соло":
+            if persistent.selected_u != 5 and persistent.selected_u != None or persistent.end_game:
+                "Вы дали слово.."
+                hide u
+                with dissolve
+                "Вы дали слово [name]"
+                stop music
+                "Я знаю что ты сделал{w}, ты загрузился"
+                pause(3)
+                "Больше так не делай"
+                "Я слежу за тобой"
+                play music "music/Do Not Run.mp3"
+                show u dab
+                jump kanon
+            $ persistent.selected_u = 5
+            $ config.rollback_enabled = False
             "Вы решили ответить сами"
+            $ config.rollback_enabled = True
             show u muha
             voice u0006
             u "{bt=3}Что же{w}, через тебя будет проходить суд{/bt}"

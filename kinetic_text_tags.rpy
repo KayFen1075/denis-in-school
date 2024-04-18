@@ -246,7 +246,7 @@ init python:
         # Some may want to have this list be more of a global variable than baked into the class.
         font_list = ["FOT-PopJoyStd-B.otf", "GrenzeGotisch-VariableFont_wght.ttf", "Pacifico-Regular.ttf", "RobotoSlab-ExtraBold.ttf",\
                      "RobotoSlab-Medium.ttf", "SyneTactile-Regular.ttf", "TurretRoad-Bold.ttf", "TurretRoad-ExtraBold.ttf", "TurretRoad-ExtraLight.ttf", \
-                     "TurretRoad-Light.ttf", "TurretRoad-Medium.ttf", "TurretRoad-Regular.ttf"]
+                     "TurretRoad-Light.ttf", "TurretRoad-Medium.ttf", "TurretRoad-Regular.ttf", "fonts/lightpixel_7.ttf"]
         #Just a list so we can pull any hex value randomly
         color_choice = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
         def __init__(self, orig_text, **kwargs):
@@ -508,7 +508,7 @@ init python:
         for kind,text in contents:
             if kind == renpy.TEXT_TEXT:
                 for char in text:                                            # Extract every character from the string
-                    char_text = Text(my_style.apply_style(char))             # Create a Text displayable with our styles applied
+                    char_text = Text(my_style.apply_style(char), font="fonts/lightpixel_7.ttf", size=30)             # Create a Text displayable with our styles applied
                     char_disp = BounceText(char_text, char_offset, amp=amp, period=period, speed=speed) # Put the Text into the Wrapper
                     new_list.append((renpy.TEXT_DISPLAYABLE, char_disp))     # Add it back in as a displayable
                     char_offset += 1
