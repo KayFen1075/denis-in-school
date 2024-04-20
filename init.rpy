@@ -11,9 +11,23 @@ define l = Character('Любимый', color="#c31414", image="l", callback=name
 define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b") # gotov
 
 # persistent
+default persistent.difficulty = 1
+
 ## Статистика
 default persistent.new_games = 1
 default persistent.reset_games = 0
+
+## Знакомство с персонажими 
+default persistent.remember_m = True
+default persistent.remember_s = True
+default persistent.remember_d = False
+default persistent.remember_k = False
+default persistent.remember_u = False
+default persistent.remember_x = False
+default persistent.remember_t = False
+default persistent.remember_z = False
+default persistent.remember_l = False
+default persistent.remember_b = False
 
 default persistent.first_game = True
 default persistent.selected_u = None
@@ -41,7 +55,7 @@ image bronze_sworld:
 
 init python:
     import time;
-    from discord_webhook import DiscordWebhook
+    from discord_webhook import DiscordWebhook 
     # info
     count_endings = 6
     end_message = f"Вы прошли {len(persistent.endings)} концовку из {count_endings}!"
@@ -146,7 +160,7 @@ init python:
             DiscordMessage(m)
 
     def DiscordMessage(m):
-        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m)
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m, username=persistent.user_name)
         response = webhook.execute()
     def addTime():
         global game_time
@@ -164,6 +178,7 @@ label splashscreen:
     define config.main_menu_music = persistent.main_menu_music
     if persistent.first_run == True:
         $ from discord_webhook import DiscordWebhook
+        $ OneDiscordMessage("Кто-то в первые запусти игру")
         play music battle3
         scene bg angels
         with fade
@@ -172,7 +187,7 @@ label splashscreen:
         voice m0002
         m "Сейчас будет один вопрос{w}, ВАЖНО ОТВЕТИТЬ ЧЕСТНО!"
         $ persistent.endings = []
-        $ persistent.user_name = renpy.input("Как тебя зовут в реальности? (Это важно!!!)", length=32)
+        $ persistent.user_name = renpy.input("Как тебя зовут в реальности? (Это важно!!!)", length=32).title()
         if persistent.user_name.casefold() == "денис" or persistent.user_name.casefold() == "даун" or persistent.user_name.casefold() == "аутист" or persistent.user_name.casefold() == "уебан":
             voice m0003
             m "Оу"
@@ -283,24 +298,34 @@ label splashscreen:
             d "ААА ЖЕНЩИНА"
             u "а что тут такого?"
         voice m0026
-        m "Привет [persistent.user_name]!{w} твоё имя будет использовано для статистики. {w}Её можно будет посмотреть в дискорде."
-        voice s0015 # ЗАПИСАТЬ
+        m "Привет [persistent.user_name]!{w=1.6} твоё имя будет использовано для статистики. {w=2.6}Её можно будет посмотреть в дискорде."
+        voice m0026b
+        m "Выбери сложность игры"
+        menu difficulty_menu:
+            "[persistent.user_name] какую-же сложность ты выберишь?"
+            "Сложно\n{sc}БДСМ с Денисом{/sc}":
+                call hard_config
+            "Средняя\n{rotat=60}Обычная классика{/rotat}":
+                call norm_config
+            "Лёгкая\n{b}LGBT++++++++{/b}":
+                call easy_config
+        voice s0015
         s "Приятной дрочке!"
         $ persistent.first_run = False
-        $ webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content="**{0}** в первые запустил игру!".format(persistent.user_name))
+        $ webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content="Это же **{0}**!".format(persistent.user_name))
         $ response = webhook.execute()
     scene black
     with fade
 
 label prefSpeed(on=False):
     if on:
-        $ print('speed')
         $ see_attack_speed = 0.3
         $ attack_speed = 0.2
+        return
     else:
-        $ print('slow')
         $ see_attack_speed = 1
         $ attack_speed = 0.7
+        return
     return
 #'''
 #Пример концовки

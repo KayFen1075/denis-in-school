@@ -340,18 +340,24 @@ label lb_by_magic(magic, free=False):
     hide screen by_magic
     hide screen magic_shop_menu
     menu select_player:
-        "Кого вы хотите научить этой магии?"
+        "Кого вы хотите научить [magic.name]?"
         "[name]" if not len(a.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил магию [magic.name]".format(persistent.user_name))
             $ a.addSkill(magic)
         "Макс" if maks in party_list and not len(maks.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию [magic.name]".format(persistent.user_name))
             $ maks.addSkill(magic)
         "Саша" if sasha in party_list and not len(sasha.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию [magic.name]".format(persistent.user_name))
             $ sasha.addSkill(magic)
         "Кирилл" if lox in party_list and not len(lox.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\nКирилл изучил магию [magic.name]".format(persistent.user_name))
             $ lox.addSkill(magic)
         "Любимый" if maksim in party_list and not len(maksim.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\nЛюбимый изучил магию [magic.name]".format(persistent.user_name))
             $ maksim.addSkill(magic)
         "Тянка" if tanka in party_list and not len(tanka.skills) >= 8:
+            $ OneDiscordMessage("# Глава 1 🏫\nТянка изучил магию [magic.name]".format(persistent.user_name))
             $ tanka.addSkill(magic)
 
 

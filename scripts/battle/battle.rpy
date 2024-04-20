@@ -247,12 +247,14 @@ label end_battle:
             $ win_4les = True
             $ max_level = max(max_level, 30)
             if not first_win4les:
+                $ OneDiscordMessage("# Глава 1 ⚔️\n{0} одолел зелебобу".format(persistent.user_name))
                 $ first_win4les = True
                 if name == "Кирилл":
                     with fade
                     "Вы оделили зелебобу"
                     "Вы заметили клетку"
                     if friend == "sasha":
+                        $ OneDiscordMessage("# Глава 1 ⚔️\nСаша спас Максима от зелебобы".format(persistent.user_name))
                         $ party_list.append(maks)
                         $ maks.lvl = 23
                         $ maks.exp = (maks.lvl+1)**3 -100
@@ -270,6 +272,7 @@ label end_battle:
                         k "Он в заточении в подвале"
                         m "Я спиздел то что колекционировал зелебоба"
                     else:
+                        $ OneDiscordMessage("# Глава 1 ⚔️\n[name] спас Сашу от зелебобы".format(persistent.user_name))
                         $ party_list.append(sasha)
                         $ sasha.lvl = 23
                         $ sasha.exp = (sasha.lvl+1)**3 -100
@@ -299,6 +302,7 @@ label end_battle:
                     with fade
                     "Вы оделили зелебобу"
                     "Вы заметили клетку"
+                    $ OneDiscordMessage("# Глава 1 ⚔️\n[name] спас Кирилла от зелебобы".format(persistent.user_name))
                     show pk stoika
                     with dissolve
                     k "Здарова"
@@ -323,6 +327,7 @@ label end_battle:
                 "Вы заметили что кого-то они тащили куда-то в глубь"
                 "Так как вы освободили лолей вы решили развязать мешок"
                 if friend == "maks":
+                    $ OneDiscordMessage("# Глава 1 ⚔️\n[name] спас Макса из БДСМ рабства лолей".format(persistent.user_name))
                     $ party_list.append(maks)
                     show pm
                     with dissolve
@@ -333,9 +338,10 @@ label end_battle:
                     m "Зря вы меня спасли"
                     k "Так это{w}, мы тоже можем тебя трахнуть"
                     voice s0464
-                    s "С радостью{w}, у меня меня уже встал"
+                    s "С радостью{w=3}, у меня меня уже встал"
                     m "Так давайте)"
                 else:
+                    $ OneDiscordMessage("# Глава 1 ⚔️\n[name] спас Сашу из БДСМ рабства лолей".format(persistent.user_name))
                     $ party_list.append(sasha)
                     show ps
                     with dissolve
@@ -381,6 +387,7 @@ label end_battle:
                 s "Ну что"
                 m "Закупаемся и в последний путь"
         elif type_battle == "denis" and final_battle:
+            $ OneDiscordMessage("# Глава 1 ⚔️\n[name] со своим отрядом одолели ДЕНИСА!".format(persistent.user_name))
             $ win_denis == True
             scene black
             hide screen world_time
@@ -400,11 +407,13 @@ label end_battle:
             b "Вы же не забыли про меня?"
             menu ostavit_borisa:
                 "Оставить его здесь":
+                    $ OneDiscordMessage("# Глава 1 ⚔️\n[name] бросил Бориса".format(persistent.user_name))
                     $ action_ostavit_borisa = True
                     "Все сделали вид что его тут нету"
                 "Взять с собой":
+                    $ OneDiscordMessage("# Глава 1 ⚔️\n[name] взял с собой Бориса".format(persistent.user_name))
                     voice s0472
-                    s "Конечно"
+                    s "Вообще забыли{w=2}, но ладно иди с нами"
                     m "Ты идёшь с нами"
                     "Вы взяли с собой Бориса"
             $ renpy.notify("Это действие будет иметь последствия")
@@ -430,6 +439,8 @@ label end_battle:
             "?" "Ты ещё не исправил будующие"
             scene whitle
             with Fade(1,4,1,color="#fff")
+            $ persistent.end_game = True
+            $ OneDiscordMessage("# Глава 1 🏅\n[name] завершил 1 главу!!!".format(persistent.user_name))
             "{fi}Первая глава пройдена{/fi}"
             "{fi}Второй главы пока нет{w}, можете перепройти на другие концовки{/fi}"
             scene parish
@@ -455,6 +466,7 @@ label end_battle:
             "[name]" "ЕЗЗЗ"
             "[name]" "Подайте сыр мисье"
         if not first_pola:
+            $ OneDiscordMessage("# Глава 1 ⚔️\n[name] завершил обучение".format(persistent.user_name))
             x "Отлично!"
             x "Это был ваш первый бой"
             x "Больше я не буду вам помагать"
@@ -468,10 +480,12 @@ label end_battle:
         $ message = "lost"
         "Ты проебал"
         if not first_pola:
+            $ OneDiscordMessage("# Глава 1 ⚔️\n[name] как-то проиграл в обучении".format(persistent.user_name))
             x "Не знаю как, но мы проиграли"
             x "Приходи завтра в тоже время"
             $ addTime()
     if type_battle == "lolis":
+        $ OneDiscordMessage("# Глава 1 ⚔️\n[name] узнал про рабство лолей".format(persistent.user_name))
         "Лоли" "Он заточил нас в данжах"
         "Лоли" "Он называет их подвалами с многими этажами"
         "[name]" "Я должен спасти их"

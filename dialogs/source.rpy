@@ -77,6 +77,12 @@ image pb = At('pbq', sprite_highlight('b'))
 image pb oshko = At('pbq oshko', sprite_highlight('b'))
 image pb open = At('pbq open', sprite_highlight('b'))
 
+image ui_dialog:
+    "gui/personalUI/pu/textboxui.png"
+    pause(1)
+    "gui/personalUI/pu/textboxui2.png"
+    pause(1)
+    repeat
 
 image maprev:
     "images/map/map.png"

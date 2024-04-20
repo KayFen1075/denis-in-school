@@ -29,17 +29,19 @@ label deadw:
     "? ? ?" "Помню что на меня кто-то напал в спину.."
     "? ? ?" "Как будто со мной кто-то был"
     "? ? ?" "Почему я ни чего не чувствую"
+    $ persistent.remember_u = True
     voice u0001
     u "{bt=3}Иди за мной{/bt}"
     "? ? ?" "Кто ты"
     $ denis_word_start_time = time.time()
     "{move}Д н е{/move}" "{i}{move}Начали двигаться{/move}{/i}"
     if time.time()-denis_word_start_time >= 35:
-        stop music
+        play music iseeyou
         "{sc}Никогда{/sc}"
         "{sc}Не упоминай {size=+20}это{size=+50} имя{w=0.4}{nw}{/sc}"
         pause(1.4)
         "{sc}Ключ к тайне всегда был рядом{w=0.5}, как и он {w=0.1}ЗБВД{w=0.3}{nw}{/sc}"
+        $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} зачем ты собрал его имя?".format(persistent.user_name))
         play music "music/Do Not Run.mp3"
         $ denis_word_start_time = time.time()*10000000 
     $ print(time.time()-denis_word_start_time)
@@ -62,26 +64,31 @@ label deadw:
     "Наступило молчание"
     "Все ждали приговора"
     "Как вдруг"
-    $ persistent.selected_u = None
+    $ persistent.end_game = False
+    if not persistent.end_game:
+        jump adray
     menu kanon:
         "Пойти по канону или в соло"
         "Канон":
             menu adray:
                 "Кому дать слово?"
                 "[persistent.denis]":
-                    if persistent.selected_u != 1 and persistent.selected_u != None or persistent.end_game:
-                        "Вы дали слово.."
-                        hide u
-                        with dissolve
-                        "Вы дали слово [name]{nw}"
-                        stop music
-                        "Я знаю что ты сделал{w}, ты загрузился{nw}"
-                        pause(3)
-                        "Больше так не делай{nw}"
-                        "Я слежу за тобой{nw}"
-                        play music "music/Do Not Run.mp3"
-                        show u dab
-                        jump kanon
+                    if not persistent.end_game:
+                        if persistent.selected_u != 1 and persistent.selected_u:
+                            $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} загрузился, зачем?".format(persistent.user_name))
+                            "Вы дали слово.."
+                            hide u
+                            with dissolve
+                            "Вы дали слово [persistent.user_name]"
+                            stop music
+                            "Я знаю что ты сделал{w}, ты загрузился{w=0.4}{nw}"
+                            play music iseeyou
+                            pause(2)
+                            "Больше так не делай{w=1}{nw}"
+                            "Я слежу за тобой{nw}"
+                            play music "music/Do Not Run.mp3"
+                            show u dab
+                            jump kanon
                     $ persistent.selected_u = 1
                     $ config.rollback_enabled = False
                     "Вы дали слово Денису"
@@ -127,19 +134,22 @@ label deadw:
                     u "В АД"
                     jump ad
                 "[persistent.sasha]":
-                    if persistent.selected_u != 2 and persistent.selected_u != None or persistent.end_game:
-                        "Вы дали слово.."
-                        hide u
-                        with dissolve
-                        "Вы дали слово [name]"
-                        stop music
-                        "Я знаю что ты сделал{w}, ты загрузился"
-                        pause(3)
-                        "Больше так не делай"
-                        "Я слежу за тобой"
-                        play music "music/Do Not Run.mp3"
-                        show u dab
-                        jump kanon
+                    if not persistent.end_game:
+                        if persistent.selected_u != 2 and persistent.selected_u:
+                            $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} загрузился, зачем?".format(persistent.user_name))
+                            "Вы дали слово.."
+                            hide u
+                            with dissolve
+                            "Вы дали слово [persistent.user_name]"
+                            stop music
+                            "Я знаю что ты сделал{w}, ты загрузился{w=0.4}{nw}"
+                            play music iseeyou
+                            pause(2)
+                            "Больше так не делай{w=1}{nw}"
+                            "Я слежу за тобой{nw}"
+                            play music "music/Do Not Run.mp3"
+                            show u dab
+                            jump kanon
                     $ persistent.selected_u = 2
                     $ config.rollback_enabled = False
                     "Вы дали слово Саше"
@@ -197,20 +207,22 @@ label deadw:
                     m "Как нахуй"
                     jump ray
                 "[persistent.lox]":
-                    if persistent.selected_u != 3 and persistent.selected_u != None or persistent.end_game:
-                        "Вы дали слово.."
-                        hide u
-                        with dissolve
-                        "Вы дали слово [name]"
-                        stop music
-                        "Я знаю что ты сделал{w}, ты загрузился"
-                        pause(3)
-                        "Больше так не делай"
-                        "Я слежу за тобой"
-                        play music "music/Do Not Run.mp3"
-                        show u dab
-                        jump kanon
-
+                    if not persistent.end_game:
+                        if persistent.selected_u != 3 and persistent.selected_u:
+                            $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} загрузился, зачем?".format(persistent.user_name))
+                            "Вы дали слово.."
+                            hide u
+                            with dissolve
+                            "Вы дали слово [persistent.user_name]"
+                            stop music
+                            "Я знаю что ты сделал{w}, ты загрузился{w=0.4}{nw}"
+                            play music iseeyou
+                            pause(2)
+                            "Больше так не делай{w=1}{nw}"
+                            "Я слежу за тобой{nw}"
+                            play music "music/Do Not Run.mp3"
+                            show u dab
+                            jump kanon
                     $ persistent.selected_u = 3
                     $ config.rollback_enabled = False
                     "Вы дали слово Кириллу"
@@ -268,19 +280,22 @@ label deadw:
                     u "В АД"
                     jump ad
                 "[persistent.maks]":
-                    if persistent.selected_u != 4 and persistent.selected_u != None or persistent.end_game:
-                        "Вы дали слово.."
-                        hide u
-                        with dissolve
-                        "Вы дали слово [name]"
-                        stop music
-                        "Я знаю что ты сделал{w}, ты загрузился"
-                        pause(3)
-                        "Больше так не делай"
-                        "Я слежу за тобой"
-                        play music "music/Do Not Run.mp3"
-                        show u dab
-                        jump kanon
+                    if not persistent.end_game:
+                        if persistent.selected_u != 4 and persistent.selected_u:
+                            $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} загрузился, зачем?".format(persistent.user_name))
+                            "Вы дали слово.."
+                            hide u
+                            with dissolve
+                            "Вы дали слово [persistent.user_name]"
+                            stop music
+                            "Я знаю что ты сделал{w}, ты загрузился{w=0.4}{nw}"
+                            play music iseeyou
+                            pause(2)
+                            "Больше так не делай{w=1}{nw}"
+                            "Я слежу за тобой{nw}"
+                            play music "music/Do Not Run.mp3"
+                            show u dab
+                            jump kanon
 
                     $ persistent.selected_u = 4
                     $ config.rollback_enabled = False
@@ -319,20 +334,23 @@ label deadw:
                     u "{bt=50}Я считаю{w} что{w} вы все{w} можете{w} попасть{w} в{w} рай{/bt}"
                     $ persistent.maks = "Максу"
                     jump ray
-        "В соло":
-            if persistent.selected_u != 5 and persistent.selected_u != None or persistent.end_game:
-                "Вы дали слово.."
-                hide u
-                with dissolve
-                "Вы дали слово [name]"
-                stop music
-                "Я знаю что ты сделал{w}, ты загрузился"
-                pause(3)
-                "Больше так не делай"
-                "Я слежу за тобой"
-                play music "music/Do Not Run.mp3"
-                show u dab
-                jump kanon
+        "В соло" if persistent.end_game:
+            if not persistent.end_game:
+                if persistent.selected_u != 5 and persistent.selected_u:
+                    $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} загрузился, зачем?".format(persistent.user_name))
+                    "Вы дали слово.."
+                    hide u
+                    with dissolve
+                    "Вы дали слово [persistent.user_name]"
+                    stop music
+                    "Я знаю что ты сделал{w}, ты загрузился{w=0.4}{nw}"
+                    play music iseeyou
+                    pause(2)
+                    "Больше так не делай{w=1}{nw}"
+                    "Я слежу за тобой{nw}"
+                    play music "music/Do Not Run.mp3"
+                    show u dab
+                    jump kanon
             $ persistent.selected_u = 5
             $ config.rollback_enabled = False
             "Вы решили ответить сами"
@@ -419,6 +437,7 @@ label deadw:
     return
 
 label ad:
+    $ OneDiscordMessage("# Начало Главы 1 😈\n{0} Отправляеться в АД".format(persistent.user_name))
     voice u0021
     u "{bt=3}Вы все отправляетесь в ад{/bt}"
     voice u0022
@@ -535,7 +554,7 @@ label ad:
     voice u0029
     u "{bt=3}Раз в год происходит чистка грешников{/bt}"
     voice u0030
-    u "{bt=3}Ангелы убийцы спускаются с небес и убивают по больше грешников{/bt}"
+    u "{bt=3}Ангелы убийцы спускаются с небес\n и убивают по больше грешников{/bt}"
     voice k0048
     k "Круто"
     voice u0031
@@ -647,6 +666,7 @@ label ad:
     show pk
     with moveinleft
     k "Пиздец"
+    $ OneDiscordMessage("# Начало Главы 1 💀\nКирилл потерял Дениса")
     k "Этот еблан врезался в окно и упал с 15 этажа"
     k "За ним я точно прыгать не буду"
     pause(1.0)
@@ -682,7 +702,7 @@ label ad:
     voice u0038
     u "{bt=3}Мне безопаснее здесь чем в раю{/bt}"
     voice u0039
-    u "{bt=3}И ещё{w} за то что ты забрался в мой дом без разрешения{/bt}"
+    u "{bt=3}И ещё{w} за то что ты забрался в мой дом\n без разрешения{/bt}"
     voice u0040
     u "{bt=3}Я отправлю тебя в другой мир{/bt}"
     k "Там будут кошко девочки?"
@@ -691,7 +711,7 @@ label ad:
     k "Тогда я не против?"
     pause(1.0)
     voice u0042
-    u "{bt=3}Мне пришло уведомление, что кто-то пробрался в мою райскую церковь{/bt}"
+    u "{bt=3}Мне пришло уведомление, что кто-то\n пробрался в мою райскую церковь{/bt}"
     voice u0043
     u "{bt=3}Я отойду не на долго{/bt}"
     hide lolidance
@@ -716,6 +736,7 @@ label ad:
     menu maks_sasha:
         "Выбрать напарника"
         "Макс":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nВыбрать напарника:\n> `Макс`")
             $ friend = "maks"
             $ party_list = [maks]
             voice u0047
@@ -723,6 +744,7 @@ label ad:
             voice u0048
             u "{bt=3}Твоё приключение будет вместе с Максом{/bt}"
         "Саша":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nВыбрать напарника:\n> `Саша`")
             $ friend = "sasha"
             $ party_list = [sasha]
             voice u0047
@@ -776,6 +798,7 @@ label ad:
     k "Где я оказался"
     show pk dshentelmen
     with move
+    $ persistent.remember_l = True
     show pl at left
     with moveinleft
     l "Ты у меня дома"
@@ -799,6 +822,7 @@ label ad:
     pause(1.0)
     "ПРЕДУПРИЖДЕНИЕ" "Сюжет будет идти дальше как по другой ветке{w} Саша и Макс будут во всех диалогах, они спасают Кирилла, но ты спасаешь одного из них.{w} Короче в боях"
     "ПРЕДУПРИЖДЕНИЕ" "Короче в боях и некоторых диалогах будет Кирилл, а в других сюжетных будут Саша и Макс"
+    $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} прошёл начало первой главы".format(persistent.user_name))
     show screen map
     ''
     '//'
@@ -814,6 +838,7 @@ image islands:
 
 
 label ray:
+    $ OneDiscordMessage("# Начало Главы 1 😇\n{0} Отправляеться в РАЙ".format(persistent.user_name))
     play music "music/Cliffs.mp3"
     scene black
     with fade
@@ -926,8 +951,10 @@ label ray:
     menu ostatsa_v_ray:
         "Пойти?"
         "Пойти искать Кирилла":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nПойти искать Кирилла?\n> `Пойти`".format(persistent.user_name))
             pass
         "Остаться в раю":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nПойти искать Кирилла?\n> `Остаться в раю`".format(persistent.user_name))
             scene ending ray
             with fade
             pause 1.5
@@ -949,6 +976,7 @@ label ray:
     menu vashniy_vibor:
         "Спросить про утро или промолчать?"
         "Спросить":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nСпросить про утро или промолчать?\n> `Спросить`".format(persistent.user_name))
             voice s0143
             s "Что происходило сегодня утром?"
             voice s0144
@@ -970,6 +998,7 @@ label ray:
             m "Ладно идём дальше"
             $ ch_1_dialog_ms = True
         "Промолчать":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nСпросить про утро или промолчать?\n> `Промолчать`".format(persistent.user_name))
             voice s0150
             s "Не чего"
             voice s0151
@@ -1035,10 +1064,13 @@ label ray:
     menu cerkov:
         "Как попасть в церковь"
         "Выбить окно":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nКак попасть в церковь?\n> `Выбить окно`".format(persistent.user_name))
             "Макс разбежался и выбил окно"
         "Чёрный вход":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nКак попасть в церковь?\n> `Чёрный вход`".format(persistent.user_name))
             "Вы обошли церковь и зашли через чёрный вход"
         "Забраться через крышу":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nКак попасть в церковь?\n> `Забраться через крышу`".format(persistent.user_name))
             "Вы поднялись на крышу"
             "На крыше не было прохода"
             m "Пиздец"
@@ -1046,8 +1078,10 @@ label ray:
             menu cerkov2:
                 "Как попасть в церковь"
                 "Выбрать окно":
+                    $ OneDiscordMessage("# Начало Главы 1 👇\nКак попасть в церковь?\n> `Выбить окно`".format(persistent.user_name))
                     "Макс разбежался и выбил окно"
                 "Чёрный вход":
+                    $ OneDiscordMessage("# Начало Главы 1 👇\nКак попасть в церковь?\n> `Чёрный вход`".format(persistent.user_name))
                     "Вы обошли церковь и зашли через чёрный вход"
     scene black
     with fade
@@ -1095,8 +1129,10 @@ label ray:
     menu boghelp:
         "Помочь великому божеству?"
         "Нам всё равно не чем заняться":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nПомочь великому божеству?\n> `Нам всё равно не чем заняться`".format(persistent.user_name))
             pass
         "Мы не хотим тебе помогать":
+            $ OneDiscordMessage("# Начало Главы 1 👇\nПомочь великому божеству?\n> `Мы не хотим тебе помогать`".format(persistent.user_name))
             u "{bt=3}а..{/bt}"
             u "{bt=3}Значит я ошиблась когда, отправила вас в рай{/bt}"
             scene ending u
@@ -1130,6 +1166,7 @@ label ray:
     menu gg:
         "Выбрать главного героя(Только в боях, уник магия, фразы)"
         "Саша - Главный герой":
+            $ OneDiscordMessage("# Начало Главы 1 ⚔️\nСаша - Главный герой`".format(persistent.user_name))
             $ name = "Саша"
             $ img_player = "sasha"
             $ a.name = name
@@ -1138,6 +1175,7 @@ label ray:
             $ a.hpmax = 30
             $ party_list = [maks]
         "Макс - Главный герой":
+            $ OneDiscordMessage("# Начало Главы 1 🛡️\nМакс - Главный герой`".format(persistent.user_name))
             $ name = "Макс"
             $ img_player = "maks"
             $ a.name = name
@@ -1174,6 +1212,7 @@ label ray:
     u "{bt=3}Что же, дальше ты сам{/bt}"
     $ addTime()
     u "{bt=3}Одолей короля демонов и спаси этот мир!{/bt}"
+    $ OneDiscordMessage("# Начало Главы 1 🏅\n{0} прошёл начало первой главы".format(persistent.user_name))
     show screen map
     ''
     ''

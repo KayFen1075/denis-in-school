@@ -60,7 +60,7 @@ style style_ps_back:
     ysize gui.textbox_height
     font "fonts/gialog.ttf"
 
-    background Image("gui/personalUI/pm/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/personalUI/ps/textbox.png", xalign=0.5, yalign=1.0)
 style style_ps_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
@@ -92,7 +92,7 @@ style style_pd_back:
     ysize gui.textbox_height
     font "fonts/gialog.ttf"
 
-    background Image("gui/personalUI/pm/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/personalUI/pd/textbox.png", xalign=0.5, yalign=1.0)
 style style_pd_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
@@ -124,7 +124,7 @@ style style_pk_back:
     ysize gui.textbox_height
     font "fonts/gialog.ttf"
 
-    background Image("gui/personalUI/pm/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/personalUI/pk/textbox.png", xalign=0.5, yalign=1.0)
 style style_pk_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
@@ -157,7 +157,7 @@ style style_pu_back:
     
     font "fonts/gialog.ttf"
 
-    background Image("gui/personalUI/pu/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/personalUI/pu/textboxui.png", xalign=0.5, yalign=1.0)
 style style_pu_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
@@ -180,6 +180,70 @@ style style_pu_dialogue:
     font "fonts/lightpixel_7.ttf"
     size 30
 
+# Стили пиксельного Санька 
+style style_px_back:
+    xalign 0.1
+    xfill True
+    ypos 770
+    ysize gui.textbox_height
+    font "fonts/Born2bSportyFS.otf"
+
+    background Image("gui/personalUI/px/textbox.png", xalign=0.5, yalign=1.0)
+style style_px_label:
+    properties gui.text_properties("name", accent=True)
+    xalign gui.name_xalign
+    yalign 0.5
+
+    xpos 0.5
+    ypos 18
+    
+    outlines [(2, "#452f0a", 0, 0)]
+    font "fonts/name.ttf"
+    background "black"
+    size 60
+style style_px_dialogue:
+    properties gui.text_properties("dialogue")
+
+    xpos 0.5
+    xsize 1300
+    ypos 80
+    
+    adjust_spacing False
+    font "fonts/Comic Sans MS Pixel.ttf"
+    size 50
+
+
+# Стили пиксельного Бориса 
+style style_pb_back:
+    xalign 0.1
+    xfill True
+    ypos 770
+    ysize gui.textbox_height
+    font "fonts/gialog.ttf"
+
+    background Image("gui/personalUI/pb/textbox.png", xalign=0.5, yalign=1.0)
+style style_pb_label:
+    properties gui.text_properties("name", accent=True)
+    xalign gui.name_xalign
+    yalign 0.5
+
+    xpos 0.5
+    ypos 18
+    
+    outlines [(2, "#370d48", 0, 0)]
+    font "fonts/name.ttf"
+    background "black"
+    size 60
+style style_pb_dialogue:
+    properties gui.text_properties("dialogue")
+
+    xpos 0.5
+    xsize 1300
+    ypos 80
+    
+    adjust_spacing False
+    font "fonts/old_pixel-7.ttf"
+    size 60
 
 
 

@@ -753,8 +753,14 @@ screen preferences():
                 vbox:
                     style_prefix "check"
                     label _("Скорость боя")
-                    textbutton _("Стандарт") action Call("prefSpeed", False)
-                    textbutton _("Быстрый") action Call("prefSpeed", True)
+                    if see_attack_speed == 1:
+                        textbutton _("{u}Стандарт{/u}") action Call("prefSpeed", False)
+                    else:
+                        textbutton _("Стандарт") action Call("prefSpeed", False)
+                    if see_attack_speed == 0.3:
+                        textbutton _("{u}Быстрый{/u}") action Call("prefSpeed", True)
+                    else:
+                        textbutton _("Быстрый") action Call("prefSpeed", True)
 
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
@@ -767,13 +773,31 @@ screen preferences():
 
                 vbox:
 
-                    label _("Скорость текста")
+                    #label _("Скорость текста")
 
-                    bar value Preference("text speed")
+                    #bar value Preference("text speed")
 
                     label _("Скорость авточтения")
 
                     bar value Preference("auto-forward time")
+                    
+                    vbox:
+                        style_prefix "radio_vbox"
+                        label _("Сложность игры")
+                        if persistent.difficulty == 3:
+                            style_prefix "radio_button"
+                            textbutton _("{u}Сложно{/u}") action Call("hard_config") 
+                        else:
+                            textbutton _("Сложно") action Call("hard_config")
+                        if persistent.difficulty == 2:
+                            textbutton _("{u}Средняя{/u}") action Call("norm_config")
+                        else:
+                            textbutton _("Средняя") action Call("norm_config")
+                        if persistent.difficulty == 1:
+                            textbutton _("{u}Легко{/u}") action Call("easy_config")
+                        else:
+                            textbutton _("Легко") action Call("easy_config")
+
 
                 vbox:
 
@@ -809,7 +833,80 @@ screen preferences():
                         textbutton _("Без звука"):
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
+        hbox:
+            style_prefix "slider"
+            box_wrap True
+            vbox:
+                label _("Громкость персонажей")
+                vbox:
+                    if persistent.remember_m:
+                        box_wrap False
+                        textbutton _("Макс") action Play("voice", f"audio/voice/m/m000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("m")
+                vbox:
+                    if persistent.remember_s:
+                        box_wrap False
+                        textbutton _("Саша") action Play("voice", f"audio/voice/s/s000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("s")
+                vbox:
+                    if persistent.remember_d:
+                        box_wrap False
+                        textbutton _("Денис") action Play("voice", f"audio/voice/d/d000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("d")
+                vbox:
+                    if persistent.remember_k:
+                        box_wrap False
+                        textbutton _("Кирилл") action Play("voice", f"audio/voice/k/k000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("k")
+                vbox:
+                    if persistent.remember_u:
+                        box_wrap False
+                        textbutton _("Бог Юй") action Play("voice", f"audio/voice/u/u000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("u")
+                vbox:
+                    box_wrap False
+                    textbutton _("Нарратор") action Play("voice", f"audio/voice/r/r000{random.randint(1, 9)}.ogg")
+                    bar value SetCharacterVolume("narrator")
+            vbox:
+                label _("")
+                vbox:
+                    if persistent.remember_x:
+                        box_wrap False
+                        textbutton _("Санёк") action Play("voice", f"audio/voice/x/x000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("x")
+                vbox:
+                    if persistent.remember_t:
+                        box_wrap False
+                        textbutton _("Тянка") action Play("voice", f"audio/voice/t/t000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("t")
+                    if persistent.remember_z:
+                        box_wrap False
+                        textbutton _("Тарас") action Play("voice", f"audio/voice/z/z000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("z")
+                    if persistent.remember_l:
+                        box_wrap False
+                        textbutton _("Любимый") action Play("voice", f"audio/voice/l/l000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("l")
+                    if persistent.remember_b:
+                        box_wrap False
+                        textbutton _("Борис") action Play("voice", f"audio/voice/b/b000{random.randint(1, 9)}.ogg")
+                        bar value SetCharacterVolume("b")
+                
+label hard_config:
+    $ persistent.difficulty = 3
+    show screen preferences
+    return 
 
+label norm_config:
+    $ persistent.difficulty = 2
+    show screen preferences
+    return 
+
+label easy_config:
+    $ persistent.difficulty = 1
+    show screen preferences
+    return 
+    
 
 style pref_label is gui_label
 style pref_label_text is gui_label_text

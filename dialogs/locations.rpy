@@ -12,15 +12,19 @@ label les:
     menu les_chose():
         "Куда вы хотите отправится?"
         "Вход в лес" if a.lvl < 18:
+            $ OneDiscordMessage("# Глава 1 🌳\n{0} в первые штурмовал Вход в лес".format(persistent.user_name))
             $ wild_monsters = [mon1,mon2,mon3]
             $ type_battle = "1les"
         "Чащя леса" if a.lvl > 9 and win_1les and a.lvl < 24:
+            $ OneDiscordMessage("# Глава 1 🌳\n{0} в первые штурмовал Чащя леса".format(persistent.user_name))
             $ wild_monsters = [mon3, mon4,mon5,mon6]
             $ type_battle = "2les"
         "Озеро леса" if a.lvl > 13 and win_2les and a.lvl < 30:
+            $ OneDiscordMessage("# Глава 1 🌳\n{0} в первые штурмовал Озеро леса".format(persistent.user_name))
             $ wild_monsters = [mon5, mon7,mon8,mon9]
             $ type_battle = "3les"
         "Болото зелебобы" if a.lvl >= 25 and win_3les and talk_1denis:
+            $ OneDiscordMessage("# Глава 1 🌳\n{0} начал бой с зелебобой".format(persistent.user_name))
             $ fixedset = "zeleboba"
             $ type_battle = "4les"
         "Уйти":
@@ -57,6 +61,7 @@ label pola:
         x "Начнём первый бой"
         "Вы услышали какой-то звук из кустов"
         x "Вот и оно"
+        $ OneDiscordMessage("# Глава 1 🌻\n{0} попал в первый бой-обучение".format(persistent.user_name))
         $ party_list.append(sanek)
         $ fixedset = "set 1"
         call battle from _call_battle_2
@@ -65,6 +70,7 @@ label pola:
         $ party_list.remove(sanek)
     
     if not talk_3sanek and win_3les and talk_2sanek:
+        $ OneDiscordMessage("# Глава 1 🌻\n{0} пришёл на урок в поле".format(persistent.user_name))
         $ talk_3sanek = True
         show px
         show pm see at right
@@ -114,18 +120,21 @@ label pola:
         menu magic4:
             "Кто получит заклинание \"Огненный шар\""
             "Давай я([name])":
+                $ OneDiscordMessage("# Глава 1 🌻\n[name] изучил заклинание \"Огненный шар\"".format(persistent.user_name))
                 hide pm
                 with dissolve
                 show ps at left
                 with move
                 $ a.addSkill(mindfire)
             "Саша" if sasha in party_list:
+                $ OneDiscordMessage("# Глава 1 🌻\nСаша изучил заклинание \"Огненный шар\"".format(persistent.user_name))
                 hide pm
                 with dissolve
                 show ps at left
                 with move
                 $ sasha.addSkill(mindfire)
             "Макс" if maks in party_list:
+                $ OneDiscordMessage("# Глава 1 🌻\nМакс изучил заклинание \"Огненный шар\"".format(persistent.user_name))
                 hide ps
                 with dissolve
                 show pm oshko at left
@@ -156,6 +165,7 @@ label pola:
 label dm:
     play music "audio/music/SleepTalking.wav"
     if not talk_3maxim and win_3dan and talk_2maxim:
+        $ OneDiscordMessage("# Глава 1 ❤️\nСаша и Борис пришли к Максиму домой".format(persistent.user_name))
         scene black
         $ talk_3maxim = True
         voice s0175
@@ -197,6 +207,7 @@ label dm:
         show pb at right with moveinright
         voice b0007
         b "Почему ты здесь один?"
+        $ OneDiscordMessage("# Глава 1 ❤️\nУ Макса шиза".format(persistent.user_name))
         m "Что{w} я не один"
         m "Со мной любимый"
         voice s0181
@@ -263,6 +274,8 @@ label dm:
                 "Любимый начал открывать двери"
                 show pm talk at left
                 with move
+                $ OneDiscordMessage("# Глава 1 ❤️\nМакс встретился с любимым".format(persistent.user_name))
+                $ persistent.remember_l = True
                 show pl at right
                 with dissolve
                 l "Цколько лет цколько цим"
@@ -320,6 +333,7 @@ label dm:
                 m "Опробую его"
                 l "Расскажешь потом как ощущения"
                 "Вы взяли резиновый член"
+                $ OneDiscordMessage("# Глава 1 ❤️\n{0} получил резиновый член Кирилла".format(persistent.user_name))
                 $ renpy.notify("Проверьте свой инвентарь")
                 $ player_inv.take(resinoviy_chlen)
                 m "Спасибо"
@@ -352,6 +366,7 @@ label dm:
                 m "Я пошёл"
                 pass
             if win_4dan and not talk_4maxim:
+                $ OneDiscordMessage("# Глава 1 ❤️\nКирилл вернулся домой после зелебобы".format(persistent.user_name))
                 $ talk_4maxim = True
                 show pm oshko at right with moveinright
                 show pk sigma at left with moveinleft
@@ -408,6 +423,7 @@ label dm:
                     menu chipi:
                         "Остаться с Любимым в этом мире"
                         "Чипи чипи чапа чапа":
+                            $ OneDiscordMessage("# Глава 1 ❤️\nОстаться с Любимым в этом мире?\n> `Чипи чипи чапа чапа`".format(persistent.user_name))
                             l "Урааа"
                             m "Чипи чипи чапа чапа"
                             k "Руби руби даба даба"
@@ -420,6 +436,7 @@ label dm:
                             "[end_message]"
                             return
                         "Нет, надо отпиздить Дениса":
+                            $ OneDiscordMessage("# Глава 1 ❤️\nОстаться с Любимым в этом мире?\n> `Нет, надо отпиздить Дениса`".format(persistent.user_name))
                             l "Ладно"
                             pass
                 l "Давай-те тогда"
@@ -435,6 +452,7 @@ label dm:
 label ds:
     play music "music/nature sketch.wav"
     if not student:
+        $ OneDiscordMessage("# Глава 1 🏫\n{0} в первый раз пришёл в колледж".format(persistent.user_name))
         scene black
         "Вы начали подходить к колледжу"
         "Возле входа была надпись"
@@ -469,9 +487,11 @@ label ds:
         "Перед нами появился"
         show px see
         with Dissolve(2)
+        $ persistent.remember_x = True
         "? ? ?" "Вы кто такие"
         "? ? ?" "Я здесь вас вижу впервые"
         "Мы не могли разглядеть его лицо"
+        $ OneDiscordMessage("# Глава 1 🏫\n{0} познакомился с Саньком".format(persistent.user_name))
         show px
         x "Подождите"
         x "Я вас узнаю"
@@ -593,10 +613,12 @@ label ds:
         menu matras:
             "Приносить матрас"
             "Да принеси":
+                $ OneDiscordMessage("# Глава 1 👇\nПриносить матрас?\n> `Да принеси`".format(persistent.user_name))
                 $ matras = True
                 x "Хорошо, сейчас"
                 with fade
             "Нет, мы так будем спать":
+                $ OneDiscordMessage("# Глава 1 👇\nПриносить матрас?\n> `Нет, мы так будем спать`".format(persistent.user_name))
                 x "Хорошо, ваше решение"
         x "Что же, не буду вам мешать, увидимся ночью"
         "Санёк вышел из комнаты"
@@ -618,6 +640,7 @@ label ds:
     scene bg koledsh_step
     with fade
     if game_time > 18 and random_choise(3):
+        $ OneDiscordMessage("# Глава 1 🏫\n{0} пришёл ночью в колледж".format(persistent.user_name))
         show px
         with dissolve
         x "Нельзя опаздывать в наш колледж"
@@ -634,6 +657,7 @@ label ds:
             menu asdghd:
                 "Борис" if win_3dan and talk_3boris and not talk_4boris:
                     if win_3dan and talk_3boris and not talk_4boris:
+                        $ OneDiscordMessage("# Глава 1 🏫\nБорис пришёл в колледж".format(persistent.user_name))
                         $ talk_4boris = True
                         show px with dissolve
                         show pk dshentelmen at right with moveinright
@@ -685,9 +709,11 @@ label ds:
                         hide pb with moveoutleft
                         k "Пойду расскажу про всё это Саше и Максу"
                         hide pk with moveoutright
+                        $ OneDiscordMessage("# Глава 1 🏫\nБорис вступил в отряд".format(persistent.user_name))
                         $ party_list.append(boris)
                 "Кирилл" if win_4les or not talk_2kirill and talk_1kirill:
                     if not talk_1kirill and win_4les:
+                        $ OneDiscordMessage("# Глава 1 🏫\nКирилл вернулся в колледж".format(persistent.user_name))
                         $ talk_1kirill = True
                         show pk
                         with dissolve
@@ -745,9 +771,11 @@ label ds:
                             with fade
                             "Кирилл пришёл в комнату"
                             "Ты вступил в 3 окрему штурмову бригаду{w}, удачи{w} успехов{w} в бахмуте"
+                            $ OneDiscordMessage("# Глава 1 🏫\nКирилл вступил в отряд".format(persistent.user_name))
                             $ party_list.append(lox)
                             $ lox.exp = (lox.lvl+1)**3 -100
                     if talk_1kirill and not talk_2kirill:
+                        $ OneDiscordMessage("# Глава 1 🏫\nвы узнали что делают свитки зелебобы".format(persistent.user_name))
                         $ talk_2kirill = True
                         if name != "Кирилл":
                             "[name]" "Здорова"
@@ -765,6 +793,7 @@ label ds:
                     "Нажмите что бы продолжить"
                     jump asdghd
                 "Тянка" if action_1tank and talk_2tank and not talk_3tank:
+                    $ OneDiscordMessage("# Глава 1 🏫\nТянка пришла в колледж".format(persistent.user_name))
                     $ talk_3tank = True
                     show tank
                     with dissolve
@@ -812,10 +841,12 @@ label ds:
                     t "Только ты купи мне снаряжение за то что мы награбили"
                     voice s0210
                     s "Хорошо"
+                    $ OneDiscordMessage("# Глава 1 🏫\nТянка вступила в отряд".format(persistent.user_name))
                     $ party_list.append(tanka)
                     $ tanka.exp = (tanka.lvl+1)**3 -100
                 "Санёк" if not first_libriary and first_pola or win_1les and not talk_1sanek or win_2les and not talk_2sanek or win_1dan and not talk_4sanek or win_2dan and not talk_5sanek or win_4dan and not talk_6sanek:
                     if not first_libriary and first_pola:
+                        $ OneDiscordMessage("# Глава 1 🏫\nПервый урок с Саньком".format(persistent.user_name))
                         x "О вы пришли"
                         show px
                         x "Что же, тут вы можете познавать новые знание"
@@ -891,6 +922,7 @@ label ds:
                         menu ostatsa_v_boris:
                             "Остаться жить в лавке Бориса и бухать 24/7"
                             "Ебать что за вопрос, конечно, да":
+                                $ OneDiscordMessage("# Глава 1 👇\nОстаться жить в лавке Бориса и бухать 24/7\n> `Ебать что за вопрос, конечно, да`".format(persistent.user_name))
                                 scene bg shop_bar with fade
                                 "Вы решили что вам не нужно спасать мир"
                                 "Вы остались бухать до конца жизни"
@@ -900,6 +932,7 @@ label ds:
                                 "[end_message]"
                                 return
                             "Нет, мы должны спасти мир":
+                                $ OneDiscordMessage("# Глава 1 👇\nОстаться жить в лавке Бориса и бухать 24/7\n> `Нет, мы должны спасти мир`".format(persistent.user_name))
                                 pass
                         m "Нет{w}, мы должны его отпиздить"
                         m "Просто что бы быть круче"
@@ -913,6 +946,7 @@ label ds:
                         menu first_magic:
                             "Кто получит заклинание \"Леденой шар\""
                             "Давай я([name])":
+                                $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил свою первую магию \"Леденой шар\"".format(persistent.user_name))
                                 "[name]" "Сюда боты"
                                 "[name]" "Первое заклинание"
                                 hide pm
@@ -934,6 +968,7 @@ label ds:
                                     $ addTime()
                                 $ a.addSkill(mindfreeze)
                             "Саша" if sasha in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил свою первую магию \"Леденой шар\"".format(persistent.user_name))
                                 voice s0226
                                 s "Сосать"
                                 voice s0227
@@ -956,6 +991,7 @@ label ds:
                                 $ addTime()
                                 $ sasha.addSkill(mindfreeze)
                             "Макс" if maks in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил свою первую магию \"Леденой шар\"".format(persistent.user_name))
                                 m "Сюда"
                                 m "Пошёл нахуй"
                                 voice s0231
@@ -986,6 +1022,7 @@ label ds:
                         $ first_libriary = True
                         jump asdghd
                     if win_1les and not talk_1sanek:
+                        $ OneDiscordMessage("# Глава 1 🏫\n{0} вернулся после первого боя к Саньку".format(persistent.user_name))
                         $ talk_1sanek = True
                         show px
                         with dissolve
@@ -1026,18 +1063,21 @@ label ds:
                         menu magic2:
                             "Кто получит заклинание \"Смена позиции\""
                             "Давай я([name])":
+                                $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил магию \"Смена позиции\"".format(persistent.user_name))
                                 hide pm
                                 with dissolve
                                 show ps at left
                                 with move
                                 $ a.addSkill(magicswap)
                             "Саша" if sasha in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию \"Смена позиции\"".format(persistent.user_name))
                                 hide pm
                                 with dissolve
                                 show ps at left
                                 with move
                                 $ sasha.addSkill(magicswap)
                             "Макс" if maks in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию \"Смена позиции\"".format(persistent.user_name))
                                 hide ps
                                 with dissolve
                                 show pm oshko at left
@@ -1054,6 +1094,7 @@ label ds:
                         x "Так что удачи вам в бою!"
                         jump asdghd
                     if win_2les and not talk_2sanek:
+                        $ OneDiscordMessage("# Глава 1 🏫\nВы вернулись после зачистки чащи леса к Саньку".format(persistent.user_name))
                         $ talk_2sanek = True
                         show px
                         with dissolve
@@ -1076,14 +1117,17 @@ label ds:
                         menu magic3:
                             "Кто получит заклинание \"Магическое исцеление\""
                             "Давай я([name])":
+                                $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил магию \"Магическое исцеление\"".format(persistent.user_name))
                                 $ a.addSkill(magicheal)
                             "Саша" if sasha in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию \"Магическое исцеление\"".format(persistent.user_name))
                                 hide pm
                                 with dissolve
                                 show ps at left
                                 with move
                                 $ sasha.addSkill(magicheal)
                             "Макс" if maks in party_list:
+                                $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию \"Магическое исцеление\"".format(persistent.user_name))
                                 hide ps
                                 with dissolve
                                 show pm oshko at left
@@ -1128,6 +1172,7 @@ label ds:
                         scene bg koledsh_class
                         jump asdghd
                     if win_1dan and not talk_4sanek:
+                        $ OneDiscordMessage("# Глава 1 🏫\nПосле спасения друга вы вернулись к Саньку".format(persistent.user_name))
                         $ talk_4sanek = True
                         show px
                         with dissolve
@@ -1150,6 +1195,7 @@ label ds:
                         with dissolve
                         jump asdghd
                     if win_2dan and not talk_5sanek:
+                        $ OneDiscordMessage("# Глава 1 🏫\nПосле спасения друга вы вернулись к Саньку".format(persistent.user_name))
                         $ talk_5sanek = True
                         show px
                         with dissolve
@@ -1169,43 +1215,11 @@ label ds:
                         m "Почему?"
                         x "Разраб даун"
                         x "Итак{w} приступим"
-                        menu magic5:
-                            "Кто получит заклинание \"Магическое исцеление\""
-                            "Давай я([name])":
-                                $ a.addSkill(magicheal)
-                            "Саша" if sasha in party_list:
-                                hide pm
-                                with dissolve
-                                show ps at left
-                                with move
-                                $ sasha.addSkill(lovedefence)
-                            "Макс" if maks in party_list:
-                                hide ps
-                                with dissolve
-                                show pm oshko at left
-                                with move
-                                $ maks.addSkill(lovedefence)
-                            "Кирилл" if lox in party_list:
-                                hide ps
-                                with dissolve
-                                show pm oshko at left
-                                with move
-                                $ lox.addSkill(lovedefence)
-                            "Любимый" if maksim in party_list:
-                                hide ps
-                                with dissolve
-                                show pm oshko at left
-                                with move
-                                $ maksim.addSkill(lovedefence)
-                            "Тянка" if tanka in party_list:
-                                hide ps
-                                with dissolve
-                                show pm oshko at left
-                                with move
-                                $ tanka.addSkill(lovedefence)
+                        $ renpy.call("lb_by_magic", lovedefence, True)
                         x "Теперь вы сможете одолеть сильных врагов"
                         x "Удачи вам!"
                     if win_4dan and not talk_6sanek:
+                        $ OneDiscordMessage("# Глава 1 🏫\nНаши школьники окончили колледж".format(persistent.user_name))
                         $ talk_6sanek = True
                         show pm oshko at right with moveinright
                         show ps smile at left with moveinleft
@@ -1251,6 +1265,7 @@ label ds:
             menu asdaghd:
                 # ИЗМЕНИТЬ
                 "Общий сбор" if not talk_3kirill and win_2dan and talk_3boris and game_time == 24:
+                    $ OneDiscordMessage("# Глава 1 🏫\nОбщий сбор".format(persistent.user_name))
                     $ talk_3kirill = True
                     show pk with dissolve
                     k "Просыпайтесь!"
@@ -1339,6 +1354,7 @@ label ds:
                         with fade
                         "Вы отправились в путь"
                         "По пути вам не попадались монстры"
+                        $ OneDiscordMessage("# Глава 1 🏫\nВы пришли убивать короля демонов".format(persistent.user_name))
                         play music "audio/music/videoplayback.mp3"
                         scene bg demon
                         with fade
@@ -1538,6 +1554,7 @@ label ds:
                         play music "music/Path to Lake Land.ogg"
                         ''
                     if not talk_3sasha and win_4dan:
+                        $ OneDiscordMessage("# Глава 1 🏫\nПлан по победе над Денисом".format(persistent.user_name))
                         $ talk_3sasha = True
                         show pm oshko at right with moveinright
                         show ps uwu at left with moveinleft
@@ -1589,6 +1606,7 @@ label ds:
                     with fade
                     pause(1.5)
                     if random_choise(4) and not matras:
+                        $ OneDiscordMessage("# Глава 1 🏫\nМакс и Саша потрахались в тесной кроватке".format(persistent.user_name))
                         "Вы спите"
                         "У Саши встал"
                         "Саша прижался к Максу"
@@ -1623,6 +1641,7 @@ label most:
     scene bg most
     with fade
     if talk_1denis and random_choise(30):
+        $ OneDiscordMessage("# Глава 1 🌊\n{0} ходя по мосту на вас напал Денис".format(persistent.user_name))
         "Вы пришли на мост{w}, как вдруг"
         show pd
         with dissolve
@@ -1634,15 +1653,13 @@ label most:
         call battle
     "Вы пршли к мосту"
     if random_choise(15):
+        $ OneDiscordMessage("# Глава 1 🌊\n{0} приёшл к мосту и заметил какой-то код, где же ему его найти 🤔".format(persistent.user_name))
         "Как вдруг вы заметили какой-то код"
-        if persistent.secret_code == True:
-            $ persistent.secret_code = False
-            $ DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE",
-            content="**{0}** заметил что-то секретное, где же ему найти код 🤔".format(persistent.user_name)).execute()
         if renpy.input("Ввести код ", length=4) == "5294":
             "Вы увидели самое страшное"
     menu mostm:
         "Любимый" if win_2les and not talk_2maxim and talk_1maxim:
+            $ OneDiscordMessage("# Глава 1 🌊\nМакс пришёл на свидание с Любимым".format(persistent.user_name))
             $ talk_2maxim = True
             show pl cool at left
             show pm oshko at right
@@ -1717,14 +1734,23 @@ label most:
                     l "Ого, ты знаешь это"
                 "Авиатехнический специалист":
                     l "Нет.."
-            if love_points >= 5:
+            $ FigthPointsToWin = 5
+            if persistent.difficulty == 2:
+                $ FigthPointsToWin = 3
+            elif persistent.difficulty == 1:
+                $ FigthPointsToWin = 1
+            
+            if love_points >= FigthPointsToWin:
+                $ OneDiscordMessage("# Глава 1 🌊\nМакс провёл отличное свидание".format(persistent.user_name))
                 l "Где проведём следующие свидание?"
                 m "Предлагаю в бою"
                 m "Сходим в лес"
                 l "Можем попробовать"
+                $ OneDiscordMessage("# Глава 1 🌊\nМаксим присоединился к отряду".format(persistent.user_name))
                 $ party_list.append(maksim)
                 $ maksim.exp = (maksim.lvl+1)**3 -100
             else:
+                $ OneDiscordMessage("# Глава 1 🌊\nМакс провалил свидание".format(persistent.user_name))
                 l "Ну что{w}, увидимся ещё"
         "Подождать" if wait_most > 0:
             scene black
@@ -1760,6 +1786,7 @@ label shop:
         ''
     if game_time > 18:
         if talk_1boris and action_1tank and not talk_2tank and win_3les:
+            $ OneDiscordMessage("# Глава 1 🪙\nМакс и Саша пришли грабить Бориса ночью".format(persistent.user_name))
             $ talk_2tank = True
             scene bg shop
             with fade
@@ -1795,7 +1822,7 @@ label shop:
             voice t0013
             t "Я заберу всю кассу"
             voice s0319
-            s "Надо оставить следы{w}, что бы он подумал что это зелебоба его ограбил"
+            s "Надо оставить следы{w=2.1}, что бы он подумал что это зелебоба его ограбил"
             voice t0014
             t "Да, у меня всегда есть мешок с болотом для этого"
             "Вы оставили следы в виде квадратов из грязи"
@@ -1846,7 +1873,7 @@ label shop:
         s "Мы пришли к этому мега гею"
         m "Щя мы его трахнем"
         voice s0325
-        s "Интересно{w}, сколько он тут?"
+        s "Интересно{w=1.5}, сколько он тут?"
         m "Не знаю{w}, я его уже давно не видел"
         m "Ходят шлюхи{w}, что у него были похороны"
         m "Он умер от какой-то болезни аутизм"
@@ -1855,6 +1882,8 @@ label shop:
         voice s0327
         s "Я видел его могилу"
         m "И что ты сделал?"
+        $ OneDiscordMessage("# Глава 1 🪙\nМакс и Саша познакомились с Борисом".format(persistent.user_name))
+        $ persistent.remember_b = True
         if mogila_borisa:
             voice s0328
             s "Когда я увидел её"
@@ -1871,7 +1900,7 @@ label shop:
             voice b0023
             b "Как ты посмел осквернить мою могилу!"
             voice s0331
-            s "Я крутой{w}, так что динах"
+            s "Я крутой{w=2}, так что динах"
             m "Правильно он всё сделал"
             voice b0024
             b "Вам всё будет дороже!"
@@ -1931,8 +1960,10 @@ label shop:
         m "Не знаю"
         m "Юй говорила что недавно, стала великим божеством"
         m "Может быть по этому"
+        $ persistent.remember_t = True
         show tank
         with dissolve
+        $ OneDiscordMessage("# Глава 1 🪙\nМакс и Саша познакомились с Тянкой".format(persistent.user_name))
         t "Здравствуйте"
         t "Я вас где-то видела"
         m "Саша это же она"
@@ -1946,7 +1977,7 @@ label shop:
         s "Не знаю как она сюда попала"
         t "Я тебя не видела больше года.."
         voice s0340
-        s "Знаю{w}, я за хлебом уходил"
+        s "Знаю{w=1.8}, я за хлебом уходил"
         m "Сигма"
         voice s0341
         s "Поговорим с тобой попозже"
@@ -2000,6 +2031,7 @@ label shop:
         s "Так ты помолчи пока"
         k "Ты о чём"
         k "Здесь не кого нету"
+        $ OneDiscordMessage("# Глава 1 🪙\nСаша понял секрет мира".format(persistent.user_name))
         voice s0355
         s "Мне кажется я всё понял"
         voice s0356
@@ -2063,6 +2095,7 @@ label shop:
         scene black
         ''
     if game_time < 12:
+        $ OneDiscordMessage("# Глава 1 🪙\nСаша и Макс пришли утром в бар".format(persistent.user_name))
         show pb
         with dissolve
         voice b0038
@@ -2072,7 +2105,8 @@ label shop:
         m "Сегодня я не дрочил"
         hide pb
         with dissolve
-    if not autohil and player_inv.money >= 3000 and random_choise(10):
+    if not autohil and player_inv.money >= 3000 and random_choise(5):
+        $ OneDiscordMessage("# Глава 1 🪙\nБорис предложил купить авто хилку".format(persistent.user_name))
         show pb
         with dissolve
         b "Я вижу что вы часто ко мне ходите лечиться"
@@ -2080,6 +2114,7 @@ label shop:
         menu infpivo:
             "Купить бесконечное пиво за 3 000 грывень"
             "Да(-3 000)":
+                $ OneDiscordMessage("# Глава 1 🪙\n{0} купил авто хилку".format(persistent.user_name))
                 $ player_inv.money -= 3000
                 b "О отлично"
                 b "Вы купили бесконечное пиво"
@@ -2097,10 +2132,12 @@ label shop:
             b "Что вы хотите купить?"
             menu shop23:
                 "Оружие":
+                    $ OneDiscordMessage("# Глава 1 🪙\n{0} ознакомился с арсеналом".format(persistent.user_name))
                     show screen shop_menu
                     'Нажми что бы продолжить'
                     jump shop23
                 "Исцели меня бухлом":
+                    $ OneDiscordMessage("# Глава 1 🪙\nПервое исцеление".format(persistent.user_name))
                     voice b0041
                     b "Знатно вас избили"
                     voice b0042
@@ -2111,16 +2148,17 @@ label shop:
                     jump shop23
                 "Поговорить":
                     if not barmen:
+                        $ OneDiscordMessage("# Глава 1 🪙\nПервый разговор с Борисом".format(persistent.user_name))
                         voice b0043
                         b "Вы уже тут?"
-                        voice s0372
+                        voice s0372b
                         s "Да"
                         m "Показывай что у тебя тут есть"
                         voice b0044
                         b "Значит смотрите, я продаю оружие и бухло для них"
                         voice b0045
                         b "Большего в жизни не надо"
-                        voice s0373
+                        voice s0373b
                         s "Можешь дать что-то бесплатно для начала"
                         m "Да, нам надо уровень повысить, а денег 0"
                         voice b0046
@@ -2136,6 +2174,7 @@ label shop:
                         $ barmen = True
                         jump shop23
                     if not talk_1boris and win_2les and talk_1tank:
+                        $ OneDiscordMessage("# Глава 1 🪙\nСаша пришёл к Борису".format(persistent.user_name))
                         $ talk_1boris = True
                         show pb
                         with dissolve
@@ -2172,7 +2211,7 @@ label shop:
                         b "а где Макс?"
                         voice b0061
                         b "Обычно ты с ним ходишь"
-                        voice s0376
+                        voice s0376b
                         s "Он до Максима пошёл"
                         voice s0377
                         s "Думаю он уже в колледже"
@@ -2190,6 +2229,7 @@ label shop:
                         b "И дальше будет болото"
                         voice b0067
                         b "Вот там он и живёт"
+                        $ OneDiscordMessage("# Глава 1 🪙\nСаша узнал как попасть к зелебобе".format(persistent.user_name))
                         voice s0379
                         s "Пойду с ним познакомлюсь"
                         voice s0380
@@ -2209,7 +2249,7 @@ label shop:
                         voice b0073
                         b "Без неё вас будут убивать с одного удара"
                         voice s0382
-                        s "Знаю{w}, я не даун"
+                        s "Знаю{w=1.8}, я не даун"
                         voice b0074
                         b "Ладно"
                         voice s0383
@@ -2220,6 +2260,7 @@ label shop:
                         hide pb
                         with dissolve
                     if not talk_2boris and talk_2kirill:
+                        $ OneDiscordMessage("# Глава 1 🪙\nКирилл пришёл к Борису".format(persistent.user_name))
                         $ talk_2boris = True
                         show pk auf at left
                         with moveoutleft
@@ -2245,6 +2286,7 @@ label shop:
                         b "С ними справлялись{w}, но после последних событий"
                         voice b0082
                         b "От туда не кто не возращялся"
+                        $ OneDiscordMessage("# Глава 1 🪙\nКирилл узнал про БДСМ лолей".format(persistent.user_name))
                         k "Ты хочешь сказать что он может быть там?"
                         voice b0083
                         b "Да"
@@ -2264,6 +2306,7 @@ label shop:
                         hide pb with moveoutright
                         jump shop23
                     if not talk_3boris and win_2dan:
+                        $ OneDiscordMessage("# Глава 1 🪙\nБорис отблагодарил отряд за победу над зелебобай".format(persistent.user_name))
                         $ talk_3boris = True
                         show pb with dissolve
                         voice b0087
@@ -2301,6 +2344,7 @@ label shop:
                         hide pk with moveoutleft
                         hide pb with moveoutright
                     if not talk_5boris and win_4dan:
+                        $ OneDiscordMessage("# Глава 1 🪙\nПрощальный разговор с Борисом".format(persistent.user_name))
                         $ talk_5boris = True
                         show pm see at right with moveinright
                         show ps uwu at left with moveinleft
@@ -2383,6 +2427,7 @@ label shop:
                     jump shop_bar
         "Тянка" if game_time >= 12 and barmen:
             if win_1les and not talk_1tank:
+                $ OneDiscordMessage("# Глава 1 🪙\nСаша и Макс в первые говорят с Тянкой".format(persistent.user_name))
                 $ talk_1tank = True
                 show ps smile at left
                 show pm at right
@@ -2396,6 +2441,7 @@ label shop:
                 voice s0396
                 s "У меня есть вопросы к ней"
                 "Вы подошли к тянке"
+                $ persistent.remember_t = True
                 show tank
                 with dissolve
                 voice t0020
@@ -2453,6 +2499,7 @@ label shop:
                 menu raskasat:
                     "Рассказать Борису?"
                     "Я сигма, сдать её":
+                        $ OneDiscordMessage("# Глава 1 👇\nРассказать Борису про Тянку?\n> `Я сигма, сдать её`".format(persistent.user_name))
                         m "Знаешь{w}, я сигма"
                         m "Борис иди сюда"
                         voice s0404
@@ -2482,8 +2529,9 @@ label shop:
                         menu ograbit:
                             "Ограбить Бориса?"
                             "Го":
+                                $ OneDiscordMessage("# Глава 1 👇\nОграбить Бориса?\n> `Го`".format(persistent.user_name))
                                 voice s0406
-                                s "Го{w}, пока он занят ограбим как можно больше"
+                                s "Го{w=1.6}, пока он занят ограбим как можно больше"
                                 m "Лучший"
                                 hide pm
                                 hide ps
@@ -2500,6 +2548,7 @@ label shop:
                                 "Вам больше нечего делать{w}, вы ушли"
                                 jump shop_bar
                             "Ты еблан?":
+                                $ OneDiscordMessage("# Глава 1 👇\nОграбить Бориса?\n> `Ты еблан?`".format(persistent.user_name))
                                 voice s0409
                                 s "Ты еблан?"
                                 m "Да"
@@ -2513,6 +2562,7 @@ label shop:
                                 with dissolve
                                 jump shop_bar
                     "Поддержать":
+                        $ OneDiscordMessage("# Глава 1 👇\nРассказать Борису про Тянку?\n> `Поддержать`".format(persistent.user_name))
                         $ action_1tank = True
                         voice s0412
                         s "Харош"
@@ -2584,6 +2634,7 @@ label shop:
                         with dissolve
                         jump shop_bar
             if not talk_3tank and win_4dan:
+                $ OneDiscordMessage("# Глава 1 👇\nПоследний разговор с Тянкой перед штурмом".format(persistent.user_name))
                 $ talk_3tank = True
                 show pm oshko at right with moveinright
                 show ps smile at left with moveinleft
@@ -2596,19 +2647,19 @@ label shop:
                 voice s0423
                 s "Вообще-м мы так подумали"
                 voice s0424
-                s "Ты не реальна{w} как и всё остальное"
+                s "Ты не реальна{w=2} как и всё остальное"
                 m "Ого и как ты это понял?"
                 voice t0056
                 t "Как я могу быть не реальной"
                 voice t0057
                 t "Вот я перед тобой"
                 voice s0425
-                s "Да{w}, но это только для тех кто знал про тебя до смерти"
+                s "Да{w=1.6}, но это только для тех кто знал про тебя до смерти"
                 m "Ты думаешь это так?"
                 voice s0426
                 s "Я в этом уверен"
                 voice s0427
-                s "Максима я не видел при жизни{w}, а значит и здесь его для меня нету"
+                s "Максима я не видел при жизни{w=2.6}, а значит и здесь его для меня нету"
                 voice s0428
                 s "Они существуют и в реальности ещё живые"
                 voice s0429
@@ -2629,7 +2680,7 @@ label shop:
                 s "В любом случае это информация нам даёт только то что мы не все сможем выбраться"
                 voice t0060
                 t "Ты хочешь сказать я не смогу вернуться домой?"
-                voice s0433
+                voice s0433b
                 s "Не то что бы так"
                 voice s0434
                 s "Это и есть твой дом"
@@ -2661,6 +2712,7 @@ label shop:
                 show ps uwu at right
                 show pt
                 with dissolve
+                $ persistent.remember_z = True
                 voice z0002
                 z "О"
                 voice z0003
@@ -3020,6 +3072,7 @@ label shop:
 label daun:
     play music "music/8-bit-moonlight-sonata-music-loop.mp3"
     if talk_2maxim and talk_1boris and otpizdeli_denisa >= 2 and game_time == 24 and not talk_1denis:
+        $ OneDiscordMessage("# Глава 1 👹\n{0} узнал историю Дениса".format(persistent.user_name))
         $ talk_1denis = True
         scene black
         pause(1.0)
@@ -3106,6 +3159,7 @@ label daun:
         "Давай{w} {sc}сделай это{/sc}"
         "{sc}Убей его{w} забери его силу{w} и отомсти всем кто тебя избивал{/sc}"
         "{sc}Ты всё равно уже не человек{/sc}"
+        $ OneDiscordMessage("# Глава 1 👹\n{0} узнал про голос в голове Дениса".format(persistent.user_name))
         d "Да.."
         d "Я должен это сделать"
         d "Я убью короля демонов"
@@ -3118,6 +3172,7 @@ label daun:
         "Бес жалостно"
         "Без капли сомнения"
         "В какой-то момент он перестал сопротивляться"
+        $ OneDiscordMessage("# Глава 1 👹\nДенис убил короля демонов".format(persistent.user_name))
         "Ты вышел на улицу"
         show pd aun
         with dissolve
@@ -3147,9 +3202,11 @@ label daun:
         with fade
         if maks in party_list:
             d "{sc}Я УБЬЮ МАКСА{/sc}"
+            $ OneDiscordMessage("# Глава 1 👹\nМакс пропал".format(persistent.user_name))
             $ party_list.remove(maks)
         else:
             d "{sc}Я УБЬЮ САШУ{/sc}"
+            $ OneDiscordMessage("# Глава 1 👹\nСаша пропал".format(persistent.user_name))
             $ party_list.remove(sasha)
         scene bg koledsh_room
         with fade
@@ -3191,6 +3248,7 @@ label daun:
         d "Ты пришёл сюда"
         d "Я получил силу которая мне и не снилась"
         d "Теперь моя очередь вас всех пиздить"
+        $ OneDiscordMessage("# Глава 1 👹\n{0} увидел первый бой с лолями".format(persistent.user_name))
         $ type_battle = "lolis"
         $ fixedset = "lolis"
         $ restorehp()
@@ -3202,6 +3260,7 @@ label daun:
         scene black
         ''
     if talk_3sanek and game_time == 24 and not talk_1denis:
+        $ OneDiscordMessage("# Глава 1 👹\n{0} нашёл дом Дениса".format(persistent.user_name))
         scene bg dd
         with fade
         m "Вот мы и нашли его дом"
@@ -3210,6 +3269,7 @@ label daun:
         menu pizdetDenisa:
             "Отпиздить Дениса пока он спит?"
             "ХУЯРИТЬ НАДО ТОЛЬКО НОГАМИ":
+                $ OneDiscordMessage("# Глава 1 👹\n{0} отпиздел Дениса".format(persistent.user_name))
                 $ otpizdeli_denisa += 1
                 scene bg dd_room
                 with fade
@@ -3315,6 +3375,7 @@ label daun:
         k "Но всё таки.."
         k "Ладно"
         k "Заходим!"
+        $ OneDiscordMessage("# Глава 1 👹\n{0} начал послдний бой против Дениса".format(persistent.user_name))
         $ fixedset = "finalpodval"
         $ type_battle = "denis"
         $ final_battle = True
@@ -3334,6 +3395,7 @@ label dansh:
         play music "music/Path to Lake Land.ogg"
         ''
     if talk_2boris and not first_dan:
+        $ OneDiscordMessage("# Глава 1 💀\n{0} нашёл подвалы Дениса, что бы спасти друга".format(persistent.user_name))
         $ first_dan = True
         show pk
         with fade
@@ -3351,15 +3413,19 @@ label dansh:
     menu dan_chose():
         "Куда вы хотите отправится?"
         'Подвал "Арнаутова"' if a.lvl < 32:
+            $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Арнаутова\"".format(persistent.user_name))
             $ wild_monsters = [mon11,mon12,mon13]
             $ type_battle = "1dan"
         'Подвал 18' if a.lvl > 29 and a.lvl < 44:
+            $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал 18".format(persistent.user_name))
             $ wild_monsters = [mon13, mon14,mon15,mon16]
             $ type_battle = "2dan"
         'Подвал "Попова"' if a.lvl > 35:
+            $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Попова\"".format(persistent.user_name))
             $ wild_monsters = [mon15, mon17,mon18,mon19]
             $ type_battle = "3dan"
         'Подвал "Металлургов 12"' if a.lvl > 50 and win_3dan and talk_2sasha:
+            $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Металлургов 12\"".format(persistent.user_name))
             $ fixedset = "lolisboss"
             $ type_battle = "4dan"
         "Уйти":
