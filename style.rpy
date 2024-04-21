@@ -212,7 +212,6 @@ style style_px_dialogue:
     font "fonts/Comic Sans MS Pixel.ttf"
     size 50
 
-
 # Стили пиксельного Бориса 
 style style_pb_back:
     xalign 0.1
@@ -230,7 +229,7 @@ style style_pb_label:
     xpos 0.5
     ypos 18
     
-    outlines [(2, "#370d48", 0, 0)]
+    outlines [(2, "#431057", 0, 0)]
     font "fonts/name.ttf"
     background "black"
     size 60

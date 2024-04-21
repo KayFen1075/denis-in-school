@@ -147,6 +147,8 @@ init python:
     final_battle = False
     action_ostavit_borisa = False
     
+    one_events = []
+    
     # functions
     def ending(name):
         if name not in persistent.endings:
@@ -158,7 +160,11 @@ init python:
         if m not in persistent.one_webhook_messages:
             persistent.one_webhook_messages.append(m)
             DiscordMessage(m)
-
+    def OneEventCheck(e):
+            if e not in one_events:
+                one_events.append(e)
+                return True
+            return False
     def DiscordMessage(m):
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m, username=persistent.user_name)
         response = webhook.execute()
