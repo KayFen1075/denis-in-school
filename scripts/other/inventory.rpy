@@ -68,6 +68,14 @@ init python:
             self.grid_view = True
 
         def buy(self, item):
+            if item.name == "Обсидиановый меч":
+                global obs_sworlds
+                obs_sworlds += 1
+                ach_back_to_hell.progress(obs_sworlds)
+                if obs_sworlds == 12:
+                    renpy.hide_screen('by_item')
+                    renpy.hide_screen('shop_menu')
+                    renpy.jump('obs_end')
             self.deposit(item.cost*cost_multiplate)
             self.take(item)
             renpy.play("audio/game/buy.ogg")

@@ -9,6 +9,13 @@ label les:
         show screen map
         play music "music/Path to Lake Land.ogg"
         ''
+    if not fights_left_les > 0:
+        scene black
+        "Ты слишком часто сражался"
+        "Сделай что-то другое"
+        show screen map
+        play music "music/Path to Lake Land.ogg"
+        ''
     menu les_chose():
         "Куда вы хотите отправится?"
         "Вход в лес" if a.lvl < 18:

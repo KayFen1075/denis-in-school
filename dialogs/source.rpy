@@ -65,6 +65,14 @@ image pd smile = At('pdq smile', sprite_highlight('d'))
 # other
 image tank = At('tankq', sprite_highlight('t')) # Танк
 image pt = At('ptq', sprite_highlight('z')) # Тарас
+# image d glitch:
+#     glitch("d aun") # reliable slicing
+#     pause 1.0
+#     glitch("d aun", offset=60) # bigger and always-random slicing
+#     pause 0.1
+#     repeat
+
+
 # Санёк
 image px = At('pxq', sprite_highlight('x'))
 image px see = At('pxq see', sprite_highlight('x'))
@@ -73,6 +81,10 @@ image pl = At('plq', sprite_highlight('l'))
 image pl cool = At('plq cool', sprite_highlight('l'))
 image pl great = At('plq great', sprite_highlight('l'))
 # Борис
+image b = At('bq', sprite_highlight('b'))
+image b oshko = At('bq oshko', sprite_highlight('b'))
+image b open = At('bq open', sprite_highlight('b'))
+
 image pb = At('pbq', sprite_highlight('b'))
 image pb oshko = At('pbq oshko', sprite_highlight('b'))
 image pb open = At('pbq open', sprite_highlight('b'))

@@ -28,18 +28,20 @@ screen map:
         if game_time in time_images:
             add time_images[game_time]
 
-        button:
-            xpos 1554 ypos 905
-            xsize 163 ysize 156
-            idle_background "gui/arrmory.png"
-            hover_foreground "gui/arrmory.png"
-            action Show("EquipmentScreen")
-        button:
-            xpos 1740 ypos 905
-            xsize 168 ysize 153
-            idle_background "gui/backpack.png"
-            hover_foreground "gui/backpack.png"
-            action Show("inventory_screen", None, player_inv)
+        if ui_viev_equipment:
+            button:
+                xpos 1554 ypos 905
+                xsize 163 ysize 156
+                idle_background "gui/arrmory.png"
+                hover_foreground "gui/arrmory.png"
+                action Show("EquipmentScreen")
+        if ui_viev_bag:
+            button:
+                xpos 1740 ypos 905
+                xsize 168 ysize 153
+                idle_background "gui/backpack.png"
+                hover_foreground "gui/backpack.png"
+                action Show("inventory_screen", None, player_inv)
         button:
             xpos 0 ypos 0
             xsize 561 ysize 333

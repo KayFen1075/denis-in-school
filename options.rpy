@@ -12,7 +12,7 @@
 ##
 ## Символы "_()", окружающие название, отмечают его как пригодное для перевода.
 
-define config.name = _("Denis in shcool")
+define config.name = _("Denis in at shcool")
 
 
 ## Определяет, показывать ли заголовок, данный выше, на экране главного меню.
@@ -85,7 +85,7 @@ define config.intra_transition = dissolve
 ## Переход, используемый после загрузки слота сохранения.
 
 define config.after_load_transition = None
-
+define config.has_quicksave = False
 
 ## Используется при входе в главное меню после того, как игра закончится.
 

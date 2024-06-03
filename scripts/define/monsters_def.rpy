@@ -42,9 +42,26 @@ label load_monsters:
     $ ui22 = Monster("Великое божество Юй", 999, 200, 80.0, 999, 100, "22", "water", need_debility=3, anim=idle_x, skills=[souldrain, mindfreeze, mindfire, arrowhail, lavaburst, swordofdeath, spikeshield])
     return
 
+
 init python:
-    class Monster(object):
+    class Monster(object): 
         def __init__(self, name, hpmax, atk, dfn, exp, lvl, img, sfx_atk, anim=idle_shake, debility=0, need_debility=2, skills=[], state=None, dead=False, finaldmg=0, slot=1, sprite_pos=0, dmg_pos=(0,0)):
+            xpdiff = 0.6
+            dmgdiff = 0.6
+            rewardX = 0.8
+            if persistent.difficulty == 2:
+                xpdiff = 1
+                dmgdiff = 1
+                rewardX = 1
+            elif persistent.difficulty == 3:
+                xpdiff = 1.3
+                dmgdiff = 1.2
+                rewardX = 1.4
+            elif persistent.difficulty == 4:
+                xpdiff = 2
+                dmgdiff = 1.6
+                rewardX = 1
+            
             self.name = name
             self.hpmax = hpmax
             self._hp = 0
@@ -69,6 +86,11 @@ init python:
             self.sprite_pos = sprite_pos
             self.dmg_pos = dmg_pos
             #self.rarity = rarity
+            if not name == None:
+                self.hpmax = hpmax * xpdiff
+                self.atk = atk * dmgdiff
+                self.exp = exp * rewardX
+                
         @property
         def hp(self):
             value = self._hp

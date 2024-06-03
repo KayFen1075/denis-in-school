@@ -140,10 +140,16 @@ init python:
         curr_money = math.ceil((curr_exp * a.lvl) / 3)
         curr_exp = math.ceil((curr_exp * a.lvl) / players)
         player_inv.money += curr_money
+        ach_cash_1000.progress(player_inv.money)
+        ach_cash_10000.progress(math.ceil(player_inv.money/1000))
+        ach_cash_inf.progress(math.ceil(player_inv.money/1000))
+
         renpy.say(None, "За этот бой вы заработали [curr_money] грывни")
         for p in battle_players:
             if p.hp > 0:
                 renpy.play("audio/game/exp.ogg")
+                if p.lvl == 60:
+                    ach_max_level.grant()
                 if p.lvl <= max_level:
                     p.exp += curr_exp
                     renpy.say(None, "%s получил %i опыта!" % (p.name, curr_exp))

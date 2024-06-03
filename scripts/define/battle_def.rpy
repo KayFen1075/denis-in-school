@@ -260,12 +260,12 @@ init python:
         renpy.retain_after_load()
     def stopEvent():
         global eventrunning
-        #eventrunning = False
-        #config.allow_skipping = False
-        #config.rollback_enabled = False
-        # renpy.block_rollback()
-        # renpy.choice_for_skipping()
-        #preferences.afm_enable = False
+        eventrunning = False
+        config.allow_skipping = False
+        config.rollback_enabled = False
+        renpy.block_rollback()
+        renpy.choice_for_skipping()
+        preferences.afm_enable = False
 
 default fixedset = None
 default tt_timer = False
@@ -342,22 +342,22 @@ label lb_by_magic(magic, free=False):
     menu select_player:
         "Кого вы хотите научить [magic.name]?"
         "[name]" if not len(a.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\n{1} изучил магию {2}".format(persistent.user_name, name, magic.name))
             $ a.addSkill(magic)
         "Макс" if maks in party_list and not len(maks.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\nМакс изучил магию {1}".format(persistent.user_name, magic.name))
             $ maks.addSkill(magic)
         "Саша" if sasha in party_list and not len(sasha.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\nСаша изучил магию {1}".format(persistent.user_name, magic.name))
             $ sasha.addSkill(magic)
         "Кирилл" if lox in party_list and not len(lox.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\nКирилл изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\nКирилл изучил магию {1}".format(persistent.user_name, magic.name))
             $ lox.addSkill(magic)
         "Любимый" if maksim in party_list and not len(maksim.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\nЛюбимый изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\nЛюбимый изучил магию {1}".format(persistent.user_name, magic.name))
             $ maksim.addSkill(magic)
         "Тянка" if tanka in party_list and not len(tanka.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🏫\nТянка изучил магию [magic.name]".format(persistent.user_name))
+            $ OneDiscordMessage("# Глава 1 🔮\nТянка изучил магию {1}".format(persistent.user_name, magic.name))
             $ tanka.addSkill(magic)
 
 

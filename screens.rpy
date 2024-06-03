@@ -250,12 +250,12 @@ screen quick_menu():
             yalign 1.0
 
             textbutton _("Назад") action Rollback()
-            textbutton _("История") action ShowMenu('history')
+            # textbutton _("История") action ShowMenu('history')
             textbutton _("Пропуск") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Авто") action Preference("auto-forward", "toggle")
             textbutton _("Сохранить") action ShowMenu('save')
-            textbutton _("Б.Сохр") action QuickSave()
-            textbutton _("Б.Загр") action QuickLoad()
+            # textbutton _("Б.Сохр") action QuickSave()
+            # textbutton _("Б.Загр") action QuickLoad()
             textbutton _("Опции") action ShowMenu('preferences')
 
 
@@ -308,6 +308,8 @@ screen navigation():
         textbutton _("Загрузить") action ShowMenu("load")
 
         textbutton _("Настройки") action ShowMenu("preferences")
+
+        textbutton _("Достижения") action ShowMenu("achievement_gallery") 
 
         if _in_replay:
 
@@ -728,7 +730,7 @@ screen preferences():
     tag menu
 
     use game_menu(_("Настройки"), scroll="viewport"):
-
+        textbutton "Image Tools" action ShowMenu("image_tools")
         vbox:
 
             hbox:
@@ -783,6 +785,11 @@ screen preferences():
                     vbox:
                         style_prefix "radio_vbox"
                         label _("Сложность игры")
+                        if persistent.end_game:
+                            if persistent.difficulty == 4:
+                                textbutton _("{sc}{color=#ff0000}{u}НЕВОЗМОЖНО{/u}{/color}{/sc}") action Call("insane_config") 
+                            else:
+                                textbutton _("{sc}{color=#510000}НЕВОЗМОЖНО{/color}{/sc}") action Call("insane_config") 
                         if persistent.difficulty == 3:
                             style_prefix "radio_button"
                             textbutton _("{u}Сложно{/u}") action Call("hard_config") 
@@ -838,15 +845,13 @@ screen preferences():
             vbox:
                 label _("Громкость персонажей")
                 vbox:
-                    if persistent.remember_m:
-                        box_wrap False
-                        textbutton _("Макс") action Play("voice", f"audio/voice/m/m000{random.randint(1, 9)}.ogg")
-                        bar value SetCharacterVolume("m")
+                    box_wrap False
+                    textbutton _("Макс") action Play("voice", f"audio/voice/m/m000{random.randint(1, 9)}.ogg")
+                    bar value SetCharacterVolume("m")
                 vbox:
-                    if persistent.remember_s:
-                        box_wrap False
-                        textbutton _("Саша") action Play("voice", f"audio/voice/s/s000{random.randint(1, 9)}.ogg")
-                        bar value SetCharacterVolume("s")
+                    box_wrap False
+                    textbutton _("Саша") action Play("voice", f"audio/voice/s/s000{random.randint(1, 9)}.ogg")
+                    bar value SetCharacterVolume("s")
                 vbox:
                     if persistent.remember_d:
                         box_wrap False
@@ -890,20 +895,21 @@ screen preferences():
                         box_wrap False
                         textbutton _("Борис") action Play("voice", f"audio/voice/b/b000{random.randint(1, 9)}.ogg")
                         bar value SetCharacterVolume("b")
-                
+
+label insane_config:
+    $ persistent.difficulty = 4
+    return 
+
 label hard_config:
     $ persistent.difficulty = 3
-    show screen preferences
     return 
 
 label norm_config:
     $ persistent.difficulty = 2
-    show screen preferences
     return 
 
 label easy_config:
     $ persistent.difficulty = 1
-    show screen preferences
     return 
     
 

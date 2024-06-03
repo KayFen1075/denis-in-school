@@ -9,6 +9,7 @@ define t = Character('Тянка', color="#f68ccd", image="t", callback=name_cal
 define z = Character('Тарас', color="#eee44b", image="z", callback=name_callback, cb_name="z") # gotov
 define l = Character('Любимый', color="#c31414", image="l", callback=name_callback, cb_name="l") # soon
 define b = Character('Борис', color="#a921df", image="b", callback=name_callback, cb_name="b") # gotov
+define r = Character('', color="#292929", image="b", callback=name_callback, cb_name="b") # gotov
 
 # persistent
 default persistent.difficulty = 1
@@ -61,6 +62,7 @@ init python:
     end_message = f"Вы прошли {len(persistent.endings)} концовку из {count_endings}!"
 
     # запись действий
+    first_game = True
     bb = 1
     kHelp = False
     FigthPoints = 0
@@ -69,6 +71,8 @@ init python:
     wait_most = 0
 
     max_level = 12
+    fights_left_les = 3
+    fights_left_dan = 3
     see_attack_speed = 1
     attack_speed = 0.7
     kill_speed = 1
@@ -80,6 +84,8 @@ init python:
     first_barmen = False
     barmen = False
     first_pola = False
+    ui_viev_bag = False
+    ui_viev_equipment = False
     first_libriary = False
     maxim = False
     autohil = False
@@ -87,6 +93,7 @@ init python:
     game_time = 12
     cost_multiplate = 1
     otpizdeli_denisa = 0
+    obs_sworlds = 0
     friend = 0
     first_code = False
 
@@ -94,17 +101,21 @@ init python:
     talk_1taras = False
 
     win_1les = False
+    first_win1les = False
+    first_by_item = False
     talk_1tank = False
     action_1tank = False
     talk_1sanek = False
     talk_1maxim = False
 
     win_2les = False
+    first_win2les = False
     talk_2sanek = False
     talk_2maxim = False # +maksim
     talk_1boris = False
 
     win_3les = False
+    first_win3les = False
     talk_2tank = False
     talk_3sanek = False
     talk_2tank = False
@@ -118,17 +129,20 @@ init python:
     talk_2boris = False
 
     win_1dan = False # +friend
+    first_win1dan = False
     first_dan = False
     first_win1dan = False
     talk_4sanek = False
     talk_1sasha = False
 
     win_2dan = False
+    first_win2dan = False
     talk_5sanek = False
     talk_3boris = False
     talk_3kirill = False
 
     win_3dan = False
+    first_win3dan = False
     talk_4boris = False
     talk_3maxim = False
     talk_2sasha = False
@@ -152,7 +166,10 @@ init python:
     # functions
     def ending(name):
         if name not in persistent.endings:
-            global DiscordWebhook
+            if name == "Умереть от Дениса":
+                ach_die_with_denis.grant()
+            if name == "Умереть от великое божество":
+                ach_ui.grant()
             persistent.endings.append(name)
             renpy.notify(f'Открыта новая концовка {name}')
             DiscordMessage("**{0}** открыл новую концовку `{1}`!\nПройдено концовок: {2} из {3}".format(persistent.user_name, name, len(persistent.endings), count_endings))
@@ -169,17 +186,103 @@ init python:
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1179025849857626152/0xNjeYYuHaeT8DF1xiv_CnO3lRf_YKeiPlGuUmeGBOw_ffZLEVJEzby2DJeCdT6QTMWE", content=m, username=persistent.user_name)
         response = webhook.execute()
     def addTime():
-        global game_time
+        global game_time, fights_left_les, fights_left_dan
+        fights_left_les = min(fights_left_les+1,3)
+        fights_left_dan = min(fights_left_dan+1,3)
         game_time = (game_time % 24) + 6 
         print(game_time)
     
     def random_choise(shanc):
         i = random.randint(1, shanc)
         return i == 1
+    # Скрипты
 
-    # scripts
+# Эффекты
+
+init python:
+    close_eye = ImageDissolve("eye", 2.0, 20, reverse=True)
+    open_eye = ImageDissolve("eye", 2.0, 20, reverse=False)
+    
+label horror_effect():
+    show layer master:
+        align (.5, .5)
+        parallel:
+            easein 6 zoom 1.08
+            easein 6 zoom 1.03
+            repeat
+        parallel:
+            1.
+            block:
+                block:
+                    linear .02 xoffset 2
+                    linear .02 xoffset -2
+                    repeat 6
+                .5
+            repeat
+        parallel:
+            linear .02 matrixcolor BrightnessMatrix(-0.1)
+            linear .02 matrixcolor BrightnessMatrix(-0.12)
+            linear .02 matrixcolor BrightnessMatrix(-0.11)
+            linear .02 matrixcolor BrightnessMatrix(-0.14)
+            linear .02 matrixcolor BrightnessMatrix(-0.13)
+            linear .02 matrixcolor BrightnessMatrix(-0.16)
+            linear .02 matrixcolor BrightnessMatrix(-0.13)
+            linear .02 matrixcolor BrightnessMatrix(-0.14)
+            linear .02 matrixcolor BrightnessMatrix(-0.11)
+            linear .02 matrixcolor BrightnessMatrix(-0.12)
+            repeat
+    return
+
+label end_horror_effect():
+    show layer master:
+        matrixcolor BrightnessMatrix(0)
+        parallel:
+            easein 8 zoom 1.0
+        parallel:
+            linear 8 matrixcolor BrightnessMatrix(0.0)
+    return
+
+label restoreos():
+    $ fights_left_les = 3
+    $ fights_left_dan = 3
+    return
+
+label unstoreos():
+    $ fights_left_les = 0
+    $ fights_left_dan = 0
+    return
 
 label splashscreen:
+    if not renpy.exists('characters/maks.char') or not renpy.exists('characters/sasha.char') and renpy.windows:
+        scene bg shcool
+        voice s0016
+        s "Здарова"
+        $ config.rollback_enabled = True
+        voice s0017
+        s "Как думаешь сегодня Денис прийдёт в школу?"
+        show m at right
+        with dissolve
+        voice m0027
+        m "Конечно{w=2.3}, нет"
+        voice m0028
+        m "Он за всё время появился всего 3 раза"
+        voice m0029
+        m "И за эти 3 раза пропал{w=1.5}{nw}"
+        if not renpy.exists('characters/sasha.char') and not renpy.exists('characters/maks.char'):
+            m "Пропал{w=0.6}и мы{w=0.5}{nw}"
+            scene whitle with fade
+            $ renpy.movie_cutscene('videos/0423.mpg') 
+            $ renpy.quit()
+        if not renpy.exists('characters/maks.char'):
+            m "Пропал{w=0.6} я{w=0.5}{nw}"
+            scene whitle with fade
+            $ renpy.movie_cutscene('videos/0423.mpg') 
+            $ renpy.quit()
+        if not renpy.exists('characters/sasha.char'):
+            m "Пропал{w=0.6} ты{w=0.5}{nw}"
+            scene whitle with fade
+            $ renpy.movie_cutscene('videos/0423.mpg') 
+            $ renpy.quit()
     $ renpy.movie_cutscene('videos/black.mpg')
     define config.main_menu_music = persistent.main_menu_music
     if persistent.first_run == True:
@@ -191,7 +294,7 @@ label splashscreen:
         voice m0001
         m "Добро пожаловать в ебейшую визуальную новелу"
         voice m0002
-        m "Сейчас будет один вопрос{w}, ВАЖНО ОТВЕТИТЬ ЧЕСТНО!"
+        m "Сейчас будет один вопрос{w=1.4}, ВАЖНО ОТВЕТИТЬ ЧЕСТНО!"
         $ persistent.endings = []
         $ persistent.user_name = renpy.input("Как тебя зовут в реальности? (Это важно!!!)", length=32).title()
         if persistent.user_name.casefold() == "денис" or persistent.user_name.casefold() == "даун" or persistent.user_name.casefold() == "аутист" or persistent.user_name.casefold() == "уебан":
@@ -265,6 +368,7 @@ label splashscreen:
         elif persistent.user_name.casefold() == "юй":
             voice m0019b
             m "А ты что тут забыла?"
+            voice d0001
             d "Я бы её трахнул сейчас"
         elif persistent.user_name.casefold() == "тянка":
             voice t0001
@@ -299,8 +403,10 @@ label splashscreen:
             b "ААА ЖЕНЩИНА"
             voice z0001
             z "ААА ЖЕНЩИНА"
+            voice x0001
             x "ААА ЖЕНЩИНА"
             l "ААА ЖЕНЩИНА"
+            voice d0002
             d "ААА ЖЕНЩИНА"
             u "а что тут такого?"
         voice m0026

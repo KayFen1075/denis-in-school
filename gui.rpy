@@ -347,7 +347,7 @@ define config.history_length = 250
 
 ## Высота доступных записей на экране истории, или None, чтобы задать высоту в
 ## зависимости от производительности.
-define gui.history_height = 210
+define gui.history_height = 70
 
 ## Местоположение, ширина и выравнивание заголовка, показывающего имя говорящего
 ## персонажа.
@@ -443,8 +443,8 @@ init python:
         gui.label_text_size = 51
 
         ## Регулирует местоположение текстового окна.
-        gui.textbox_height = 360
-        gui.name_xpos = 120
+        gui.textbox_height = 320
+        gui.name_xpos = 0.5
         gui.dialogue_xpos = 0.5
         gui.dialogue_width = 1650
 
