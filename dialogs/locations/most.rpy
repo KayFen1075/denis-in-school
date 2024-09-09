@@ -30,7 +30,7 @@ label most:
             show pl cool at left
             show pm oshko at right
             with dissolve
-            voice m0410
+            voice m0410b
             m "Здарова Любимый"
             voice l0057
             l "Иди ко мне{w}, романтики хочется"

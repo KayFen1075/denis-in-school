@@ -153,6 +153,9 @@ define config.save_directory = "Denisinshcool-1699019685"
 
 define config.window_icon = "gui/window_icon.png"
 
+define config.default_music_volume = 0.6
+define config.default_sfx_volume = 0.6
+define config.default_voice_volume = 1
 
 ## Настройка Дистрибутива ######################################################
 ##

@@ -88,7 +88,6 @@ init python:
         global atk_sfx
         global damage
         misschance = 0
-        print(atk_sfx)
         if atk_sfx == "audio/battle/skills/lovedefence.ogg":
             misschance = 0
         elif d.debility > 0:

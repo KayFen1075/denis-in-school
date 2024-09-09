@@ -39,8 +39,10 @@ label daun:
         play sound dk
         voice d0062
         d "Пожалуйста не трогайте меня"
+        voice x0267
         x "Блять{w}, опять он"
         call horror_effect
+        voice x0268
         x "Пиздите его, он слаб, он нам не чего не сделает"
         voice d0063
         d "Не надо"
@@ -89,7 +91,9 @@ label daun:
         show px at left
         with moveinleft
         call horror_effect
+        voice x0269
         x "Ах ты тварь"
+        voice x0290
         x "Подошёл к моему колледжу"
         scene black
         with fade
@@ -176,7 +180,7 @@ label daun:
         scene black
         with fade
         if maks in party_list:
-            voice d083
+            voice d0083
             d "{sc}Я УБЬЮ МАКСА{/sc}"
             $ OneDiscordMessage("# Глава 1 👹\nМакс пропал".format(persistent.user_name))
             $ party_list.remove(maks)

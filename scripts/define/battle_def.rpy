@@ -62,24 +62,30 @@ init python:
         global m6
         global m7
         global m8
-        monsters_total = renpy.random.randint(1,8)
-        m1 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m2 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m3 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m4 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m5 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m6 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m7 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        m8 = copy.deepcopy(renpy.random.choice(wild_monsters))
-        battle_monsters = [m1,m2,m3,m4,m5,m6,m7,m8]
-        total = monsters_total
+
+        monsters_total = renpy.random.randint(6,8)
+
+        monsters = [copy.deepcopy(renpy.random.choice(wild_monsters)) for _ in range(8)]
+
+        monsters.sort(key=lambda x: x.hpmax, reverse=True)
+
+        battle_monsters = [empty]*8
+
+        for i, monster in enumerate(monsters):
+            if i < monsters_total:
+                monster.dead = False
+                if i % 2 == 0:
+                    battle_monsters[3 - i // 2] = monster
+                else:
+                    battle_monsters[4 + i // 2] = monster
+            else:
+                break
+
+        m1, m2, m3, m4, m5, m6, m7, m8 = battle_monsters
+
         for m in battle_monsters:
-            m._hp = m.hpmax
-            m.dead = True
-        for m in battle_monsters:
-            if total > 0:
-                m.dead = False
-                total -= 1
+            if m is not None:
+                m._hp = m.hpmax
 
     def asignPos():
         monster_slot[0].sprite_pos = 0
@@ -295,19 +301,28 @@ default diss = Dissolve(.2)
 
 # ACTIVE SKILLS (name, pwr, mp_cost, sfx, targ, targs, type='active', trans=None, img=None, back_row=False)
 
+# База
+default defenseup = ActiveSkill("Улучшить щит", 0, 25, "defend", "self") # use is in skill_effects
+
 # Уник магия
-default doubleattack = ActiveSkill("Двойная атака", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
+default doubleattack = ActiveSkill("Двойная атака", 0, 25, "sword", "enemy", 2, img="double_attack") # two enemy targets
 default attackall = ActiveSkill("Атаковать всех", 15, 75, "rock", "all", img="swordofdeath") # targets all enemies
 default giftofangels = ActiveSkill("Подарок с небес", -3, 20, "heal", "ally", 2, img="giftofangels")
 default loved = ActiveSkill("Влюбить 2 врагов", 3, 30, "ice", "enemy", 2, img="iceball") # attacks whole row
 default souldrain = ActiveSkill("Секс рабство", 20, 60, "acid", img="souldrain")
 default souldrain2 = ActiveSkill("Похищение", 2, 50, "acid", img="souldrain")
 
+# Магия предметов
+default cumshot = ActiveSkill("Кончить", 0, 25, "cum", "enemy", 2, img="arrowhail") # two enemy targets
+# default cumshot = ActiveSkill("Тройной удар", 99999, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
+# default cumshot = ActiveSkill("Ядовитое лезвие", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
+# default cumshot = ActiveSkill("Огненое лезвие", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
+# default cumshot = ActiveSkill("Оглушение", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
+
 # Полученная магия
 default mindfreeze = ActiveSkill("Леденой шар", 7, 20, "ice", img="iceball")
 default mindfire = ActiveSkill("Огненный шар", 14, 35, "fire", img="asteroid")
 default magicheal = ActiveSkill("Исцеление", -6, 25, "heal", "self", img="mindburn") # negative pwr to heal
-default defenseup = ActiveSkill("Улучшить щит", 0, 25, "defend", "self") # use is in skill_effects
 default arrowhail = ActiveSkill("Обстрел", 10, 40, "bow", "all", img="arrowhail", back_row=True)
 default lavaburst = ActiveSkill("Лавовой взрыв", 16, 55, "fire", img="lavaburst")
 default swordofdeath = ActiveSkill("Голое фото дениса", 30, 100, "sword", img="hellrage", cost=0)
@@ -318,7 +333,7 @@ default lovedefence = ActiveSkill("Ослабить уровень", 0, 15, "lov
 # Проклятая магия
 default meteorshower = ActiveSkill("Метеоритный дождь", 10, 70, "rock", "all", img="meteorshower", cost=12000)
 default hellrage = ActiveSkill("Адская ярость", 14, 80, "fire", "all", img="deathmissile", cost=20000)
-default lifedrain = ActiveSkill("Высасывание жизни", 10, 50, "acid", img="lifedrain", cost=10000)
+default lifedrain = ActiveSkill("Отсасование жизни", 10, 50, "acid", img="lifedrain", cost=10000)
 default devastationbeam = ActiveSkill("Луч опустошения", 4, 45, "fire", "all", img="devastationbeam", cost=15000)
 default energybeams = ActiveSkill("Энергетические лучи", 5, 50, "thunder", "all", img="energybeams", cost=16000)
 
@@ -329,6 +344,28 @@ default circleofhealing = ActiveSkill("Circle of Healing", -10, 10, "heal", "all
 default mindburn = ActiveSkill("Mindburn", 5, 15, "fire", img="mindburn")
 default mindblast = ActiveSkill("Mindblast", 6, 5, "thunder", img="mindblast")
 default deathmissile = ActiveSkill("Death Missile", 7, 45, "rock", img="deathmissile")
+
+# Магия оружия
+default kulak_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default zerkalo_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+
+default gold_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default bow_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default sheild_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default ice_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default klin_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default poduszka_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+
+default vibrator_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default knut_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default obs_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default biblia_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default doom_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default czerep_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+
+default ices_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default resinoviy_chlen_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+
 
 default magics = [
     meteorshower, hellrage, lifedrain, devastationbeam, energybeams
@@ -370,4 +407,4 @@ label lb_by_magic(magic, free=False):
 # PASSIVE SKILLS (name, sfx=None, img=None, trans=None, lvl=0)
 default radar = PassiveSkill("Radar", "heal")
 default passive1 = PassiveSkill("Passive Skill 1", "heal")
-default passive2 = PassiveSkill("Passive Skill 2", "heal")
+default passive2 = PassiveSkill("Passive Skill 2", "heal") 

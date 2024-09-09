@@ -3,13 +3,15 @@ init python:
     import math
     
     class Item(store.object):
-        def __init__(self, name, desc, cost, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="item", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, icon=False, skill=False, value=0, dependencies=[], act=Show("inventory_popup", message="Nothing happened!"), type="item", recipe=False, tags={}):
             global cookbook
             self.name = name
             self.desc = desc
             self.cost = cost
             self.icon = icon
+            self.skill = skill
             self.value = value
+            self.dependencies = dependencies
             self.act = act # screen action
             self.type = type # type of item
             self.recipe = recipe # nested list of [ingredient, qty]
@@ -33,18 +35,21 @@ init python:
                 self.recipe = recipe
 
     class Armor(Item):
-        def __init__(self, name, desc, cost, defense, icon=False, value=0, act=Show("inventory_popup", message='as'), type="броня", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, defense, skill=False, icon=False, value=0, act=Show("inventory_popup", message='as'), type="броня", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.defense = defense
+            self.skill = skill
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, "броня", recipe, tags)
 
     class Weapon(Item):
-        def __init__(self, name, desc, cost, damage, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="оружие", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, damage, skill=False, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="оружие", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.damage = damage
+            self.skill = skill
+            self.type = "Оружие"
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, type, recipe, tags)
 
@@ -219,7 +224,7 @@ screen shop_menu():
                     label "Оружие"
                     hbox:
                         for item in items:
-                            if item.type == "оружие":
+                            if item.type == "Оружие":
                                 textbutton "{{image=images/inv/{0}}}".format(item.icon) action Show("by_item", None, item, "{0}атк".format(item.damage))
                                 text "{0}₴".format(math.ceil(item.cost*cost_multiplate))
                 # Артефакты
@@ -283,81 +288,120 @@ screen by_magic(magic, player):
                         action Call("lb_by_magic", magic)
                 textbutton "Отмена":
                     action Hide("by_magic")
-screen EquipmentScreen():
+screen EquipmentPlayersScreen():
+    modal True
+    zorder 100
+    default full_party = [a] + party_list
+    add "battle/blackui.png"
+    text "Выбери персонажа" xpos 0.5 ypos 0.54
+    for i, char in enumerate(full_party):
+        imagebutton:
+            idle "images/char/{0}_battle.png".format(char.img)
+            xpos (0.8 - 0.09* len(full_party) + 0.10 * i) ypos 1.0
+            anchor ('center', 'bottom')
+            action Show("EquipmentScreen", None, char), renpy.hide_screen("EquipmentPlayersScreen")
+            
+
+screen EquipmentScreen(char):
     modal True
     zorder 101 
     $ xalingpos = 0.25
     $ yalignpos = 0.04
     $ i = 1
-    for player in party_list:
-        $ i +=1
-        if i > 3:
-            if i == 4:
-                $ yalignpos = 0.95
-                $ xalingpos = 0.25
-        frame:
-            style "neat_frame"
-            xalign xalingpos yalign yalignpos
-            vbox:
-                hbox:
-                    xalign 0.5
-                    text "{sc=1.5}{b}[player.name]{/b} [player.lvl]lvl{/sc}" 
-                hbox:
-                    xalign 0.5
-                    text "Атака: {1}, Защита: {2}".format(player.name, player.atk+player.bonus_atk, player.dfn+player.bonus_dfn) size 15 
-                hbox:
-                    xalign 0.5
-                    text "{0}xp / {1}xp".format((player.exp-(player.lvl**3)), (player.lvl+1)**3-(player.lvl)**3) font "fonts/damages.ttf" size 15
-                for slot in ['броня', 'оружие', 'аксессуар']:
-                    vbox:
-                        hbox:
-                            text "{0}:".format(slot.capitalize())
-                            $ item = player.equip.get(slot)
-                            if item is not None:
-                                textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(player.removeEquip, slot, item)
-                        hbox:
-                            for item_inv in player_inv.inv:
-                                $ name = item_inv[0].name
-                                $ icon = item_inv[0].icon
-                                $ desc = item_inv[0].desc
-                                $ type = item_inv[0].type
-                                if type == slot:
-                                    textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
-        if i < 3:
-            $ xalingpos += 0.5
-        else:
-            $ xalingpos += 0.25
-    frame:
-        style "neat_frame"
-        xalign 0.5 yalign 0.03
-        vbox:
+    
+    add "battle/blackui.png"
+    add "images/battle/inv_bg.png" xpos 0.33 ypos 0.05 zoom 0.9
+    
+    # Eqp
+    
+    for slot in ['броня', 'оружие', 'аксессуар']:
+        hbox:
             hbox:
-                xalign 0.5
-                text "{sc=2}{b}[a.name]{/b} [a.lvl]lvl{/sc}"
+                text "{0}:".format(slot.capitalize())
             hbox:
-                xalign 0.5
-                text "Атака: {1}, Защита: {2}".format(a.name, a.atk+a.bonus_atk, a.dfn+a.bonus_dfn) size 15
-            hbox:
-                xalign 0.5
-                text "{0}xp / {1}xp".format((a.exp-(a.lvl**3)), (a.lvl+1)**3-(a.lvl)**3) font "fonts/damages.ttf" size 15
-            for slot in ['броня', 'оружие', 'аксессуар']:
-                vbox:
-                    hbox:
-                        text "{0}:".format(slot.capitalize())
-                        $ item = a.equip.get(slot)
-                        if item is not None:
-                            textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(a.removeEquip, slot, item)
-                    hbox:
-                        for item_inv in player_inv.inv:
-                            $ name = item_inv[0].name
-                            $ icon = item_inv[0].icon
-                            $ desc = item_inv[0].desc
-                            $ type = item_inv[0].type
-                            if type == slot:
-                                textbutton "{{image=images/inv/{0}}}".format(icon) action Function(a.addEquip, slot, item_inv[0])
-            textbutton "{b}Закрыть{/b}":
-                xalign 0.5
-                action Hide("EquipmentScreen")
+                xsize 363
+                spacing 8
+
+                for item_inv in player_inv.inv:
+                    $ name = item_inv[0].name
+                    $ icon = item_inv[0].icon
+                    $ desc = item_inv[0].desc
+                    $ type = item_inv[0].type
+                    if type == slot:
+                        textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
+        $ i = i + 1
+
+
+
+    # for player in party_list:
+        # $ i +=1
+        # if i > 3:
+            # if i == 4:
+                # $ yalignpos = 0.95
+                # $ xalingpos = 0.25
+        # frame:
+            # style "neat_frame"
+            # xalign xalingpos yalign yalignpos
+            # vbox:
+                # hbox:
+                    # xalign 0.5
+                    # text "{sc=1.5}{b}[player.name]{/b} [player.lvl]lvl{/sc}" 
+                # hbox:
+                    # xalign 0.5
+                    # text "Атака: {1}, Защита: {2}".format(player.name, player.atk+player.bonus_atk, player.dfn+player.bonus_dfn) size 15 
+                # hbox:
+                    # xalign 0.5
+                    # text "{0}xp / {1}xp".format((player.exp-(player.lvl**3)), (player.lvl+1)**3-(player.lvl)**3) font "fonts/damages.ttf" size 15
+                # for slot in ['броня', 'оружие', 'аксессуар']:
+                    # vbox:
+                        # hbox:
+                            # text "{0}:".format(slot.capitalize())
+                            # $ item = player.equip.get(slot)
+                            # if item is not None:
+                                # textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(player.removeEquip, slot, item)
+                        # hbox:
+                            # for item_inv in player_inv.inv:
+                                # $ name = item_inv[0].name
+                                # $ icon = item_inv[0].icon
+                                # $ desc = item_inv[0].desc
+                                # $ type = item_inv[0].type
+                                # if type == slot:
+                                    # textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
+        # if i < 3:
+            # $ xalingpos += 0.5
+        # else:
+            # $ xalingpos += 0.25
+    # frame:
+        # style "neat_frame"
+        # xalign 0.5 yalign 0.03
+        # vbox:
+            # hbox:
+                # xalign 0.5
+                # text "{sc=2}{b}[a.name]{/b} [a.lvl]lvl{/sc}"
+            # hbox:
+                # xalign 0.5
+                # text "Атака: {1}, Защита: {2}".format(a.name, a.atk+a.bonus_atk, a.dfn+a.bonus_dfn) size 15
+            # hbox:
+                # xalign 0.5
+                # text "{0}xp / {1}xp".format((a.exp-(a.lvl**3)), (a.lvl+1)**3-(a.lvl)**3) font "fonts/damages.ttf" size 15
+            # for slot in ['броня', 'оружие', 'аксессуар']:
+                # vbox:
+                    # hbox:
+                        # text "{0}:".format(slot.capitalize())
+                        # $ item = a.equip.get(slot)
+                        # if item is not None:
+                            # textbutton "{{image=images/inv/{0}}}".format(item.icon) action Function(a.removeEquip, slot, item)
+                    # hbox:
+                        # for item_inv in player_inv.inv:
+                            # $ name = item_inv[0].name
+                            # $ icon = item_inv[0].icon
+                            # $ desc = item_inv[0].desc
+                            # $ type = item_inv[0].type
+                            # if type == slot:
+                                # textbutton "{{image=images/inv/{0}}}".format(icon) action Function(a.addEquip, slot, item_inv[0])
+            # textbutton "{b}Закрыть{/b}":
+                # xalign 0.5
+                # action Hide("EquipmentScreen")
 
 screen inv_tooltip(item=False,seller=False):
     zorder 101

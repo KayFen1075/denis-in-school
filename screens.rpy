@@ -865,12 +865,12 @@ screen preferences():
                 vbox:
                     if persistent.remember_u:
                         box_wrap False
-                        textbutton _("Бог Юй") action Play("voice", f"audio/voice/u/u000{random.randint(1, 9)}.ogg")
+                        textbutton _("Бог Юй") action Play("voice", f"audio/voice/u_gromko/u000{random.randint(1, 9)}.ogg")
                         bar value SetCharacterVolume("u")
-                vbox:
-                    box_wrap False
-                    textbutton _("Нарратор") action Play("voice", f"audio/voice/r/r000{random.randint(1, 9)}.ogg")
-                    bar value SetCharacterVolume("narrator")
+                # vbox:
+                    # box_wrap False
+                    # textbutton _("Нарратор") action Play("voice", f"audio/voice/r/r000{random.randint(1, 9)}.ogg")
+                    # bar value SetCharacterVolume("narrator")
             vbox:
                 label _("")
                 vbox:

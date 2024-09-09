@@ -49,12 +49,12 @@ label player_skill:
 
 screen choose_skill():
     key "mouseup_3" action Function(renpy.pop_call), Jump("turn_actions")
-    add "images/battle/skillbox.png" pos 8, 214
+    add "images/battle/skillbox.png" pos 20, 150
     vpgrid:
-        align (0.06, 0.30)
-        cols 4
-        rows 2
-        spacing 32
+        align (0.11, 0.24)
+        cols 3
+        rows 1
+        spacing 85
         transpose True
         for skll in currentplayer.skills:
             if skll.img == None:
@@ -66,16 +66,32 @@ screen choose_skill():
                     hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
                     insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
                     tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
-        for i in range(0, (8-len(currentplayer.skills))):
+        if currentplayer.equip.get('оружие'):
+            $ item_skill = currentplayer.equip.get('оружие').skill
+            imagebutton:
+                align (.5,.5) action Return(item_skill), SensitiveIf(sensIf(item_skill))
+                idle getImage(item_skill)
+                hover im.MatrixColor(getImage(item_skill), im.matrix.brightness(0.2))
+                insensitive im.MatrixColor(getImage(item_skill), im.matrix.saturation(0.1))
+                tooltip "Магия предмета\nСила: {0}\nМана: {1}".format(item_skill.pwr + (currentplayer.lvl * (item_skill.pwr/4)), item_skill.mp_cost)
+        for i in range(0, (3-len(currentplayer.skills))):
             imagebutton:
                 idle "images/skills/blank.png"
+        
         style_group "skills"
-    vbox:
-        align (0.35, 0.30)
-        textbutton "Атаковать" align (.5,.5) style_group "skills" action Return("attack")
-        textbutton "Защита" align (.5,.5) style_group "skills" action Return("defend")
-        textbutton "Предметы" align (.5,.5) style_group "skills" action Return("item")
-        textbutton "Отмена" align (.5,.5) style_group "skills" action Function(renpy.pop_call), Jump("turn_actions")
+    vpgrid:
+        cols 2
+        rows 2
+        spacing 32
+        align (0.40, 0.25)
+        imagebutton:
+            idle "images/skills/blank.png" align (.5,.5) style_group "skills" action Return("item")
+        imagebutton:
+            idle "images/skills/atack.png" align (.5,.5) style_group "skills" action Return("attack")
+        imagebutton:
+            idle "images/skills/blank.png" align (.5,.5) style_group "skills" action Return("defend")
+        imagebutton:
+            idle "images/skills/blank.png" align (.5,.5) style_group "skills" action Function(renpy.pop_call), Jump("turn_actions")
     timer 300 action Hide('choose_skill'), Function(renpy.pop_call), Jump("turn_actions")
 
 label target_select(targs=1):

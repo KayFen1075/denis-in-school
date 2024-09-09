@@ -209,12 +209,15 @@ label shop:
         show tank
         with dissolve
         $ OneDiscordMessage("# Глава 1 🪙\nМакс и Саша познакомились с Тянкой".format(persistent.user_name))
+        voice t0065
         t "Здравствуйте"
+        voice t0066
         t "Я вас где-то видела"
         voice m0289
         m "Саша это же она"
         voice s0337
         s "Да"
+        voice t0067
         t "Отец и отчим это вы?"
         voice m0290
         m "Что ты наделал?"
@@ -222,6 +225,7 @@ label shop:
         s "Я её создал"
         voice s0339
         s "Не знаю как она сюда попала"
+        voice t0068
         t "Я тебя не видела больше года.."
         voice s0340
         s "Знаю{w=1.8}, я за хлебом уходил"
@@ -229,6 +233,7 @@ label shop:
         m "Сигма"
         voice s0341
         s "Поговорим с тобой попозже"
+        voice t0069
         t "Хорошо alexmantos!"
         hide tank
         with dissolve
@@ -398,20 +403,25 @@ label shop:
             "Он говорил с Тарасом"
             "Вы решили подслушать диалог"
             show pb at left
-            show pz at right
+            show pt at right
             with dissolve
             b "Я вот подумываю заказать бригаду строителей"
             b "Что бы они переделали дверь под тебя"
+            voice z0054
             z "Уёбак, ты заебал"
+            voice z0055
             z "Если ты раньше это мог сделать"
+            voice z0056
             z "То какого хуя ты это не сделал"
             b "Не знаю"
             b "Постоянные клиенты всегда хорошо"
+            voice z0057
             z "А не чё что я у тебя не чего не покупал"
             b "Вот именно, по этому и хочу заказать бригаду"
+            voice z0058
             z "Бригада{w=1} ты даун просто"
             hide pb
-            hide pz
+            hide pt
             jump shop_bar
     if game_time < 12:
         $ OneDiscordMessage("# Глава 1 🪙\nСаша и Макс пришли утром в бар".format(persistent.user_name))
@@ -449,6 +459,7 @@ label shop:
             show pb open
             with dissolve
             voice b0040
+            $ items = [   palka_sworld, rogatka_sworld, lesh_sworld, samoletik_sworld, kulak_sworld, zerkalo_sworld,   gold_sworld, bow_sworld, sheild_sworld, ice_sworld, klin_sworld, poduszka_sworld, vibrator_sworld, knut_sworld,   obs_sworld,biblia_sworld,doom_sworld,czerep_sworld,ices_sworld,   hpotion, bighpotion, mpotion, bigmpotion, rpotion]       
             b "Что вы хотите купить?"
             menu shop23:
                 "Оружие":
@@ -620,7 +631,7 @@ label shop:
                         voice b0083
                         b "Да"
                         voice k0237
-                        k "Что же{w}, схожу туда проверю"
+                        k "Что же{w=1}, схожу туда проверю"
                         voice b0084
                         b "Когда успел вернутся?"
                         voice k0238
@@ -790,6 +801,9 @@ label shop:
                         "+10000000":
                             $ renpy.notify("+10000000")
                             $ player_inv.money += 10000000
+                            jump cheats
+                        "ПОЛНЫЙ ОТРЯД":
+                            $ party_list = [sasha, lox, tanka, boris, maksim]
                             jump cheats
                         "leave":
                             jump shop23

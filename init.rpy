@@ -33,6 +33,7 @@ default persistent.remember_b = False
 default persistent.first_game = True
 default persistent.selected_u = None
 default persistent.endings = []
+default persistent.all_endings = []
 default persistent.one_webhook_messages = []
 default persistent.main_menu = "gui/main_menu.png"
 default persistent.first_run = True
@@ -160,9 +161,44 @@ init python:
     win_denis = False
     final_battle = False
     action_ostavit_borisa = False
-    
+
     one_events = []
-    
+    class Ending(object):
+        """
+        Класс для информации о концовках игры, так же выполнения их
+        
+        ## Атрибуты:
+        --------
+        name : string
+            Название концовки
+        desc : string
+            Описание концовки
+        image : string
+            Название картинки концовки, только PNG и по пути images/endings/
+        achieve : object
+            Ссылка на обьект ачивки которая будет выдаваться за выполнение
+        label : string
+            При необходимости после получения выполняеться renpy.jump(label)
+        """
+        def __init__(self, name, desc, image="blank", achieve=None, label=None):
+            self.name = name
+            self.desc = desc
+            self.image = f'images/endings/{image}.png'
+            self.achieve = achieve
+            self.label = label
+            
+            # persistent.all_endings.append(self)
+
+        def grant(self):
+            """Выдаёт ачивку"""
+            if self.achieve: self.achieve.grant() 
+            renpy.say(f'Вы прошли {Ending.get_created_instances_count()}')
+            if self.name not in persistent.endings:
+                persistent.endings.append(self.name)
+                renpy.notify(f'Открыта новая концовка {self.name}')
+                DiscordMessage("**{0}** открыл новую концовку `{1}`!\nПройдено концовок: {2} из {3}".format(persistent.user_name, name, len(persistent.endings), count_endings))
+            if self.label: renpy.jump(self.label)
+
     # functions
     def ending(name):
         if name not in persistent.endings:
@@ -253,37 +289,38 @@ label unstoreos():
     return
 
 label splashscreen:
-    if not renpy.exists('characters/maks.char') or not renpy.exists('characters/sasha.char') and renpy.windows:
-        scene bg shcool
-        voice s0016
-        s "Здарова"
-        $ config.rollback_enabled = True
-        voice s0017
-        s "Как думаешь сегодня Денис прийдёт в школу?"
-        show m at right
-        with dissolve
-        voice m0027
-        m "Конечно{w=2.3}, нет"
-        voice m0028
-        m "Он за всё время появился всего 3 раза"
-        voice m0029
-        m "И за эти 3 раза пропал{w=1.5}{nw}"
-        if not renpy.exists('characters/sasha.char') and not renpy.exists('characters/maks.char'):
-            m "Пропал{w=0.6}и мы{w=0.5}{nw}"
-            scene whitle with fade
-            $ renpy.movie_cutscene('videos/0423.mpg') 
-            $ renpy.quit()
-        if not renpy.exists('characters/maks.char'):
-            m "Пропал{w=0.6} я{w=0.5}{nw}"
-            scene whitle with fade
-            $ renpy.movie_cutscene('videos/0423.mpg') 
-            $ renpy.quit()
-        if not renpy.exists('characters/sasha.char'):
-            m "Пропал{w=0.6} ты{w=0.5}{nw}"
-            scene whitle with fade
-            $ renpy.movie_cutscene('videos/0423.mpg') 
-            $ renpy.quit()
-    $ renpy.movie_cutscene('videos/black.mpg')
+    # if not renpy.exists('characters/maks.char') or not renpy.exists('characters/sasha.char') and renpy.windows:
+    #     scene bg shcool
+    #     voice s0016
+    #     s "Здарова"
+    #     $ config.rollback_enabled = True
+    #     voice s0017
+    #     s "Как думаешь сегодня Денис прийдёт в школу?"
+    #     show m at right
+    #     with dissolve
+    #     voice m0027
+    #     m "Конечно{w=2.3}, нет"
+    #     voice m0028
+    #     m "Он за всё время появился всего 3 раза"
+    #     voice m0029
+    #     m "И за эти 3 раза пропал{w=1.5}{nw}"
+    #     if not renpy.exists('characters/sasha.char') and not renpy.exists('characters/maks.char'):
+    #         m "Пропал{w=0.6}и мы{w=0.5}{nw}"
+    #         scene whitle with fade
+    #         $ renpy.movie_cutscene('videos/0423.mpg') 
+    #         $ renpy.quit()
+    #     if not renpy.exists('characters/maks.char'):
+    #         m "Пропал{w=0.6} я{w=0.5}{nw}"
+    #         scene whitle with fade
+    #         $ renpy.movie_cutscene('videos/0423.mpg') 
+    #         $ renpy.quit()
+    #     if not renpy.exists('characters/sasha.char'):
+    #         m "Пропал{w=0.6} ты{w=0.5}{nw}"
+    #         scene whitle with fade
+    #         $ renpy.movie_cutscene('videos/0423.mpg') 
+    #         $ renpy.quit()
+    
+    $ renpy.movie_cutscene('videos/black.ogv')
     define config.main_menu_music = persistent.main_menu_music
     if persistent.first_run == True:
         $ from discord_webhook import DiscordWebhook
@@ -393,21 +430,24 @@ label splashscreen:
             voice m0024
             m "Здесь можно поиграть в мортал комбат"
         elif persistent.user_name.casefold() == "аня" or persistent.user_name.casefold() == "катя":
-            voice m0025 # ЗАПИСАТЬ
+            ''
+            voice m0025
             m "ААА ЖЕНЩИНА"
             voice k0027
             k "ААА ЖЕНЩИНА"
-            voice s0014 # ЗАПИСАТЬ
+            voice s0014
             s "ААА ЖЕНЩИНА"
             voice b0002
             b "ААА ЖЕНЩИНА"
             voice z0001
             z "ААА ЖЕНЩИНА"
-            voice x0001
+            voice x0291
             x "ААА ЖЕНЩИНА"
+            voice l0079
             l "ААА ЖЕНЩИНА"
             voice d0002
             d "ААА ЖЕНЩИНА"
+            voice u0136
             u "а что тут такого?"
         voice m0026
         m "Привет [persistent.user_name]!{w=1.6} твоё имя будет использовано для статистики. {w=2.6}Её можно будет посмотреть в дискорде."

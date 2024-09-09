@@ -28,13 +28,13 @@ screen map:
         if game_time in time_images:
             add time_images[game_time]
 
-        if ui_viev_equipment:
+        if not ui_viev_equipment:
             button:
                 xpos 1554 ypos 905
                 xsize 163 ysize 156
                 idle_background "gui/arrmory.png"
                 hover_foreground "gui/arrmory.png"
-                action Show("EquipmentScreen")
+                action Show("EquipmentPlayersScreen")
         if ui_viev_bag:
             button:
                 xpos 1740 ypos 905

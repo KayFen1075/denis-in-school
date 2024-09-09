@@ -8,6 +8,9 @@ init python:
         global msg_mons
         global atk_sfx
         global use_skill
+        global damage
+        global rage_attack
+        rage_attack = False
         for m in battle_monsters:
             hit_t = []
             missed_t = []
@@ -15,6 +18,27 @@ init python:
             use_skill = False
             if not m.dead:
                 message = "none"
+                condition = m.condition
+                if condition.burn:
+                    damage = condition.burn.damage
+                    dmgFormula(m)
+                    if condition.burn.xd > 0:
+                        condition.burn.xd -= 1
+                    else:
+                        condition.burn = False
+                if condition.freeze:
+                    if condition.freeze.xd > 0:
+                        m.state = None
+                        condition.freeze.xd -= 1
+                        return playersChk()
+                    else:
+                        condition.freeze = False
+                if condition.rage:
+                    if condition.rage.xd > 0:
+                        rage_attack = condition.rage.damageX 
+                        condition.rage.xd -= 1
+                    else:
+                        condition.rage = False
                 if not battleEnd:
                     monsterTarg(m)
                     renpy.play(sfx_whoosh.draw())
@@ -65,12 +89,16 @@ init python:
     def monsterAtk(m, p):
         global hit_t
         global missed_t
+        global rage_attack
         m.state = "attacking"
         monsterDmg(m, p)
         if accFormula(m, p):
             if skillChk(p):
                 hit_t.append(p)
-                p._hp -= math.ceil(m_damage)
+                if rage_attack:
+                    p._hp -= math.ceil(m_damage*rage_attack)
+                else:
+                    p._hp -= math.ceil(m_damage)
                 roll_shake = renpy.random.randint(1,2)
                 if roll_shake == 1:
                     renpy.with_statement(hpunch)
