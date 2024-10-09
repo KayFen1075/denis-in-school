@@ -1,5 +1,5 @@
 label start:
-    # jump SEX_SIMULATOR_start
+    jump SEX_SIMULATOR_start
     if persistent.new_games == 2:
         "Что не первый раз?"
         "Тебя не устроил прошлый конец?"

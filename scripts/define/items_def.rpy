@@ -104,14 +104,49 @@ label load_items:
         defense=20, cost=100,
         icon="bronze_helmet.png")
 
-    $ arrmory_black = Armor(
+    $ arrmory_ice = Armor(
         name="Леденая броня",
         desc="Её защита равняеться холоду души 💙",
         descending = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
         icon="bronze_helmet.png")
+    $ arrmory_druid = Armor(
+        name="Броня друида",
+        desc="Природа на вашей стороне, можете не бояться получить метеоритом по ебалу",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
     ## 3 act
-
+    $ arrmory_magic = Armor(
+        name="Магическая шляпа",
+        desc="Нося её вы становитесь непревзойденным магом, ваши атаки магией будут сильнее",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
+    $ arrmory_woin = Armor(
+        name="Шлем павшего война",
+        desc="В нём заточена душа павшего война, говорят что в нем люди не выживают больше  недели",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
+    $ arrmory_adic = Armor(
+        name="Адская броня",
+        desc="Нося её вы чувствуете боль, вы горите и страдаете. Когда-то носил владыка демонов",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
+    $ arrmory_dildo = Armor(
+        name="Огромное чёрное дилдо",
+        desc="Нося его вы становитесь более мужественным и сильным, но вас могут выебать",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
+    $ arrmory_feja = Armor(
+        name="Крылья бабочки",
+        desc="Порхай как бабочка, жаль что твоя мать шлюха",
+        descending = [arrmory_banana, arrmory_list],
+        defense=20, cost=100,
+        icon="bronze_helmet.png")
     # sworlds
     ## 1 act
     $ palka_sworld = Weapon(
@@ -242,11 +277,45 @@ label load_items:
         icon="resinoviy_chlen.png")
 
     # assc
-
     ## 1 act
-
+    $ assc_list = Accessory(
+        name="Анальное колечко",
+        desc="Геи обычно одевают его на член",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        icon="assc_list.png")
+    
+    $ assc_list = Accessory(
+        name="Подорожник",
+        desc="Его сила до сих пор не изучена, пользуйте с осторожностью",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        skill=assc_list,
+        icon="assc_list.png")
+    $ assc_zeleboba= Accessory(
+        name="Ожерелье ЗЕЛЕБОБЫ",
+        desc="Однажды зелобоба сделал это ожерелье, но понял что кусок палки и листочик - не сильное оружие",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        skill=assc_zeleboba,
+        icon="assc_zeleboba.png")
     ## 2 act
+    $ assc_lune= Accessory(
+        name="Лунный камень",
+        desc="Создан в полнолуние, может менять гравитацию на небольшое время",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        skill=assc_lune,
+        icon="assc_lune.png")
+    $ assc_bb= Accessory(
+        name="Биба и боба",
+        desc="Связаны между собой на всю жизнь, их жизни - ваши жизни",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        skill=assc_bb,
+        icon="assc_bb.png")
 
+    $ assc_bb= Accessory(
+        name="Конфета ROSHEN",
+        desc="Порошенко",
+        bonus={"atk": 6, "def": 8}, cost=15000,
+        skill=assc_bb,
+        icon="assc_bb.png")
     ## 3 act 
 
     $ ass_silver = Accessory(name="Серебренное кольцо", desc="Одевают на член", cost=100, bonus={"atk": 6, "def": 8}, icon="silver_acc.png")
