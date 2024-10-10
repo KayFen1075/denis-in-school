@@ -35,7 +35,7 @@ screen map:
                 idle_background "gui/arrmory.png"
                 hover_foreground "gui/arrmory.png"
                 action Show("EquipmentPlayersScreen")
-        if ui_viev_bag:
+        if not ui_viev_bag:
             button:
                 xpos 1740 ypos 905
                 xsize 168 ysize 153

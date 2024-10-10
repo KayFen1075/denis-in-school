@@ -7,7 +7,7 @@ init python:
             global cookbook
             self.name = name
             self.desc = desc
-            self.cost = cost
+            self.cost = cost 
             self.icon = icon
             self.skill = skill
             self.value = value
@@ -35,31 +35,37 @@ init python:
                 self.recipe = recipe
 
     class Armor(Item):
-        def __init__(self, name, desc, cost, defense, skill=False, icon=False, value=0, act=Show("inventory_popup", message='as'), type="броня", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, defense, skill=False, icon=False, value=0, dependencies=[], act=Show("inventory_popup", message='as'), type="броня", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.defense = defense
             self.skill = skill
+            self.type = "броня"
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, "броня", recipe, tags)
+            self.dependencies = dependencies
 
     class Weapon(Item):
-        def __init__(self, name, desc, cost, damage, skill=False, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="оружие", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, damage, skill=False, icon=False, value=0, dependencies=[], act=Show("inventory_popup", message="Nothing happened!"), type="оружие", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.damage = damage
             self.skill = skill
-            self.type = "Оружие"
+            self.type = "оружие"
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, type, recipe, tags)
+            self.dependencies = dependencies
 
     class Accessory(Item):
-        def __init__(self, name, desc, cost, bonus, icon=False, value=0, act=Show("inventory_popup", message="Nothing happened!"), type="аксессуар", recipe=False, tags={}):
+        def __init__(self, name, desc, cost, bonus, icon=False, skill=False, value=0, dependencies=[], act=Show("inventory_popup", message="Nothing happened!"), type="аксессуар", recipe=False, tags={}):
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.bonus = bonus
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, "аксессуар", recipe, tags)
+            self.dependencies = dependencies
+            self.skill = skill
+            self.type = "аксессуар"
 
 
     class Inventory(store.object):
@@ -69,7 +75,7 @@ init python:
             self.barter = barter #percentage of value paid for items
             self.inv = []  # items stored in nested list [item object, qty]
             self.sort_by = self.sort_name
-            self.sort_order = True #ascending, descending
+            self.sort_order = True #ascending, dependencies
             self.grid_view = True
 
         def buy(self, item):
@@ -143,6 +149,10 @@ init python:
                 self.inv[item_location][1] += qty
             else:
                 self.inv.append([item,qty])
+
+        def takes(self, items, qty=1):
+            for item in items:
+                self.take(item, qty)
 
         def withdraw(self, amount):
             self.money += amount
@@ -305,30 +315,42 @@ screen EquipmentPlayersScreen():
 screen EquipmentScreen(char):
     modal True
     zorder 101 
-    $ xalingpos = 0.25
+    $ xalingpos = 0.45
     $ yalignpos = 0.04
     $ i = 1
     
     add "battle/blackui.png"
-    add "images/battle/inv_bg.png" xpos 0.33 ypos 0.05 zoom 0.9
-    
+    add "images/char/{0}_battle.png".format(char.img) zoom 1.5 xpos 0.12 ypos 0.2
+    add "images/battle/inv_bg.png" xpos 0.33 ypos 0.1 zoom 0.9
+    text "{size=+30}{b}[char.name]{/b} [char.lvl]lvl" xpos 0.55 ypos 0.18
+    imagebutton: 
+        xpos 0.23 ypos 0.23
+        xsize 192 ysize 192
+        if char.equip.get('броня') is not None:
+            idle "images/inv/{0}".format(char.equip.get('броня').icon)
+        else:
+            idle "images/inv/vibrator_sworld.png"
     # Eqp
     
     for slot in ['броня', 'оружие', 'аксессуар']:
-        hbox:
+        vbox:
+            xpos xalingpos ypos 0.35
             hbox:
-                text "{0}:".format(slot.capitalize())
+                text "{0}".format(slot.capitalize())
             hbox:
-                xsize 363
-                spacing 8
-
+                ypos 0.4 xpos -1.1
+                xsize 10 
+                spacing 3
                 for item_inv in player_inv.inv:
                     $ name = item_inv[0].name
                     $ icon = item_inv[0].icon
                     $ desc = item_inv[0].desc
                     $ type = item_inv[0].type
                     if type == slot:
-                        textbutton "{{image=images/inv/{0}}}".format(icon) action Function(player.addEquip, slot, item_inv[0])
+                        pass
+                        # textbutton "{{image=images/inv/{0}}}".format(icon) action Function(char.addEquip, slot, item_inv[0]), Function(item_inv[0].act)
+        
+        $ xalingpos += 0.15
         $ i = i + 1
 
 

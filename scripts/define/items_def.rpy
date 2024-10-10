@@ -33,120 +33,120 @@ label load_items:
         name="Порватые трусы",
         desc="Столько дырок сколько и в сюжете этой игры..",
         defense=60, cost=700,
-        icon="silver_arr.png")
+        icon="bow_sworld.png")
     $ arrmory_pants = Armor(
         name="Берёзовые штаны",
         desc="Мама сшила мне штаны из берёзовой коры",
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     
     $ arrmory_lists = Armor(
         name="Броня из листочков",
         desc="Идеальный камуфляж в лесу",
         dependencies = [arrmory_kora, arrmory_pants],
         defense=60, cost=700,
-        icon="silver_arr.png")
+        icon="bow_sworld.png")
     $ arrmory_hot_pants = Armor(
         name="Горячие плавки",
         desc="Настолько горячие что вас не могут заморозить 😎",
         dependencies = [arrmory_kora, arrmory_pants],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
 
     $ arrmory_nike_pro = Armor(
         name="Nike Pro",
         desc="А у тебя щовел или персик?",
         dependencies = [arrmory_lists, arrmory_hot_pants],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_dead_slime = Armor(
         name="Мёртвый слизень",
         desc="Липкий и не приятный, но возможно он поглатит удар",
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     ## 2 act
     $ arrmory_banana = Armor(
         name="Сладенький бананчик",
         desc="Не резиновый член, но тоже вкусный",
-        descending = [arrmory_nike_pro, arrmory_dead_slime],
+        dependencies = [arrmory_nike_pro, arrmory_dead_slime],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_list = Armor(
         name="Листочик",
         desc="Легко рвётсья, но стоит его сложить..",
-        descending = [arrmory_nike_pro, arrmory_dead_slime],
+        dependencies = [arrmory_nike_pro, arrmory_dead_slime],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
 
     $ arrmory_gold = Armor(
         name="Золотая броня",
         desc="Золото это не только деньги, но и защита",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_capert = Armor(
         name="Плащь невидимка",
         desc="Надев его вы становитесь невидимыми, монжо трахнуть Дениса",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
 
     $ arrmory_god = Armor(
         name="Священная защита",
         desc="Бог Юй благослоил эту броню",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_black = Armor(
         name="Астральная броня",
         desc="Негры сделали эту броню, некоторые говорят что она проклята",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
 
     $ arrmory_ice = Armor(
         name="Леденая броня",
         desc="Её защита равняеться холоду души 💙",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_druid = Armor(
         name="Броня друида",
         desc="Природа на вашей стороне, можете не бояться получить метеоритом по ебалу",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     ## 3 act
     $ arrmory_magic = Armor(
         name="Магическая шляпа",
         desc="Нося её вы становитесь непревзойденным магом, ваши атаки магией будут сильнее",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_woin = Armor(
         name="Шлем павшего война",
         desc="В нём заточена душа павшего война, говорят что в нем люди не выживают больше  недели",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_adic = Armor(
         name="Адская броня",
         desc="Нося её вы чувствуете боль, вы горите и страдаете. Когда-то носил владыка демонов",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_dildo = Armor(
         name="Огромное чёрное дилдо",
         desc="Нося его вы становитесь более мужественным и сильным, но вас могут выебать",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     $ arrmory_feja = Armor(
         name="Крылья бабочки",
         desc="Порхай как бабочка, жаль что твоя мать шлюха",
-        descending = [arrmory_banana, arrmory_list],
+        dependencies = [arrmory_banana, arrmory_list],
         defense=20, cost=100,
-        icon="bronze_helmet.png")
+        icon="bow_sworld.png")
     # sworlds
     ## 1 act
     $ palka_sworld = Weapon(
@@ -294,27 +294,27 @@ label load_items:
         name="Ожерелье ЗЕЛЕБОБЫ",
         desc="Однажды зелобоба сделал это ожерелье, но понял что кусок палки и листочик - не сильное оружие",
         bonus={"atk": 6, "def": 8}, cost=15000,
-        skill=assc_zeleboba,
+        # skill=assc_zeleboba,
         icon="assc_zeleboba.png")
     ## 2 act
     $ assc_lune= Accessory(
         name="Лунный камень",
         desc="Создан в полнолуние, может менять гравитацию на небольшое время",
         bonus={"atk": 6, "def": 8}, cost=15000,
-        skill=assc_lune,
+        # skill=assc_lune,
         icon="assc_lune.png")
     $ assc_bb= Accessory(
         name="Биба и боба",
         desc="Связаны между собой на всю жизнь, их жизни - ваши жизни",
         bonus={"atk": 6, "def": 8}, cost=15000,
-        skill=assc_bb,
+        # skill=assc_bb,
         icon="assc_bb.png")
 
     $ assc_bb= Accessory(
         name="Конфета ROSHEN",
         desc="Порошенко",
         bonus={"atk": 6, "def": 8}, cost=15000,
-        skill=assc_bb,
+        # skill=assc_bb,
         icon="assc_bb.png")
     ## 3 act 
 

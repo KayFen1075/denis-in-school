@@ -287,12 +287,15 @@ label SEX_SIMULATOR_kino:
                                     "???" "И у вас начался жёсткий сэкс."
                                     # Лучшая концовка
                                 "Отказаться":
+                                    pass
                                     #block of code to run
                                 
                         "Хули ты орёшь?":
+                            pass
                             #block of code to run
                         
                 "Не покупать":
+                    pass
                     #block of code to run
                 
             pass
