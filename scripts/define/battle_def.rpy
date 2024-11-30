@@ -62,29 +62,67 @@ init python:
         global m6
         global m7
         global m8
+        monsters_total = renpy.random.randint(1,8)
+        m1 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m2 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m3 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m4 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m5 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m6 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m7 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        m8 = copy.deepcopy(renpy.random.choice(wild_monsters))
+        battle_monsters = [m1,m2,m3,m4,m5,m6,m7,m8]
+        total = monsters_total
+        for m in battle_monsters:
+            m._hp = m.hpmax
+            m.dead = True
+        for m in battle_monsters:
+            if total > 0:
+                m.dead = False
+                total -= 1
 
-        monsters_total = renpy.random.randint(6,8)
+    def monstersRollDef():
+        global monsters_total
+        global battle_monsters
+        global m1
+        global m2
+        global m3
+        global m4
+        global m5
+        global m6
+        global m7
+        global m8
+        monsters_total = renpy.random.randint(1, 8)
 
-        monsters = [copy.deepcopy(renpy.random.choice(wild_monsters)) for _ in range(8)]
+        monsters = [copy.deepcopy(renpy.random.choice(wild_monsters)) for _ in range(monsters_total)]
+        battle_monsters_real = [m for m in monsters if m is not empty]  
+        battle_monsters = [empty] * 8 
 
-        monsters.sort(key=lambda x: x.hpmax, reverse=True)
+        start_pos = 3
+        if len(battle_monsters_real) >= 2:
+            start_pos = 2
+        if len(battle_monsters_real) >= 4:
+            start_pos = 1
+        if len(battle_monsters_real) >= 6:
+            start_pos = 0
 
-        battle_monsters = [empty]*8
+        battle_monsters_real.sort(key=lambda x: x.hpmax)
 
-        for i, monster in enumerate(monsters):
-            if i < monsters_total:
-                monster.dead = False
-                if i % 2 == 0:
-                    battle_monsters[3 - i // 2] = monster
-                else:
-                    battle_monsters[4 + i // 2] = monster
-            else:
-                break
+        first_monsters = battle_monsters_real[:len(battle_monsters_real)//2]
+        end_monsters = battle_monsters_real[len(battle_monsters_real)//2:]
+        battle_monsters[:4] = [empty] * start_pos + first_monsters[:len(first_monsters)] + [empty] * (4 - start_pos - len(first_monsters))
+        battle_monsters[4:] = [empty] * start_pos + end_monsters[:len(end_monsters)] + [empty] * (4 - start_pos - len(end_monsters))
+        
+        print(battle_monsters)
 
+        total = monsters_total
         m1, m2, m3, m4, m5, m6, m7, m8 = battle_monsters
+        battle_monsters = [
+            monster for monster in [m1, m2, m3, m4, m5, m6, m7, m8] if monster is not empty
+        ]
 
         for m in battle_monsters:
-            if m is not None:
+            if m.name:
                 m._hp = m.hpmax
 
     def asignPos():
@@ -171,6 +209,7 @@ init python:
 
     def startTurn():
         global damage
+        global effects
         global mpdmg
         global mp_lost
         global hp_lost
@@ -195,7 +234,8 @@ init python:
         atk_sfx = None
         dropitem = None
         picked_targs = []
-        hit_t = []
+        hit_t = [] 
+        effects = []
         missed_t = []
         skill_t = []
 
@@ -295,6 +335,7 @@ default wild_monsters = []
 default battle_players = []
 default alive_players = []
 default battle_monsters = []
+default reserve_monsters = []
 default misstext_list = ["Промазал!", "Не попал!", "Лох пормазал!", "Я ЖЕ БЛЯТЬ СТРЕЛЯЛ!", "Мимо", "Мимо?", "Да ты снайпер"]
 
 default diss = Dissolve(.2)
@@ -320,7 +361,7 @@ default cumshot = ActiveSkill("Кончить", 0, 25, "cum", "enemy", 2, img="a
 # default cumshot = ActiveSkill("Оглушение", 0, 25, "sword", "enemy", 2, img="arrowhail") # two enemy targets
 
 # Полученная магия
-default mindfreeze = ActiveSkill("Леденой шар", 7, 20, "ice", img="iceball")
+default mindfreeze = ActiveSkill("Леденой шар", 7, 20, "ice", img="iceball", effects=[заморозка])
 default mindfire = ActiveSkill("Огненный шар", 14, 35, "fire", img="asteroid")
 default magicheal = ActiveSkill("Исцеление", -6, 25, "heal", "self", img="mindburn") # negative pwr to heal
 default arrowhail = ActiveSkill("Обстрел", 10, 40, "bow", "all", img="arrowhail", back_row=True)
@@ -345,27 +386,63 @@ default mindburn = ActiveSkill("Mindburn", 5, 15, "fire", img="mindburn")
 default mindblast = ActiveSkill("Mindblast", 6, 5, "thunder", img="mindblast")
 default deathmissile = ActiveSkill("Death Missile", 7, 45, "rock", img="deathmissile")
 
+# Магия брони
+default nike_pro_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="nike_pro_skill") 
+default dead_slime_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="dead_slime_skill")
+
+default banana_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="banana_skill")
+default list_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="list_skill")
+default gold_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="gold_skill")
+default capert_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="capert_skill")
+default god_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="god_skill")
+default black_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="black_skill")
+default ice_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="ice_skill")
+default druid_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="druid_skill")
+
+default magic_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="magic_skill")
+default woin_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="woin_skill")
+default adic_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="adic_skill")
+default dildo_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="dildo_skill")
+default feja_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="feja_skill")
+
 # Магия оружия
-default kulak_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default zerkalo_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default resinoviy_chlen_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="resinoviy_chlen_skill")
 
-default gold_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default bow_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default sheild_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default ice_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default klin_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default poduszka_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default kulak_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="kulak_sworld_skill")
+default zerkalo_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="zerkalo_sworld_skill")
 
-default vibrator_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default knut_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default obs_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default biblia_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default doom_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default czerep_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default gold_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="gold_sworld_skill")
+default bow_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="bow_sworld_skill")
+default sheild_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="sheild_sworld_skill")
+default ice_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="ice_sworld_skill")
+default klin_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="klin_sworld_skill")
+default poduszka_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="poduszka_sworld_skill")
 
-default ices_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
-default resinoviy_chlen_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="iceball")
+default vibrator_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="vibrator_sworld_skill")
+default knut_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="knut_sworld_skill")
 
+default obs_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="obs_sworld_skill")
+default biblia_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="biblia_sworld_skill")
+default doom_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="doom_sworld_skill")
+default czerep_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="czerep_sworld_skill")
+default ices_sworld_skill = ActiveSkill("Слабый удар", 7, 20, "ice", img="ices_sworld_skill")
+
+# Аксы
+default assc_list_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_list_skill")
+default assc_zeleboba_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_zeleboba_skill")
+
+default assc_gold_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_gold_skill")
+default assc_lune_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_lune_skill")
+default assc_bb_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_bb_skill")
+default assc_roshen_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_roshen_skill")
+default assc_sans_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_sans_skill")
+default assc_prizrak_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_prizrak_skill")
+default assc_cum_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_cum_skill")
+default assc_mes_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_mes_skill")
+
+default assc_photo_album_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_photo_album_skill")
+default assc_hell_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_hell_skill")
+default assc_prisma_skill = ActiveSkill("Защита брони", 0, 25, "defend", "self", img="assc_prisma_skill")
 
 default magics = [
     meteorshower, hellrage, lifedrain, devastationbeam, energybeams
@@ -376,26 +453,27 @@ label lb_by_magic(magic, free=False):
         $ player_inv.money -= magic.cost
     hide screen by_magic
     hide screen magic_shop_menu
-    menu select_player:
-        "Кого вы хотите научить [magic.name]?"
-        "[name]" if not len(a.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\n{1} изучил магию {2}".format(persistent.user_name, name, magic.name))
-            $ a.addSkill(magic)
-        "Макс" if maks in party_list and not len(maks.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\nМакс изучил магию {1}".format(persistent.user_name, magic.name))
-            $ maks.addSkill(magic)
-        "Саша" if sasha in party_list and not len(sasha.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\nСаша изучил магию {1}".format(persistent.user_name, magic.name))
-            $ sasha.addSkill(magic)
-        "Кирилл" if lox in party_list and not len(lox.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\nКирилл изучил магию {1}".format(persistent.user_name, magic.name))
-            $ lox.addSkill(magic)
-        "Любимый" if maksim in party_list and not len(maksim.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\nЛюбимый изучил магию {1}".format(persistent.user_name, magic.name))
-            $ maksim.addSkill(magic)
-        "Тянка" if tanka in party_list and not len(tanka.skills) >= 8:
-            $ OneDiscordMessage("# Глава 1 🔮\nТянка изучил магию {1}".format(persistent.user_name, magic.name))
-            $ tanka.addSkill(magic)
+    $ player_inv.take_skill(magic)
+    # menu select_player:
+        # "Кого вы хотите научить [magic.name]?"
+        # "[name]" if not len(a.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\n{1} изучил магию {2}".format(persistent.user_name, name, magic.name))
+            # $ a.addSkill(magic)
+        # "Макс" if maks in party_list and not len(maks.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\nМакс изучил магию {1}".format(persistent.user_name, magic.name))
+            # $ maks.addSkill(magic)
+        # "Саша" if sasha in party_list and not len(sasha.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\nСаша изучил магию {1}".format(persistent.user_name, magic.name))
+            # $ sasha.addSkill(magic)
+        # "Кирилл" if lox in party_list and not len(lox.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\nКирилл изучил магию {1}".format(persistent.user_name, magic.name))
+            # $ lox.addSkill(magic)
+        # "Любимый" if maksim in party_list and not len(maksim.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\nЛюбимый изучил магию {1}".format(persistent.user_name, magic.name))
+            # $ maksim.addSkill(magic)
+        # "Тянка" if tanka in party_list and not len(tanka.skills) >= 8:
+            # $ OneDiscordMessage("# Глава 1 🔮\nТянка изучил магию {1}".format(persistent.user_name, magic.name))
+            # $ tanka.addSkill(magic)
 
 
 
@@ -405,6 +483,10 @@ label lb_by_magic(magic, free=False):
 
 
 # PASSIVE SKILLS (name, sfx=None, img=None, trans=None, lvl=0)
-default radar = PassiveSkill("Radar", "heal")
-default passive1 = PassiveSkill("Passive Skill 1", "heal")
-default passive2 = PassiveSkill("Passive Skill 2", "heal") 
+default pas_mask = PassiveSkill("Хилинг", "Пасивно вылизывает совё очко", act=pas_mask_akt)
+default pas_sasha = PassiveSkill("Получатель пизды", "С большим шанцом враги атакуют его", "heal") 
+default pas_boris = PassiveSkill("Алкоголик", "Пасивно бухает", "heal")
+default pas_lox = PassiveSkill("Passive Skill 2", "", "heal") 
+default pas_sanek = PassiveSkill("Passive Skill 1", "", "heal")
+default pas_tanka = PassiveSkill("Passive Skill 2", "", "heal") 
+default pas_maksim = PassiveSkill("Passive Skill 2", "", "heal") 

@@ -15,7 +15,8 @@ label SEX_SIMULATOR_start:
     scene black
     "Вы достали пыльный телефон"
     "На нём была одна игра"
-    "{size=+20}Sex Simulator"
+    $ addDictionary("Sex Simulator", "Игра созданная Сашей до выхода Денис в школе.")
+    "{size=+20}{a=showDictionary}{color=#eb4034}Sex Simulator{/color}{/a}"
     menu start_game_sex_opt:
         "Запустить":
             pass

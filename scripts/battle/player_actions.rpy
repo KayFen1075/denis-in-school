@@ -49,43 +49,82 @@ label player_skill:
 
 screen choose_skill():
     key "mouseup_3" action Function(renpy.pop_call), Jump("turn_actions")
-    add "images/battle/skillbox.png" pos 20, 150
-    vpgrid:
-        align (0.11, 0.24)
-        cols 3
-        rows 1
-        spacing 85
-        transpose True
-        for skll in currentplayer.skills:
-            if skll.img == None:
-                textbutton "[skll.name]" align (.5,.5) action Return(skll), SensitiveIf(sensIf(skll)) tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
-            else:
-                imagebutton:
-                    align (.5,.5) action Return(skll), SensitiveIf(sensIf(skll))
-                    idle getImage(skll)
-                    hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
-                    insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
-                    tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
-        if currentplayer.equip.get('оружие'):
-            $ item_skill = currentplayer.equip.get('оружие').skill
+    add "images/battle/skillbox.png" pos 20, 150 zoom 1.5
+
+    if currentplayer.skills['старт']:
+        $ skll = currentplayer.skills['старт']
+        imagebutton:
+            xpos 112 ypos 216 action Return(skll), SensitiveIf(sensIf(skll))
+            idle getImage(skll)
+            hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
+            insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
+            tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
+    else:
             imagebutton:
-                align (.5,.5) action Return(item_skill), SensitiveIf(sensIf(item_skill))
-                idle getImage(item_skill)
-                hover im.MatrixColor(getImage(item_skill), im.matrix.brightness(0.2))
-                insensitive im.MatrixColor(getImage(item_skill), im.matrix.saturation(0.1))
-                tooltip "Магия предмета\nСила: {0}\nМана: {1}".format(item_skill.pwr + (currentplayer.lvl * (item_skill.pwr/4)), item_skill.mp_cost)
-        for i in range(0, (3-len(currentplayer.skills))):
-            imagebutton:
+                xpos 112 ypos 216
                 idle "images/skills/blank.png"
-        
-        style_group "skills"
+                tooltip "Тут пусто"
+    
+    if getattr(currentplayer.equip.get('оружие'), 'skill', None):
+        $ skll = currentplayer.equip.get('оружие').skill
+        imagebutton:
+            xpos 244 ypos 216 action Return(skll), SensitiveIf(sensIf(skll))
+            idle getImage(skll)
+            hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
+            insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
+            tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
+    else:
+        imagebutton:
+            xpos 244 ypos 216
+            idle "images/skills/blank.png"
+            tooltip "Тут пусто"
+    
+    if currentplayer.skills['предмет']:
+        $ skll = currentplayer.skills['предмет']
+        imagebutton:
+            xpos 376 ypos 216 action Return(skll), SensitiveIf(sensIf(skll))
+            idle getImage(skll)
+            hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
+            insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
+            tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
+    else:
+        imagebutton:
+            xpos 376 ypos 216
+            idle "images/skills/blank.png"
+    
+    if len(currentplayer.p_skills):
+        $ skll = currentplayer.p_skills[0]
+        imagebutton:
+            xpos 142 ypos 439 action Return(skll), SensitiveIf(sensIf(skll))
+            idle getImage(skll)
+            hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
+            insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
+            tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
+    else:
+        imagebutton:
+            xpos 142 ypos 439
+            idle "images/skills/blank.png"
+    
+    if currentplayer.skills['свиток']:
+        $ skll = currentplayer.skills['свиток']
+        imagebutton:
+            xpos 328 ypos 439 action Return(skll), SensitiveIf(sensIf(skll))
+            idle getImage(skll)
+            hover im.MatrixColor(getImage(skll), im.matrix.brightness(0.2))
+            insensitive im.MatrixColor(getImage(skll), im.matrix.saturation(0.1))
+            tooltip "Сила: {0}\nМана: {1}".format(skll.pwr + (currentplayer.lvl * (skll.pwr/4)), skll.mp_cost)
+    else:
+        imagebutton:
+            xpos 328 ypos 439
+            idle "images/skills/blank.png"
+    style_group "skills"
     vpgrid:
         cols 2
         rows 2
-        spacing 32
-        align (0.40, 0.25)
+        spacing 20
+        align (0.285, 0.25)
         imagebutton:
-            idle "images/skills/blank.png" align (.5,.5) style_group "skills" action Return("item")
+            idle "images/skills/inv.png" align (.5,.5) style_group "skills" action Return("item")
         imagebutton:
             idle "images/skills/atack.png" align (.5,.5) style_group "skills" action Return("attack")
         imagebutton:

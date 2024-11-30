@@ -809,7 +809,6 @@ label ds:
                                     voice x0138
                                     x "Расскажу как это работает, но это займёт намного больше времени"
                                     $ addTime()
-                                $ a.addSkill(mindfreeze)
                             "Саша" if sasha in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил свою первую магию \"Леденой шар\"".format(persistent.user_name))
                                 voice s0226
@@ -837,7 +836,6 @@ label ds:
                                 voice x0217
                                 x "Расскажу как это работает, но это займёт намного больше времени"
                                 $ addTime()
-                                $ sasha.addSkill(mindfreeze)
                             "Макс" if maks in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил свою первую магию \"Леденой шар\"".format(persistent.user_name))
                                 voice m0209
@@ -850,7 +848,8 @@ label ds:
                                 with dissolve
                                 show pm oshko at left
                                 with move
-                                $ maks.addSkill(mindfreeze)
+                        call lb_by_magic(mindfreeze, free=True)
+                        $ renpy.notify("В новой версии все могут выбрать эту магию")
                         voice x0139
                         x "И так приступим"
                         scene black
@@ -950,21 +949,20 @@ label ds:
                                 with dissolve
                                 show ps at left
                                 with move
-                                $ a.addSkill(magicswap)
                             "Саша" if sasha in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию \"Смена позиции\"".format(persistent.user_name))
                                 hide pm
                                 with dissolve
                                 show ps at left
                                 with move
-                                $ sasha.addSkill(magicswap)
                             "Макс" if maks in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию \"Смена позиции\"".format(persistent.user_name))
                                 hide ps
                                 with dissolve
                                 show pm oshko at left
                                 with move
-                                $ maks.addSkill(magicswap)
+                        call lb_by_magic(magicswap, free=True)
+                        $ renpy.notify("В новой версии всец могут выбрать эту магию")
                         voice x0164
                         x "Хорошо{w}, и так приступим"
                         scene black
@@ -1016,21 +1014,20 @@ label ds:
                             "Кто получит заклинание \"Магическое исцеление\""
                             "Давай я([name])":
                                 $ OneDiscordMessage("# Глава 1 🏫\n[name] изучил магию \"Магическое исцеление\"".format(persistent.user_name))
-                                $ a.addSkill(magicheal)
                             "Саша" if sasha in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nСаша изучил магию \"Магическое исцеление\"".format(persistent.user_name))
                                 hide pm
                                 with dissolve
                                 show ps at left
                                 with move
-                                $ sasha.addSkill(magicheal)
                             "Макс" if maks in party_list:
                                 $ OneDiscordMessage("# Глава 1 🏫\nМакс изучил магию \"Магическое исцеление\"".format(persistent.user_name))
                                 hide ps
                                 with dissolve
                                 show pm oshko at left
                                 with move
-                                $ maks.addSkill(magicheal)
+                        call lb_by_magic(magicheal, free=True)
+                        $ renpy.notify("В новой версии всец могут выбрать эту магию")
                         scene black
                         with fade
                         "Как обычно вы занимались 6 часов"

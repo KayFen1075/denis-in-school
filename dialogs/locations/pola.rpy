@@ -114,21 +114,21 @@ label pola:
                 with dissolve
                 show ps at left
                 with move
-                $ a.addSkill(mindfire)
             "Саша" if sasha in party_list:
                 $ OneDiscordMessage("# Глава 1 🌻\nСаша изучил заклинание \"Огненный шар\"".format(persistent.user_name))
                 hide pm
                 with dissolve
                 show ps at left
                 with move
-                $ sasha.addSkill(mindfire)
             "Макс" if maks in party_list:
                 $ OneDiscordMessage("# Глава 1 🌻\nМакс изучил заклинание \"Огненный шар\"".format(persistent.user_name))
                 hide ps
                 with dissolve
                 show pm oshko at left
                 with move
-                $ maks.addSkill(mindfire)
+        call lb_by_magic(mindfire, free=True)
+        $ renpy.notify("В новой версии всец могут выбрать эту магию")
+
         scene black
         with fade
         "Так как вы знали основы, вы быстро освоили эту магию"
@@ -146,7 +146,7 @@ label pola:
         s "Идём прямо сейчас его пиздить"
         voice m0431
         m "Пошли"
-        
+    $ addDictionary("Поле", "Чёрная дыра очка Дениса")
     "Вы слышите как ветер колыхает траву"
     "Вам больше него делать{w}, вы уходите"
     show screen map

@@ -78,12 +78,13 @@ init python:
             return False
 
     class Skill(object):
-        def __init__(self, name, sfx=None, img=None, trans=None, lvl=0, type='active'):
+        def __init__(self, name, sfx=None, img=None, trans=None, effects=[], lvl=0, type='active'):
             self.name = name
             self.type = type
             self.sfx = sfx
             self.img = img
             self.trans = trans
+            self.effects = effects
             self.lvl = lvl
 
         def addSkill(self, char):
@@ -94,6 +95,7 @@ init python:
 
         def useSkill(self, char=None, monster=None):
             global damage
+            global effects
             global mp_lost
             global atk_sfx
             global s_trans
@@ -111,15 +113,21 @@ init python:
                 damage += (char.lvl * (damage/4))
             if monster is not None:
                 damage += (monster.lvl * (damage/4))
+
+            if self.effects != []:
+                effects = self.effects
+            else:
+                effects = []
             mp_lost = self.mp_cost
             atk_sfx = "audio/battle/skills/" + self.sfx + ".ogg"
             msg_skill = self.name
             s_trans = self.trans
 
     class PassiveSkill(Skill):
-        def __init__(self, name, sfx=None, img=None, trans=None, lvl=0, type='passive'):
+        def __init__(self, name, desc, act=Show("inventory_popup", message='as'), sfx=None, img=None, trans=None, lvl=0, type='passive'):
             super(Skill, self).__init__()
             self.name = name
+            self.desc = desc
             self.type = type
             self.sfx = sfx
             self.img = img
@@ -127,7 +135,7 @@ init python:
             self.lvl = lvl
 
     class ActiveSkill(Skill):
-        def __init__(self, name, pwr, mp_cost, sfx='sword', targ='enemy', targs=1, type='active', trans=None, img=None, cost=0, dice=[2,8], acc=0, lvl=0, back_row=False):
+        def __init__(self, name, pwr, mp_cost, sfx='sword', targ='enemy', targs=1, type='active', trans=None, img=None, cost=0, dice=[2,8], acc=0, effects=[], lvl=0, back_row=False):
             super(Skill, self).__init__()
             self.name = name
             self.pwr = pwr
@@ -141,5 +149,6 @@ init python:
             self.targs = targs
             self.dice = dice
             self.acc = acc
+            self.effects = effects
             self.lvl = lvl
             self.back_row = back_row

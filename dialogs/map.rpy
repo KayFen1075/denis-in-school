@@ -30,15 +30,13 @@ screen map:
 
         if not ui_viev_equipment:
             button:
-                xpos 1554 ypos 905
-                xsize 163 ysize 156
+                xpos 800 ypos 860
                 idle_background "gui/arrmory.png"
                 hover_foreground "gui/arrmory.png"
                 action Show("EquipmentPlayersScreen")
         if not ui_viev_bag:
             button:
-                xpos 1740 ypos 905
-                xsize 168 ysize 153
+                xpos 1620 ypos 820
                 idle_background "gui/backpack.png"
                 hover_foreground "gui/backpack.png"
                 action Show("inventory_screen", None, player_inv)
@@ -90,3 +88,6 @@ screen map:
             idle_background "images/map/not_hover.png"
             hover_foreground "images/map/not_hover.png"
             action Hide("map"), Jump("dansh")
+        textbutton "Открыть читы":
+            xpos 0 ypos 0
+            action Call("cheats")

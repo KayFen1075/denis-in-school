@@ -1,34 +1,6 @@
 label start:
     if config.developer:
-        menu DEV_CHEATS:
-            "Читы разроботчика"
-            "Сплеш скрин":
-                jump splashscreen
-            "SEX_SIMULATOR":
-                jump SEX_SIMULATOR_start
-            "Пролог":
-                pass
-            "Глава 1":
-                jump deadw
-            "Перед РПГ":
-                $ narrator = Character(what_style="pixel_say_dialogue", narrator=True) # soon
-                $ nvl = Character(what_style="pixel_say_dialogue")
-                $ m = Character('Макс', color="#3cef5d", voice_tag="m", who_style="style_pm_label", what_style="style_pm_dialogue", window_style="style_pm_back", image="m", callback=name_callback, cb_name="m") # soon
-                $ s = Character('Саша', color="#543cef", voice_tag="s", who_style="style_ps_label", what_style="style_ps_dialogue", window_style="style_ps_back", image="s", callback=name_callback, cb_name="s") # soon
-                $ d = Character('Денис', color="#e41010", voice_tag="d", image="d", who_style="style_pd_label", what_style="style_pd_dialogue", window_style="style_pd_back", callback=name_callback, cb_name="d") # 50/50
-                $ k = Character('Кирилл', color="#ec32df", voice_tag="k", who_style="style_pk_label", what_style="style_pk_dialogue", window_style="style_pk_back", image="k", callback=name_callback, cb_name="k") # 50/50
-                $ u = Character('Бог Юй', color="#e410c4", voice_tag="u", image="u", who_style="style_pu_label", what_style="style_pu_dialogue", window_style="style_pu_back", callback=name_callback, cb_name="u") # xz
-                $ x = Character('Санёк', color="#df9921", voice_tag="x", image="x", who_style="style_px_label", what_style="style_px_dialogue", window_style="style_px_back", callback=name_callback, cb_name="x") # xz
-                $ t = Character('Тянка', color="#f68ccd", voice_tag="t", image="t", who_style="style_pt_label", what_style="style_pt_dialogue", window_style="style_pt_back", callback=name_callback, cb_name="t") # xz
-                $ z = Character('Тарас', color="#eee44b", voice_tag="z", image="z", who_style="style_pz_label", what_style="style_pz_dialogue", window_style="style_pz_back", callback=name_callback, cb_name="z") # gotov
-                $ l = Character('Любимый', color="#c31414", voice_tag="l", image="l", who_style="style_pl_label", what_style="style_pl_dialogue", window_style="style_pl_back", callback=name_callback, cb_name="l") # soon
-                $ b = Character('Борис', color="#a921df", voice_tag="b", image="b", who_style="style_pb_label", what_style="style_pb_dialogue", window_style="style_pb_back", callback=name_callback, cb_name="b") # gotov
-            
-                $ persistent.main_menu = "gui/main_menu_ch_1.png"
-                $ persistent.main_menu_music = "music/BitWaves.wav"
-                $ config.main_menu_music = "music/BitWaves.wav"
-                $ renpy.notify("Загляни в главное меню")
-                jump ray_dev
+        call DEV_CHEATS
     if persistent.new_games == 2:
         "Что не первый раз?"
         "Тебя не устроил прошлый конец?"
@@ -65,9 +37,12 @@ label start:
     $ config.rollback_enabled = False
     voice s0016
     s "Здарова"
-    $ config.rollback_enabled = True
+    $ print(persistent.dictionary)
+    $ config.rollback_enabled = True 
+    # $ persistent.dictionary = []
+    $ addDictionary("Денис", "Ужасающее существо, можно опеределить одним словом Денис")
     voice s0017
-    s "Как думаешь сегодня Денис прийдёт в школу?"
+    s "Как думаешь сегодня {a=showDictionary}{color=#eb4034}Денис{/color}{/a} придет в школу?"
     show m at right
     with dissolve
     voice m0027
@@ -253,12 +228,13 @@ label ostatsa:
     pause 1
     $ persistent.remember_d = True
     show d see at right
+    $ addDictionary("Ух ебать", "Фраза которую выкрикнул кто-то из класса когда Денис в первые зашёл в класс, ахуели все при виде Дениса.")
     with dissolve
     voice s0026 # ЗАПИСАТЬ
-    s "Ух Ебать"
+    s "{a=showDictionary}{color=#eb4034}Ух Ебать{/color}{/a}"
     voice m0037
-    m "Ух Ебать"
-    r "Кто-то под партой Ух Ебать"
+    m "{a=showDictionary}{color=#eb4034}Ух Ебать{/color}{/a}"
+    r "Кто-то под партой {a=showDictionary}{color=#eb4034}Ух Ебать{/color}{/a}"
     voice m0038
     m "Ты что тут забыл?"
     hide d

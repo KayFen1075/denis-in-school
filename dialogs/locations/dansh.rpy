@@ -43,15 +43,15 @@ label dansh:
             $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Арнаутова\"".format(persistent.user_name))
             $ wild_monsters = [mon11,mon12,mon13]
             $ type_battle = "1dan"
-        'Подвал 18' if a.lvl > 29 and a.lvl < 44:
+        'Подвал "Попова"' if a.lvl > 29 and a.lvl < 44:
             $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал 18".format(persistent.user_name))
             $ wild_monsters = [mon13, mon14,mon15,mon16]
             $ type_battle = "2dan"
-        'Подвал "Попова"' if a.lvl > 35:
+        'Подвал "Металлургов 12"' if a.lvl > 35:
             $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Попова\"".format(persistent.user_name))
             $ wild_monsters = [mon15, mon17,mon18,mon19]
             $ type_battle = "3dan"
-        'Подвал "Металлургов 12"' if a.lvl > 50 and win_3dan and talk_2sasha:
+        'Подвал "Берлин"' if a.lvl > 50 and win_3dan and talk_2sasha:
             $ OneDiscordMessage("# Глава 1 💀\n{0} в первые зашёл в Подвал \"Металлургов 12\"".format(persistent.user_name))
             $ fixedset = "lolisboss"
             $ type_battle = "4dan"

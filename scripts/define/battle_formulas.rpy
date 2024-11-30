@@ -78,6 +78,9 @@ init python:
 
     def dmgFormula(m):
         global damage
+        global effects
+        m.effects += effects
+
         pre_dmg = int(damage*1.1 - (damage * renpy.random.randint(1, 20) / 100))
         m.finaldmg = math.ceil(int(pre_dmg*(100/(100+m.dfn))))
         hit_t.append(m)
@@ -109,6 +112,7 @@ init python:
         global damage
         global message
         global msg_mons
+        global effects
         for t in picked_targs:
             damage = currentplayer.atk + currentplayer.bonus_atk
             msg_mons = t.name
@@ -118,6 +122,7 @@ init python:
             if accFormula(currentplayer, t):
                 t.state = "hit"
                 dmgFormula(t)
+                t.effects += effects
                 t._hp -= t.finaldmg
                 t._mp -= mpdmg
                 renpy.show_screen("monster_dmg")

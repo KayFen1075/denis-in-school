@@ -10,9 +10,12 @@ label battle:
         $ monster_slot = [m1,m2,m3,m4,m5,m6,m7,m8]
         $ fixedset = None
     else:
-        $ monstersRoll()
+        if random_choise(6):
+            $ monstersRoll()
+        else:
+            $ monstersRollDef()
         $ monster_slot = [m1,m2,m3,m4,m5,m6,m7,m8]
-        $ renpy.random.shuffle(monster_slot)
+        # $ renpy.random.shuffle(monster_slot)
     $ asignPos()
     $ row1btn = False
     $ row2btn = False
@@ -153,8 +156,29 @@ screen battle_overlay():
                         yoffset -24
                         bar style "bar_hp" value AnimatedValue(value=p.hp, range=p.hpmax, delay=0.25) xanchor .5
                         bar style "bar_mp" value AnimatedValue(value=p.mp, range=p.mpmax, delay=0.25) xanchor .5 yalign 0.05
-                        text "[p.hp]/[p.hpmax]" font "fonts/damages.ttf" size 25 xanchor .5 yalign 0.009
-                        text "[p.mp]/[p.mpmax]" font "fonts/damages.ttf" size 25 xanchor .5 yalign 0.0575
+                        text "[p.hp]/[p.hpmax]" font "fonts/Born2bSportyFS.otf" size 40 xanchor .5 yalign -0.009
+                        text "[p.mp]/[p.mpmax]" font "fonts/Born2bSportyFS.otf" size 40 xanchor .5 yalign 0.0440
+                    
+                        imagebutton:
+                            yoffset 5 xoffset -400
+                            if p.equip.get('броня'):
+                                idle "images/inv/{0}".format(p.equip.get('броня').icon)
+                                tooltip "{0}".format(p.equip.get('броня').name)
+                            else:
+                                idle "images/skills/blank.png"
+                        imagebutton:
+                            yoffset 5 xoffset -300 
+                            if p.equip.get('оружие'):
+                                idle "images/inv/{0}".format(p.equip.get('оружие').icon)
+                            else:
+                                idle "images/skills/blank.png"
+                        
+                        imagebutton:
+                            yoffset 5 xoffset -200
+                            if p.equip.get('аксессуар'):
+                                idle "images/inv/{0}".format(p.equip.get('аксессуар').icon)
+                            else:
+                                idle "images/skills/blank.png"
 
 screen display_monsters():
     fixed:
@@ -172,7 +196,16 @@ screen display_monsters():
                         tooltip "{0} Мана монстра: {1}".format(m.name, m.hp)
                     bar style "bar_mhp" value AnimatedValue(value=m.hp, range=m.hpmax, delay=0.25) anchor (0.5,1.0)
                     text "[m.hp]" font "fonts/damages.ttf" size 25 outlines [(2, "#00000080", 1, 1)] xanchor 0.5 yanchor 1.2
-    fixed:
+                    if m.effects != []:
+                        hbox:
+                            spacing 5
+                            for e in m.effects:
+                                imagebutton:
+                                    xalign 0.5
+                                    idle e.getImage
+                                    if hasattr(e, "ходов"):
+                                        hover "[e['ходов']] ходов осталось"
+    fixed:          
         pos (576, 640)
         for m in monster_slot[4:8]:
             fixed:
@@ -187,7 +220,15 @@ screen display_monsters():
                         tooltip "{0} HP: {1}".format(m.name, m.hp)
                     bar style "bar_mhp" value AnimatedValue(value=m.hp, range=m.hpmax, delay=0.25) anchor (0.5,1.0)
                     text "[m.hp]" font "fonts/damages.ttf" size 25 outlines [(2, "#00000080", 1, 1)] xanchor 0.5 yanchor 1.2
-
+                    if m.effects != []:
+                        hbox:
+                            spacing 5
+                            for e in m.effects:
+                                imagebutton:
+                                    xalign 0.5
+                                    idle e.getImage
+                                    if hasattr(e, "ходов"):
+                                        hover "[e['ходов']] ходов осталось"
 screen battle_message():
     add "images/battle/messagebox.png"
     hbox:
@@ -259,7 +300,7 @@ label end_battle:
                 $ renpy.notify("Доступны новые действия!")
                 call unstoreos()
         elif type_battle == "3les":
-            $ win_3les = True
+            $ win_3les = True   
             $ fights_left_les -= 1
             $ max_level = max(max_level, 26)
             if not first_win2les:

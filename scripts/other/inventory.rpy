@@ -40,6 +40,7 @@ init python:
             self.cost = cost
             self.defense = defense
             self.skill = skill
+            self.value = value
             self.type = "броня"
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, "броня", recipe, tags)
@@ -51,6 +52,7 @@ init python:
             self.cost = cost
             self.damage = damage
             self.skill = skill
+            self.value = value
             self.type = "оружие"
             self.act = Show("inventory_popup", message=self.type)
             self.inventory_item = Item(name, desc, cost, icon, value, act, type, recipe, tags)
@@ -61,11 +63,12 @@ init python:
             super().__init__(name, desc, cost, icon, value, act, type, recipe, tags)
             self.cost = cost
             self.bonus = bonus
-            self.act = Show("inventory_popup", message=self.type)
+            self.value = value
             self.inventory_item = Item(name, desc, cost, icon, value, act, "аксессуар", recipe, tags)
             self.dependencies = dependencies
             self.skill = skill
             self.type = "аксессуар"
+            self.act = Show("inventory_popup", message=self.type)
 
 
     class Inventory(store.object):
@@ -74,6 +77,7 @@ init python:
             self.money = money
             self.barter = barter #percentage of value paid for items
             self.inv = []  # items stored in nested list [item object, qty]
+            self.skills_inv = [] # skill.
             self.sort_by = self.sort_name
             self.sort_order = True #ascending, dependencies
             self.grid_view = True
@@ -125,6 +129,9 @@ init python:
                 else:
                     del self.inv[item_location]
 
+        def drop_skill(self, skill):
+            self.skills_inv.remove(skill)
+
         def qty(self, item):
             for i in self.inv:
                 if i[0] == item:
@@ -142,17 +149,24 @@ init python:
 
         def sort_value(self):
             self.inv.sort(key=lambda i: i[0].value, reverse=self.sort_order)
-
+        
         def take(self, item, qty=1):
             if self.qty(item):
                 item_location = self.check(item)
                 self.inv[item_location][1] += qty
             else:
                 self.inv.append([item,qty])
+        
+        def take_skill(self, skill):
+            self.skills_inv.append(skill)
 
         def takes(self, items, qty=1):
             for item in items:
                 self.take(item, qty)
+
+        def take_skills(self, skills):
+            for skill in skills:
+                self.take_skill(skill)
 
         def withdraw(self, amount):
             self.money += amount
@@ -302,8 +316,9 @@ screen EquipmentPlayersScreen():
     modal True
     zorder 100
     default full_party = [a] + party_list
-    add "battle/blackui.png"
-    text "Выбери персонажа" xpos 0.5 ypos 0.54
+    imagebutton:
+        idle "battle/blackui.png" action Hide("EquipmentScreen")
+    text "{size=100}Выбери персонажа" xpos 0.3 ypos 0.34 font "fonts/name.ttf" xfill True
     for i, char in enumerate(full_party):
         imagebutton:
             idle "images/char/{0}_battle.png".format(char.img)
@@ -315,42 +330,91 @@ screen EquipmentPlayersScreen():
 screen EquipmentScreen(char):
     modal True
     zorder 101 
-    $ xalingpos = 0.45
+    $ xalingpos = 0.455
+    $ xalignposP = 0
     $ yalignpos = 0.04
     $ i = 1
-    
-    add "battle/blackui.png"
+    $ print(char.skills)
+    imagebutton:
+        idle "battle/blackui.png" action Hide("EquipmentScreen"), Show("EquipmentPlayersScreen")
     add "images/char/{0}_battle.png".format(char.img) zoom 1.5 xpos 0.12 ypos 0.2
-    add "images/battle/inv_bg.png" xpos 0.33 ypos 0.1 zoom 0.9
-    text "{size=+30}{b}[char.name]{/b} [char.lvl]lvl" xpos 0.55 ypos 0.18
+    add "images/battle/inv_bg.png" xpos 0.33 ypos 0.1 zoom 0.9 
+    text "{size=+30}[char.exp]/[(char.lvl+1)**3]" xpos 0.17 ypos 0.1 font "fonts/gialog.ttf" text_align 0.5
+    text "{size=+30}[char.name]" xpos 0.6 ypos 0.2 font "fonts/damages.ttf" text_align 0.5 
+    text "{size=+50}Уровень: [char.lvl]" xpos 0.17 ypos 0.15 font "fonts/gialog.ttf" 
+    text "{{size=+8}}Харки:{{size=-8}}\n ХП     {{color=#00ff00}}{2}{{/color}}\n Мана   {{color=#9803fc}}{3}{{/color}}\n\n Атака  {{color=#ff0000}}{0}{{/color}}\n Защита {{color=#0000ff}}{1}{{/color}}".format(char.atk+char.bonus_atk, char.dfn+char.bonus_dfn, char.hp, char.mp) xpos 0.05 ypos 0.25 font "fonts/damages.ttf" size 20
+    
+    imagebutton:
+        xpos 0.03 ypos 0.5
+        if not ui_viev_magic:
+            idle "gui/magic.png"
+            action Show("EquipmentMagicScreen", None, char), Hide("EquipmentScreen")
+
     imagebutton: 
-        xpos 0.23 ypos 0.23
-        xsize 192 ysize 192
+        xpos 0.15 ypos 0.83
         if char.equip.get('броня') is not None:
             idle "images/inv/{0}".format(char.equip.get('броня').icon)
+            if getattr(char.equip.get('броня'), 'skill', None):
+                hover "images/skills/{0}.png".format(char.equip.get('броня').skill.img)
+            else:
+                hover im.MatrixColor("images/inv/{0}".format(char.equip.get('броня').icon), im.matrix.brightness(0.1))
+                
         else:
-            idle "images/inv/vibrator_sworld.png"
-    # Eqp
-    
+            idle "images/inv/arrmory_blank.png"
+        action Function(char.removeEquip, 'броня', char.equip.get('броня'))
+    imagebutton:
+        xpos 0.21 ypos 0.83
+        if char.equip.get('оружие'):
+            idle "images/inv/{0}".format(char.equip.get('оружие').icon)
+            if getattr(char.equip.get('оружие'), 'skill', None):
+                hover "images/skills/{0}.png".format(char.equip.get('оружие').skill.img)
+            else:
+                hover im.MatrixColor("images/inv/{0}".format(char.equip.get('оружие').icon), im.matrix.brightness(0.1))
+        else:
+            idle "images/inv/sworld_blank.png"
+        action Function(char.removeEquip, 'оружие', char.equip.get('оружие'))
+    imagebutton:
+        xpos 0.27 ypos 0.83
+        if char.equip.get('аксессуар') is not None:
+            idle "images/inv/{0}".format(char.equip.get('аксессуар').icon)
+            hover im.MatrixColor("images/inv/{0}".format(char.equip.get('аксессуар').icon), im.matrix.brightness(0.1))
+            if getattr(char.equip.get('аксессуар'), 'skill', None):
+                hover "images/skills/{0}.png".format(char.equip.get('аксессуар').skill.img)
+            else:
+                hover im.MatrixColor("images/inv/{0}".format(char.equip.get('аксессуар').icon), im.matrix.brightness(0.1))
+        else:
+            idle "images/inv/assc_blank.png"
+        action Function(char.removeEquip, 'аксессуар', char.equip.get('аксессуар'))
     for slot in ['броня', 'оружие', 'аксессуар']:
         vbox:
             xpos xalingpos ypos 0.35
             hbox:
-                text "{0}".format(slot.capitalize())
-            hbox:
-                ypos 0.4 xpos -1.1
-                xsize 10 
-                spacing 3
-                for item_inv in player_inv.inv:
-                    $ name = item_inv[0].name
-                    $ icon = item_inv[0].icon
-                    $ desc = item_inv[0].desc
-                    $ type = item_inv[0].type
-                    if type == slot:
-                        pass
-                        # textbutton "{{image=images/inv/{0}}}".format(icon) action Function(char.addEquip, slot, item_inv[0]), Function(item_inv[0].act)
-        
+                text "{0}".format(slot.capitalize()) font "fonts/damages.ttf" size 25
+            
+            viewport:
+                scrollbars "vertical" # Добавляет вертикальный скроллбар
+                ymaximum 520 # Ограничивает высоту видимой области до 500 пикселей
+                xpos -0.05 + xalignposP
+                draggable True # Позволяет перемещать содержимое с помощью мыши
+                mousewheel True # Позволяет использовать колесико мыши для прокрутки
+
+                vbox:
+                    grid 3 100:
+                        spacing 10
+                        $ player_inv.inv.sort(key=lambda item_inv: item_inv[0].value, reverse=True)
+                        for item_inv in player_inv.inv:
+                            $ name = item_inv[0].name
+                            $ icon = item_inv[0].icon
+                            $ desc = item_inv[0].desc
+                            $ type = item_inv[0].type
+                            if type == slot:
+                                # textbutton "{{image=images/inv/{0}}}".format(icon) action Function(char.addEquip, slot, item_inv[0]), Function(item_inv[0].act) 
+                                imagebutton:
+                                    idle "images/inv/{0}".format(icon)
+                                    hover im.MatrixColor("images/inv/{0}".format(icon), im.matrix.brightness(0.1))
+                                    action Function(char.addEquip, slot, item_inv[0]), Function(item_inv[0].act)
         $ xalingpos += 0.15
+        $ xalignposP += 0.02
         $ i = i + 1
 
 
@@ -424,6 +488,87 @@ screen EquipmentScreen(char):
             # textbutton "{b}Закрыть{/b}":
                 # xalign 0.5
                 # action Hide("EquipmentScreen")
+
+screen EquipmentMagicScreen(char):
+    modal True
+    zorder 103
+    imagebutton:
+        idle "battle/blackui.png" action Hide("EquipmentMagicScreen"), Show("EquipmentScreen", None, char)
+    text "{size=100}Выбери магию" xpos 0.35 ypos 0.04 font "fonts/name.ttf" xfill True
+
+    add "images/char/{0}_battle.png".format(char.img) zoom 2 xpos 0.3 ypos 0.1
+    add "images/battle/skill_1.png" xpos 0 ypos 0.1
+    if char.skills['свиток']:
+        imagebutton:
+            xpos 105 ypos 170
+            idle "images/skills/{0}.png".format(char.skills['свиток'].img)
+            action Function(player_inv.take_skill, char.skills['свиток']), Function(char.addSkill, None, 'свиток')
+        text "{size=+0}[char.skills['свиток'].name]{/size}\n\n{size=-10}" xpos 180 ypos 375 xsize 235 ysize 130 font "fonts/Born2bSportyFS.otf" text_align 0.5
+    else:
+        imagebutton:
+            xpos 105 ypos 170
+            idle "images/skills/blank.png"
+    viewport:
+        scrollbars "horizontal"
+        xmaximum 340 
+        xpos 275 ypos 196
+        draggable True 
+        mousewheel True 
+        hbox:
+            for skill in player_inv.skills_inv:
+                imagebutton:
+                    idle "images/skills/{0}.png".format(skill.img)
+                    action Function(char.addSkill, skill, 'свиток'), Function(player_inv.drop_skill, skill)
+    
+    add "images/battle/skill_2.png" xpos 0.75 ypos 0.1
+    if char.skills['предмет']:
+        imagebutton:
+            xpos 1560 ypos 500
+            idle "images/skills/{0}.png".format(char.skills['предмет'].img)
+            action Function(char.addSkill, None, 'предмет')
+        text "{size=+0}[char.skills['предмет'].name]{/size}\n\n{size=-10}" xpos 1490 ypos 135 xsize 235 ysize 130 font "fonts/Born2bSportyFS.otf" text_align 0.5
+    else:
+        imagebutton:
+            xpos 1560 ypos 510
+            idle "images/skills/blank.png"
+    $ equip_skills_not_used = []
+    if getattr(char.equip.get('броня'), 'skill', None) and char.equip.get('броня').skill != char.skills['предмет']:
+        $ equip_skills_not_used.append(char.equip.get('броня').skill)
+    if getattr(char.equip.get('аксессуар'), 'skill', None) and char.equip.get('аксессуар').skill != char.skills['предмет']:
+        $ equip_skills_not_used.append(char.equip.get('аксессуар').skill) 
+    hbox:
+        if len(equip_skills_not_used) > 1:
+            xpos 1500 
+        else:
+            xpos 1560
+        spacing 45 ypos 324
+
+        for skill in equip_skills_not_used:
+            imagebutton:
+                idle "images/skills/{0}.png".format(skill.img)
+                action Function(char.addSkill, skill, 'предмет')
+
+    add "images/battle/skill_3.png" xpos 0.7 ypos 0.7
+    if char.skills['старт']:
+        imagebutton:
+            xpos 1390 ypos 820
+            idle "images/skills/{0}.png".format(char.skills['старт'].img)
+        text "{size=+10}[char.skills['старт'].name]{/size}\n\n{size=-10}" xpos 1540 ypos 790 xsize 350 ysize 230 font "fonts/Born2bSportyFS.otf" text_align 0.5
+
+    add "images/battle/skill_4.png" xpos 0.01 ypos 0.6
+    if getattr(char.equip.get('оружие'), 'skill', None):
+        imagebutton:
+            xpos 68 ypos 710
+            idle "images/skills/{0}.png".format(char.equip.get('оружие').skill.img)
+        text "{size=+10}[char.equip.get('оружие').skill.name]{/size}\n\n{size=-10}" xpos 220 ypos 740 xsize 350 ysize 230 font "fonts/Born2bSportyFS.otf" text_align 0.5
+    add "images/battle/skill_5.png" xpos 0.33 ypos 0.7
+    # if char.skills[0]:
+    #     imagebutton:
+    #         xpos 735 ypos 825
+    #         idle "images/skills/{0}.png".format(char.skills[0].img)
+    #     text "{size=+10}[char.skills[0].name]{/size}\n\n{size=-10}" xpos 920 ypos 820 xsize 350 ysize 230 font "fonts/Born2bSportyFS.otf" text_align 0.5
+
+
 
 screen inv_tooltip(item=False,seller=False):
     zorder 101

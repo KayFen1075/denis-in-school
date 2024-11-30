@@ -45,8 +45,7 @@ label load_monsters:
 
 init python:
     class Monster(object): 
-        def __init__(self, name, hpmax, atk, dfn, exp, lvl, img, sfx_atk, anim=idle_shake, debility=0, need_debility=2, skills=[], state=None,
-        condition={'burn': False, 'freeze': False, 'paral': False, 'poison': False, 'sleep': False, 'stun': False, 'confus': False, 'wound': False, 'rage': False}, dead=False, finaldmg=0, slot=1, sprite_pos=0, dmg_pos=(0,0)):
+        def __init__(self, name, hpmax, atk, dfn, exp, lvl, img, sfx_atk, def_dfn=0, anim=idle_shake, debility=0, need_debility=2, skills=[], state=None,effects=[], dead=False, finaldmg=0, slot=1, sprite_pos=0, dmg_pos=(0,0)):
             xpdiff = 0.6
             dmgdiff = 0.6
             rewardX = 0.8
@@ -69,9 +68,10 @@ init python:
             self._mp = 0
             self.debility = debility
             self.need_debility = need_debility
-            self.condition = condition
+            self.effects = effects
             self.atk = atk
             self.dfn = dfn
+            self.def_dfn = dfn
             #self.vel = vel
             self.state = state
             self.lvl = lvl
@@ -96,6 +96,7 @@ init python:
         @property
         def hp(self):
             value = self._hp
+            
             if not ( 0 <= value <= self.hpmax ):
                 value = max( 0, min( self.hpmax, value ) )
                 self._hp = value

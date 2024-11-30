@@ -9,36 +9,83 @@ init python:
         global atk_sfx
         global use_skill
         global damage
+        global effects
         global rage_attack
         rage_attack = False
         for m in battle_monsters:
             hit_t = []
             missed_t = []
+            effects = []
             skill_t = []
             use_skill = False
             if not m.dead:
                 message = "none"
-                condition = m.condition
-                if condition.burn:
-                    damage = condition.burn.damage
-                    dmgFormula(m)
-                    if condition.burn.xd > 0:
-                        condition.burn.xd -= 1
-                    else:
-                        condition.burn = False
-                if condition.freeze:
-                    if condition.freeze.xd > 0:
-                        m.state = None
-                        condition.freeze.xd -= 1
-                        return playersChk()
-                    else:
-                        condition.freeze = False
-                if condition.rage:
-                    if condition.rage.xd > 0:
-                        rage_attack = condition.rage.damageX 
-                        condition.rage.xd -= 1
-                    else:
-                        condition.rage = False
+                skip_turn = False
+                for e in m.effects:
+                    print('есть эффекты')
+                    c = e.condition
+                    print(c)
+                    if c['огонь']:
+                        damage = c['огонь']['урон'] * random.randint(0.8,1.2)
+                        dmgFormula(m)
+                        if e.mathXd('огонь'):
+                            m.effects.remove(e)
+                    if c['отравление']:
+                        if e._hp > c['отравление']['урон']:
+                            damage = c['отравление']['урон']
+                            dmgFormula(m)
+                        if e.mathXd('отравление'):
+                            m.effects.remove(e)
+                    if c['кровотичение']:
+                        damage = c['кровотичение']['урон']
+                        dmgFormula(m)
+                        if e.mathXd('кровотичение'):
+                            m.effects.remove(e)
+                    if c['ярость']:
+                        rage_attack = c['ярость']['урон']
+                        rage_attack = True
+                        if e.mathXd('ярость'):
+                            m.effects.remove(e)
+                    if c['здоровье']:
+                        m._hp += c['здоровье']['урон']
+                        if e.mathXd('здоровье'):
+                            m.effects.remove(e)
+                    if c['мана']:
+                        if e.mathXd('мана'):
+                            effects.remove(e)
+                    if c['защита']:
+                        m.dfn = m.def_dfn+c['защита']['урон']
+                        if e.mathXd('защита'):
+                            m.dfn = m.def_dfn
+                            m.effects.remove(e)
+                    if c['заморозка']:
+                        print("Заморозка")
+                        if e.mathXd('заморозка'):
+                            m.effects.remove(e)
+                        skip_turn = True
+                if skip_turn:
+                    continue
+                print('всё хуйня')
+                # if condition.burn:
+                #     damage = condition.burn.damage
+                #     dmgFormula(m)
+                #     if condition.burn.xd > 0:
+                #         condition.burn.xd -= 1
+                #     else:
+                #         condition.burn = False
+                # if condition.freeze:
+                #     if condition.freeze.xd > 0:
+                #         m.state = None
+                #         condition.freeze.xd -= 1
+                #         return playersChk()
+                #     else:
+                #         condition.freeze = False
+                # if condition.rage:
+                #     if condition.rage.xd > 0:
+                #         rage_attack = condition.rage.damageX 
+                #         condition.rage.xd -= 1
+                #     else:
+                #         condition.rage = False
                 if not battleEnd:
                     monsterTarg(m)
                     renpy.play(sfx_whoosh.draw())
@@ -59,7 +106,9 @@ init python:
                     renpy.pause(0.5)
                     renpy.hide_screen("player_dmg")
                     playersChk()
-
+        spawnMst(mon12)
+        if len(battle_monsters)<=3 and len(reserve_monsters)>0:
+            spawnMst(mon12)
     def monsterTarg(m):
         global picked_targs
         global alive_players
@@ -120,6 +169,13 @@ init python:
             turnbonus += 1*p.lvl
             renpy.play("audio/battle/skills/block.ogg")
         m_damage = math.ceil(currdmg*currdmg/(currdmg+p.dfn+p.bonus_dfn+turnbonus))
+
+    def spawnMst(m):
+        print('ВСЁ ЗАЕБИСЛ')
+        monster_slot[0] = m
+        battle_monsters.append(m)
+        asignPos()
+        
 
     def monsterImg(m):
         if m.state == "attacking":

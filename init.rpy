@@ -34,6 +34,7 @@ default persistent.first_game = True
 default persistent.selected_u = None
 default persistent.endings = []
 default persistent.all_endings = []
+default persistent.dictionary = [] # {name:"",desc:""}
 default persistent.one_webhook_messages = []
 default persistent.main_menu = "gui/main_menu.png"
 default persistent.first_run = True
@@ -87,6 +88,7 @@ init python:
     first_pola = False
     ui_viev_bag = False
     ui_viev_equipment = False
+    ui_viev_magic = False
     first_libriary = False
     maxim = False
     autohil = False
@@ -162,6 +164,8 @@ init python:
     final_battle = False
     action_ostavit_borisa = False
 
+    last_les = 1
+
     one_events = []
     class Ending(object):
         """
@@ -200,6 +204,15 @@ init python:
             if self.label: renpy.jump(self.label)
 
     # functions
+    def addDictionary(name, desc):
+        jest = True
+        for obj in persistent.dictionary:
+            if obj['name'] == name:
+                jest = False
+        if jest:
+            renpy.notify('{0} было добавлено в словарь'.format(name))
+            persistent.dictionary.append({'name':name,'desc':desc})
+
     def ending(name):
         if name not in persistent.endings:
             if name == "Умереть от Дениса":

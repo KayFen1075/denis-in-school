@@ -256,6 +256,7 @@ screen quick_menu():
             textbutton _("Сохранить") action ShowMenu('save')
             # textbutton _("Б.Сохр") action QuickSave()
             # textbutton _("Б.Загр") action QuickLoad()
+            textbutton _("Словарь") action ShowMenu('dictionary') 
             textbutton _("Опции") action ShowMenu('preferences')
 
 
@@ -724,6 +725,24 @@ style slot_button_text:
 ## Экран настроек позволяет игроку настраивать игру под себя.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
+
+screen dictionary():
+    zorder 101
+    tag menu
+
+    use game_menu(_("Словарь"), scroll="viewport"):
+        style_prefix "history"
+
+        for dicti in persistent.dictionary:
+            $ print(a)
+            # $ persistent.dictionary = []
+            vbox:
+                label "[dicti['name']]  ":
+                    style "history_name"
+                text "[dicti['desc']]"
+label showDictionary:
+    $ renpy.show_screen("dictionary")
+    ''
 
 screen preferences():
 

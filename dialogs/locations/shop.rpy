@@ -784,33 +784,7 @@ label shop:
 
                     jump shop23
                 "ЧИТЫ" if config.developer:
-                    menu cheats:
-                        "+1000":
-                            $ renpy.notify("+1000")
-                            $ player_inv.money += 1000
-                            jump cheats
-                        "+5000":
-                            $ renpy.notify("+5000")
-                            $ player_inv.money += 5000
-                            jump cheats
-                        "+10000":
-                            $ renpy.notify("+10000")
-                            $ player_inv.money += 10000
-                            jump cheats
-                        "+10000000":
-                            $ renpy.notify("+10000000")
-                            $ player_inv.money += 10000000
-                            jump cheats
-                        "+Предметы":
-                            call load_items
-                            $ player_inv.takes([arrmory_kora,arrmory_pants,arrmory_lists,arrmory_hot_pants,arrmory_nike_pro,arrmory_dead_slime,arrmory_banana,arrmory_list,arrmory_gold,arrmory_capert,arrmory_god,arrmory_black,arrmory_ice,arrmory_druid])
-                            "Предметы добавлены"
-                            jump cheats
-                        "ПОЛНЫЙ ОТРЯД":
-                            $ party_list = [sasha, lox, tanka, boris, maksim]
-                            jump cheats
-                        "leave":
-                            jump shop23
+                    call cheats
                 "Уйти":
                     voice b0116
                     b "Увидимся ещё"
